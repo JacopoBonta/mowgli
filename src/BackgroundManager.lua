@@ -16,9 +16,7 @@ function BackgroundManager(view)
     end
     
     function bgManager:show()
-        print('show bg', table.getn(self.layers))
         for i, v in ipairs(self.layers) do
-            print('print bg', v.path, v.x, v.y)
             display.newImage(self.view, v.path, v.x, v.y)
         end
     end
