@@ -1,6 +1,9 @@
 local composer = require( "composer" )
+local BackgroundManager = require( "src.BackgroundManager" )
  
 local scene = composer.newScene()
+
+local bgManager
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -19,6 +22,12 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+
+    bgManager = BackgroundManager(sceneGroup)
+    bgManager:add('assets/backgrounds/Nuvens.png', display.contentCenterX, display.contentCenterY)
+    bgManager:add('assets/backgrounds/Background1.png', display.contentCenterX, display.contentCenterY)
+    bgManager:add('assets/backgrounds/Background2.png', display.contentCenterX, display.contentCenterY)
+    bgManager:add('assets/backgrounds/Background3.png', display.contentCenterX, display.contentCenterY)
  
 end
  
@@ -31,7 +40,8 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
- 
+        bgManager:show()
+
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
  
