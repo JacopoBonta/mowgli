@@ -1,9 +1,11 @@
 local composer = require( "composer" )
+local physics = require( "physics" )
 local BackgroundManager = require( "src.BackgroundManager" )
+local GroundManager = require( "src.GroundManager" )
  
 local scene = composer.newScene()
 
-local bgManager
+local bgManager, groundManager
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -24,10 +26,14 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
     bgManager = BackgroundManager(sceneGroup)
-    bgManager:add('assets/backgrounds/Nuvens.png', display.contentCenterX, display.contentCenterY)
-    bgManager:add('assets/backgrounds/Background1.png', display.contentCenterX, display.contentCenterY)
-    bgManager:add('assets/backgrounds/Background2.png', display.contentCenterX, display.contentCenterY)
-    bgManager:add('assets/backgrounds/Background3.png', display.contentCenterX, display.contentCenterY)
+    groundManager = GroundManager(sceneGroup)
+
+    bgManager:addLayer('assets/backgrounds/Nuvens.png', display.contentCenterX, display.contentCenterY)
+    bgManager:addLayer('assets/backgrounds/Background1.png', display.contentCenterX, display.contentCenterY)
+    bgManager:addLayer('assets/backgrounds/Background2.png', display.contentCenterX, display.contentCenterY)
+    bgManager:addLayer('assets/backgrounds/Background3.png', display.contentCenterX, display.contentCenterY)
+
+    groundManager:newGround('static', 'assets/ground.png', display.contentCenterX, display.contentCenterY)
  
 end
  
@@ -40,7 +46,11 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
+        physics.setDrawMode( "hybrid" )
+        physics.start()
+        
         bgManager:show()
+        groundManager:show()
 
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen

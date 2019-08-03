@@ -6,7 +6,7 @@ function BackgroundManager(view)
         layers = {}
     }
     
-    function bgManager:add(path, x, y)
+    function bgManager:addLayer(path, x, y)
         table.insert(self.layers, self.zIndex, {
             path = path,
             x = x,
