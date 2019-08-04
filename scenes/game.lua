@@ -1,11 +1,11 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
-local BackgroundManager = require( "src.BackgroundManager" )
-local GroundManager = require( "src.GroundManager" )
+local BackgroundCreator = require( "src.BackgroundCreator" )
+local GroundCreator = require( "src.GroundCreator" )
  
 local scene = composer.newScene()
 
-local bgManager, groundManager
+local bg, ground
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -25,16 +25,15 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
-    bgManager = BackgroundManager(sceneGroup)
-    groundManager = GroundManager(sceneGroup)
+    bg = BackgroundCreator()
+    ground = GroundCreator('assets/ground.png', 384, 64)
 
-    bgManager:addLayer('assets/backgrounds/Nuvens.png', display.contentCenterX, display.contentCenterY)
-    bgManager:addLayer('assets/backgrounds/Background1.png', display.contentCenterX, display.contentCenterY)
-    bgManager:addLayer('assets/backgrounds/Background2.png', display.contentCenterX, display.contentCenterY)
-    bgManager:addLayer('assets/backgrounds/Background3.png', display.contentCenterX, display.contentCenterY)
 
-    groundManager:newGround('static', 'assets/ground.png', display.contentCenterX, display.contentCenterY)
- 
+    bg:addImage('assets/backgrounds/Nuvens.png', 384, 224)
+    bg:addImage('assets/backgrounds/Background1.png', 384, 224)
+    bg:addImage('assets/backgrounds/Background2.png', 384, 224)
+    bg:addImage('assets/backgrounds/Background3.png', 384, 224)
+
 end
  
  
@@ -46,15 +45,20 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
-        physics.setDrawMode( "hybrid" )
-        physics.start()
+        -- physics.setDrawMode( "hybrid" )
+
+        bg:setPos(display.contentWidth / 2, display.contentHeight / 2)
+
+        ground:setPos(display.contentCenterX, display.contentHeight - 16)
+        ground:setPhysic('static')
         
-        bgManager:show()
-        groundManager:show()
 
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
- 
+        physics.start()
+
+        bg:show(sceneGroup)
+        ground:show(sceneGroup)
     end
 end
  
