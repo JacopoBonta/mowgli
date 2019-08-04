@@ -1,19 +1,13 @@
-function CharacterCreator(sheetPath, width, height, frames)
+function CharacterCreator()
 
     local character = {
-        path = sheetPath,
         x = 0,
         y = 0,
-        width = width,
-        height = height,
         physic = {
             type = nil,
             options = {}
         },
-        sprite = {
-            frames = frames,
-            sequences = {}
-        }
+        sprite = { }
     }
 
     function character:setPhysic(type, density, friction, bounce)
@@ -28,20 +22,26 @@ function CharacterCreator(sheetPath, width, height, frames)
         self.y = y
     end
 
-    -- addSequence add a new sequence for the sprite. A sequence is a table with the following properties:
-     -- - name
-     -- - start
-     -- - count
-     -- - time
-     -- - loopCount
-     -- - loopDirection
-    function character:addSequence(sequence)
-        table.insert(self.sprite.sequences, sequence)
+    function character:setSprite(infoPath, sheetPath, sequenceData)
+        self.sprite.info = require(infoPath)
+        self.sprite.sheetPath = sheetPath
+
+        -- substitute frame keys with corresponding frame index
+        for i, seq in ipairs(sequenceData) do
+            local frames = {}
+            for i, v in ipairs(seq.frames) do
+                table.insert(frames, i, self.sprite.info:getFrameIndex(v))
+            end
+            seq.frames = frames
+        end
+
+        self.sprite.sequenceData = sequenceData
     end
 
     function character:show(view)
-        local sheet = graphics.newImageSheet(self.path, { width = self.width, height = self.height, numFrames = self.sprite.frames })
-        local chSprite = display.newSprite(view, sheet, self.sprite.sequences)
+        local sheet = graphics.newImageSheet(self.sprite.sheetPath, self.sprite.info:getSheet())
+        
+        local chSprite = display.newSprite(view, sheet, self.sprite.sequenceData)
         chSprite.x = self.x
         chSprite.y = self.y
         chSprite.isFixedRotation = true
@@ -52,7 +52,6 @@ function CharacterCreator(sheetPath, width, height, frames)
 
         self.displayObject = chSprite
 
-        self.displayObject:setSequence('idle')
         self.displayObject:play()
     end
 

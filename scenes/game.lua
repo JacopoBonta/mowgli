@@ -34,12 +34,32 @@ function scene:create( event )
     
     ground = GroundCreator('assets/ground.png', 384, 64)
 
-    mainPg = CharacterCreator('assets/idle_sprite.png', 19, 34, 12)
-    mainPg:addSequence({
-        name = 'idle',
-        start = 1,
-        count = 12,
-        time = 500
+    mainPg = CharacterCreator()
+    mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
+        { name = 'idle', frames = {
+            'idle-0',
+            'idle-1',
+            'idle-2',
+            'idle-3',
+            'idle-4',
+            'idle-5',
+            'idle-6',
+            'idle-7',
+            'idle-8',
+            'idle-9',
+            'idle-10',
+            'idle-11'
+        }, time = 800},
+        { name = 'run', frames = {
+            'run-0',
+            'run-1',
+            'run-2',
+            'run-3',
+            'run-4',
+            'run-5',
+            'run-6',
+            'run-7'
+        }, time = 800}
     })
 end
  
@@ -69,6 +89,9 @@ function scene:show( event )
         bg:show(sceneGroup)
         ground:show(sceneGroup)
         mainPg:show(sceneGroup)
+
+        mainPg.displayObject:setSequence("runLeft")
+        mainPg.displayObject:play()
     end
 end
  
