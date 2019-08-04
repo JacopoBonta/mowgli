@@ -2,10 +2,11 @@ local composer = require( "composer" )
 local physics = require( "physics" )
 local BackgroundCreator = require( "src.BackgroundCreator" )
 local GroundCreator = require( "src.GroundCreator" )
- 
+local CharacterCreator = require( "src.CharacterCreator" )
+
 local scene = composer.newScene()
 
-local bg, ground
+local bg, ground, mainPg
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -26,14 +27,20 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
     bg = BackgroundCreator()
-    ground = GroundCreator('assets/ground.png', 384, 64)
-
-
     bg:addImage('assets/backgrounds/Nuvens.png', 384, 224)
     bg:addImage('assets/backgrounds/Background1.png', 384, 224)
     bg:addImage('assets/backgrounds/Background2.png', 384, 224)
     bg:addImage('assets/backgrounds/Background3.png', 384, 224)
+    
+    ground = GroundCreator('assets/ground.png', 384, 64)
 
+    mainPg = CharacterCreator('assets/idle_sprite.png', 19, 34, 12)
+    mainPg:addSequence({
+        name = 'idle',
+        start = 1,
+        count = 12,
+        time = 500
+    })
 end
  
  
@@ -52,6 +59,8 @@ function scene:show( event )
         ground:setPos(display.contentCenterX, display.contentHeight - 16)
         ground:setPhysic('static')
         
+        mainPg:setPos(200, 200)
+        mainPg:setPhysic('dynamic')
 
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -59,6 +68,7 @@ function scene:show( event )
 
         bg:show(sceneGroup)
         ground:show(sceneGroup)
+        mainPg:show(sceneGroup)
     end
 end
  
