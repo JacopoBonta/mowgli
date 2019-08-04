@@ -16,6 +16,12 @@ function GroundCreator(path, width, height)
         self.physic.options.density = density
         self.physic.options.friction = friction
         self.physic.options.bounce = bounce
+        self.physic.options.box = {
+            halfWidth = self.width / 2,
+            halfHeight = self.height / 2,
+            y = 16,
+            x = 0
+        }
     end
 
     function ground:setPos(x, y)
