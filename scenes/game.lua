@@ -1,10 +1,10 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
-local BackgroundCreator = require( "src.BackgroundCreator" )
-local GroundCreator = require( "src.GroundCreator" )
-local CharacterCreator = require( "src.CharacterCreator" )
-local CameraCreator = require( "src.CameraCreator" )
-local ButtonCreator = require( "src.ButtonCreator" )
+local Background = require( "src.Background" )
+local Ground = require( "src.Ground" )
+local Character = require( "src.Character" )
+local Camera = require( "src.Camera" )
+local Button = require( "src.Button" )
 
 local scene = composer.newScene()
 
@@ -29,15 +29,15 @@ function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
-    bg = BackgroundCreator()
+    bg = Background()
     bg:addImage('assets/backgrounds/Nuvens.png', 384, 224)
     bg:addImage('assets/backgrounds/Background1.png', 384, 224)
     bg:addImage('assets/backgrounds/Background2.png', 384, 224)
     bg:addImage('assets/backgrounds/Background3.png', 384, 224)
     
-    ground = GroundCreator('assets/ground.png', 384, 64)
+    ground = Ground('assets/ground.png', 384, 64)
 
-    mainPg = CharacterCreator()
+    mainPg = Character()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
         { name = 'idle', frames = {
             'idle-0',
@@ -65,10 +65,10 @@ function scene:create( event )
         }, time = 800}
     })
 
-    camera = CameraCreator()
-    leftButton = ButtonCreator()
+    camera = Camera()
+    leftButton = Button()
     leftButton:setSprite("assets/buttons/left.png", 32, 32)
-    rightButton = ButtonCreator()
+    rightButton = Button()
     rightButton:setSprite("assets/buttons/right.png", 32, 32)
 end
  

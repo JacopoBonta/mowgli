@@ -1,5 +1,5 @@
--- BackgroundCreator gestisce il background di una scena
-function BackgroundCreator()
+-- Background gestisce il background di una scena
+function Background()
 
     local bg = {
         x = 0,
@@ -39,4 +39,4 @@ function BackgroundCreator()
     return bg
 end
 
-return BackgroundCreator
+return Background

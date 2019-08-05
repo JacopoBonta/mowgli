@@ -1,4 +1,4 @@
-function GroundCreator(path, width, height)
+function Ground(path, width, height)
     local ground = {
         path = path,
         x = 0,
@@ -45,4 +45,4 @@ function GroundCreator(path, width, height)
     return ground
 end
 
-return GroundCreator
+return Ground

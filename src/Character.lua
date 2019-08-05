@@ -1,4 +1,4 @@
-function CharacterCreator()
+function Character()
 
     local character = {
         x = 0,
@@ -55,7 +55,15 @@ function CharacterCreator()
         self.displayObject:play()
     end
 
+    function character:moveRight(speed)
+        self.displayObject.x = self.displayObject.x - speed
+    end
+
+    function character:moveLeft(speed)
+        self.displayObject.x = self.displayObject.x + speed
+    end
+
     return character
 end
 
-return CharacterCreator
+return Character

@@ -1,4 +1,4 @@
-function ButtonCreator()
+function Button()
 
     local button = {
         x = 0,
@@ -55,4 +55,4 @@ function ButtonCreator()
     
 end
 
-return ButtonCreator
+return Button

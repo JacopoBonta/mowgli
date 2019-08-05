@@ -1,4 +1,4 @@
-function CameraCreator()
+function Camera()
 
     local camera = {
         objects = display.newGroup()
@@ -32,4 +32,4 @@ function CameraCreator()
     return camera
 end
 
-return CameraCreator
+return Camera
