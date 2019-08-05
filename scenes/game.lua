@@ -4,10 +4,12 @@ local BackgroundCreator = require( "src.BackgroundCreator" )
 local GroundCreator = require( "src.GroundCreator" )
 local CharacterCreator = require( "src.CharacterCreator" )
 local CameraCreator = require( "src.CameraCreator" )
+local ButtonCreator = require( "src.ButtonCreator" )
 
 local scene = composer.newScene()
 
 local bg, ground, mainPg, camera
+local leftButton, rightButton
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -64,6 +66,10 @@ function scene:create( event )
     })
 
     camera = CameraCreator()
+    leftButton = ButtonCreator()
+    leftButton:setSprite("assets/buttons/left.png", 32, 32)
+    rightButton = ButtonCreator()
+    rightButton:setSprite("assets/buttons/right.png", 32, 32)
 end
  
  
@@ -85,6 +91,15 @@ function scene:show( event )
         mainPg:setPos(200, 200)
         mainPg:setPhysic('dynamic')
 
+        leftButton:setPos(32, 192)
+        leftButton:registerBeforeTouchHandler(function()
+            mainPg:moveRight(1)
+        end)
+        rightButton:setPos(352, 192)
+        rightButton:registerBeforeTouchHandler(function()
+            mainPg:moveLeft(1)
+        end)
+
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         physics.start()
@@ -93,14 +108,17 @@ function scene:show( event )
         ground:show(sceneGroup)
         mainPg:show(sceneGroup)
 
-        for i, displayObject in ipairs(bg.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
-        camera:addDisplayObject(ground.displayObject)
-        camera:addDisplayObject(mainPg.displayObject)
+        -- for i, displayObject in ipairs(bg.displayObjects) do
+        --     camera:addDisplayObject(displayObject)
+        -- end
+        -- camera:addDisplayObject(ground.displayObject)
+        -- camera:addDisplayObject(mainPg.displayObject)
 
         mainPg.displayObject:setSequence("runLeft")
         mainPg.displayObject:play()
+
+        leftButton:show(sceneGroup)
+        rightButton:show(sceneGroup)
 
         Runtime:addEventListener('enterFrame', function()
             
