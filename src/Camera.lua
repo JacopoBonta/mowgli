@@ -1,24 +1,31 @@
 function Camera()
 
     local camera = {
-        objects = display.newGroup()
+        objects = display.newGroup(),
+        borderLeft = 0,
+        borderRight = display.contentWidth,
+        center = display.contentWidth / 2
     }
 
     function camera:addDisplayObject(o)
         self.objects:insert(o)
     end
 
-    function camera:setPosition(x, y)
+    function camera:setPos(x, y)
         self.objects.x = x
         self.objects.y = y
     end
 
     function camera:moveForward(speed)
         self.objects.x = self.objects.x - speed
+        self.borderLeft = self.borderLeft + speed
+        self.borderRight = self.borderRight + speed
     end
 
     function camera:moveBackward(speed)
         self.objects.x = self.objects.x + speed
+        self.borderLeft = self.borderLeft - speed
+        self.borderRight = self.borderRight - speed
     end
 
     function camera:moveUp(speed)

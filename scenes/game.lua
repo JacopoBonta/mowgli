@@ -94,7 +94,7 @@ function scene:show( event )
         ground3:setPos(display.contentCenterX * 6, display.contentHeight - 16)
         ground3:setPhysic('static')
         
-        mainPg:setPos(200, 200)
+        mainPg:setPos(display.contentWidth / 2, 160)
         mainPg:setPhysic('dynamic')
 
         leftButton:setPos(32, 192)
@@ -113,6 +113,8 @@ function scene:show( event )
             mainPg:stand()
         end)
 
+        camera:setPos(0,0)
+
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         physics.start()
@@ -123,21 +125,36 @@ function scene:show( event )
         ground3:show(sceneGroup)
         mainPg:show(sceneGroup)
 
-        -- for i, displayObject in ipairs(bg.displayObjects) do
-        --     camera:addDisplayObject(displayObject)
-        -- end
-        -- camera:addDisplayObject(ground.displayObject)
-        -- camera:addDisplayObject(mainPg.displayObject)
+        for i, displayObject in ipairs(bg.displayObjects) do
+            camera:addDisplayObject(displayObject)
+        end
+        camera:addDisplayObject(ground1.displayObject)
+        camera:addDisplayObject(ground2.displayObject)
+        camera:addDisplayObject(ground3.displayObject)
+        camera:addDisplayObject(mainPg.displayObject)
 
         mainPg.displayObject:setSequence("runLeft")
         mainPg.displayObject:play()
 
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
+        camera:addDisplayObject(leftButton.displayObject)
+        camera:addDisplayObject(rightButton.displayObject)
+
+        print(mainPg.displayObject.x)
+        print(camera.objects.x)
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
                 mainPg:updatePosition()
+            end
+
+
+            -- update camera
+            if mainPg.displayObject.x >= camera.borderRight - 80 then
+                camera:moveForward(1)
+            elseif mainPg.displayObject.x <= camera.borderLeft + 80 then
+                camera:moveBackward(1)
             end
         end)
     end
