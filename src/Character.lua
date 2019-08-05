@@ -7,8 +7,24 @@ function Character()
             type = nil,
             options = {}
         },
+        pv = 1,
+        speed = 0,
         sprite = { }
     }
+
+    function character:setDirection(direction, speed)
+        if speed > 0 then
+            if direction == 'right' then
+                self.displayObject.xScale = -1
+                self.speed = -speed
+            elseif direction == 'left' then
+                self.displayObject.xScale = 1
+                self.speed = speed
+            end
+            self.displayObject:setSequence('run')
+            self.displayObject:play()
+        end
+    end
 
     function character:setPhysic(type, density, friction, bounce)
         self.physic.type = type 
@@ -55,12 +71,14 @@ function Character()
         self.displayObject:play()
     end
 
-    function character:moveRight(speed)
-        self.displayObject.x = self.displayObject.x - speed
+    function character:stand()
+        self.speed = 0
+        self.displayObject:setSequence('idle')
+        self.displayObject:play()
     end
 
-    function character:moveLeft(speed)
-        self.displayObject.x = self.displayObject.x + speed
+    function character:updatePosition()
+        self.displayObject.x = self.displayObject.x + self.speed
     end
 
     return character

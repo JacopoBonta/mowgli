@@ -93,11 +93,18 @@ function scene:show( event )
 
         leftButton:setPos(32, 192)
         leftButton:registerBeforeTouchHandler(function()
-            mainPg:moveRight(1)
+            mainPg:setDirection('right', 1)
         end)
+        leftButton:registerAfterTouchHandler(function()
+            mainPg:stand()
+        end)
+
         rightButton:setPos(352, 192)
         rightButton:registerBeforeTouchHandler(function()
-            mainPg:moveLeft(1)
+            mainPg:setDirection('left', 1)
+        end)
+        rightButton:registerAfterTouchHandler(function()
+            mainPg:stand()
         end)
 
     elseif ( phase == "did" ) then
@@ -121,7 +128,9 @@ function scene:show( event )
         rightButton:show(sceneGroup)
 
         Runtime:addEventListener('enterFrame', function()
-            
+            if mainPg.pv > 0 then
+                mainPg:updatePosition()
+            end
         end)
     end
 end
