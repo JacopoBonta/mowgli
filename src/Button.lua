@@ -35,10 +35,9 @@ function Button()
         self.handlers.after = cb
     end
 
-    function button:show(view)
-        self.view = view
+    function button:show()
 
-        local button = display.newImageRect(view, self.sprite.path, self.sprite.width, self.sprite.height)
+        local button = display.newImageRect(self.sprite.path, self.sprite.width, self.sprite.height)
 
         button.x = self.x
         button.y = self.y

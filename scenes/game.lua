@@ -136,13 +136,9 @@ function scene:show( event )
         mainPg.displayObject:setSequence("runLeft")
         mainPg.displayObject:play()
 
-        leftButton:show(sceneGroup)
-        rightButton:show(sceneGroup)
-        camera:addDisplayObject(leftButton.displayObject)
-        camera:addDisplayObject(rightButton.displayObject)
+        leftButton:show()
+        rightButton:show()
 
-        print(mainPg.displayObject.x)
-        print(camera.objects.x)
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
