@@ -35,7 +35,9 @@ function scene:create( event )
     bg:addImage('assets/backgrounds/Background2.png', 384, 224)
     bg:addImage('assets/backgrounds/Background3.png', 384, 224)
     
-    ground = Ground('assets/ground.png', 384, 64)
+    ground1 = Ground('assets/ground.png', 384, 64)
+    ground2 = Ground('assets/ground.png', 384, 64)
+    ground3 = Ground('assets/ground.png', 384, 64)
 
     mainPg = Character()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
@@ -81,12 +83,16 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
-        -- physics.setDrawMode( "hybrid" )
+        physics.setDrawMode( "hybrid" )
 
         bg:setPos(display.contentWidth / 2, display.contentHeight / 2)
 
-        ground:setPos(display.contentCenterX, display.contentHeight - 16)
-        ground:setPhysic('static')
+        ground1:setPos(display.contentCenterX, display.contentHeight - 16)
+        ground1:setPhysic('static')
+        ground2:setPos(display.contentCenterX * 3, display.contentHeight - 16)
+        ground2:setPhysic('static')
+        ground3:setPos(display.contentCenterX * 6, display.contentHeight - 16)
+        ground3:setPhysic('static')
         
         mainPg:setPos(200, 200)
         mainPg:setPhysic('dynamic')
@@ -112,7 +118,9 @@ function scene:show( event )
         physics.start()
 
         bg:show(sceneGroup)
-        ground:show(sceneGroup)
+        ground1:show(sceneGroup)
+        ground2:show(sceneGroup)
+        ground3:show(sceneGroup)
         mainPg:show(sceneGroup)
 
         -- for i, displayObject in ipairs(bg.displayObjects) do
