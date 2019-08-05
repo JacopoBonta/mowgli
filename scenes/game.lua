@@ -30,10 +30,20 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
     bg = Background()
+    bg2 = Background()
+    bg3 = Background()
     bg:addImage('assets/backgrounds/Nuvens.png', 384, 224)
     bg:addImage('assets/backgrounds/Background1.png', 384, 224)
     bg:addImage('assets/backgrounds/Background2.png', 384, 224)
     bg:addImage('assets/backgrounds/Background3.png', 384, 224)
+    bg2:addImage('assets/backgrounds/Nuvens.png', 384, 224)
+    bg2:addImage('assets/backgrounds/Background1.png', 384, 224)
+    bg2:addImage('assets/backgrounds/Background2.png', 384, 224)
+    bg2:addImage('assets/backgrounds/Background3.png', 384, 224)
+    bg3:addImage('assets/backgrounds/Nuvens.png', 384, 224)
+    bg3:addImage('assets/backgrounds/Background1.png', 384, 224)
+    bg3:addImage('assets/backgrounds/Background2.png', 384, 224)
+    bg3:addImage('assets/backgrounds/Background3.png', 384, 224)
     
     ground1 = Ground('assets/ground.png', 384, 64)
     ground2 = Ground('assets/ground.png', 384, 64)
@@ -85,16 +95,18 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         physics.setDrawMode( "hybrid" )
 
-        bg:setPos(display.contentWidth / 2, display.contentHeight / 2)
+        bg:setPos(display.contentCenterX, display.contentCenterY)
+        bg2:setPos(display.contentCenterX * 3, display.contentCenterY)
+        bg3:setPos(display.contentCenterX * 5, display.contentCenterY)
 
         ground1:setPos(display.contentCenterX, display.contentHeight - 16)
         ground1:setPhysic('static')
         ground2:setPos(display.contentCenterX * 3, display.contentHeight - 16)
         ground2:setPhysic('static')
-        ground3:setPos(display.contentCenterX * 6, display.contentHeight - 16)
+        ground3:setPos(display.contentCenterX * 5, display.contentHeight - 16)
         ground3:setPhysic('static')
         
-        mainPg:setPos(display.contentWidth / 2, 160)
+        mainPg:setPos(display.contentCenterX, 160)
         mainPg:setPhysic('dynamic')
 
         leftButton:setPos(32, 192)
@@ -120,17 +132,28 @@ function scene:show( event )
         physics.start()
 
         bg:show(sceneGroup)
-        ground1:show(sceneGroup)
-        ground2:show(sceneGroup)
-        ground3:show(sceneGroup)
-        mainPg:show(sceneGroup)
+        bg2:show(sceneGroup)
+        bg3:show(sceneGroup)
 
         for i, displayObject in ipairs(bg.displayObjects) do
             camera:addDisplayObject(displayObject)
         end
+        for i, displayObject in ipairs(bg2.displayObjects) do
+            camera:addDisplayObject(displayObject)
+        end
+        for i, displayObject in ipairs(bg3.displayObjects) do
+            camera:addDisplayObject(displayObject)
+        end
+
+        ground1:show(sceneGroup)
+        ground2:show(sceneGroup)
+        ground3:show(sceneGroup)
+
         camera:addDisplayObject(ground1.displayObject)
         camera:addDisplayObject(ground2.displayObject)
         camera:addDisplayObject(ground3.displayObject)
+
+        mainPg:show(sceneGroup)
         camera:addDisplayObject(mainPg.displayObject)
 
         mainPg.displayObject:setSequence("runLeft")
