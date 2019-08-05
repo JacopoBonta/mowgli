@@ -8,7 +8,8 @@ function GroundCreator(path, width, height)
         physic = {
             type = nil,
             options = {}
-        }
+        },
+        displayObject = nil
     }
 
     function ground:setPhysic(type, density, friction, bounce)
@@ -37,6 +38,8 @@ function GroundCreator(path, width, height)
         if self.physic.type ~= nil then
             physics.addBody(ground, self.physic.type, self.physic.options)
         end
+
+        self.displayObject = ground
     end
 
     return ground

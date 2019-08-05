@@ -5,7 +5,8 @@ function BackgroundCreator()
         x = 0,
         y = 0,
         zIndex = 1,
-        layers = {}
+        layers = {},
+        displayObjects = {}
     }
     
     -- addImage aggiunge una nuova immagine allo sfondo. Le immagine vengono stampate seguendo l'ordine di inserimento.
@@ -25,11 +26,14 @@ function BackgroundCreator()
     
     -- show stampa il background
     function bg:show(view)
+        local displayObjects = self.displayObjects
         for i, v in ipairs(self.layers) do
             local layer = display.newImageRect(view, v.path, v.width, v.height)
             layer.x = self.x
             layer.y = self.y
+            table.insert(displayObjects, layer)
         end
+        self.displayObjects = displayObjects
     end
     
     return bg

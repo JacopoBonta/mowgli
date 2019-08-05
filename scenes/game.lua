@@ -3,10 +3,11 @@ local physics = require( "physics" )
 local BackgroundCreator = require( "src.BackgroundCreator" )
 local GroundCreator = require( "src.GroundCreator" )
 local CharacterCreator = require( "src.CharacterCreator" )
+local CameraCreator = require( "src.CameraCreator" )
 
 local scene = composer.newScene()
 
-local bg, ground, mainPg
+local bg, ground, mainPg, camera
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -61,6 +62,8 @@ function scene:create( event )
             'run-7'
         }, time = 800}
     })
+
+    camera = CameraCreator()
 end
  
  
@@ -90,8 +93,18 @@ function scene:show( event )
         ground:show(sceneGroup)
         mainPg:show(sceneGroup)
 
+        for i, displayObject in ipairs(bg.displayObjects) do
+            camera:addDisplayObject(displayObject)
+        end
+        camera:addDisplayObject(ground.displayObject)
+        camera:addDisplayObject(mainPg.displayObject)
+
         mainPg.displayObject:setSequence("runLeft")
         mainPg.displayObject:play()
+
+        Runtime:addEventListener('enterFrame', function()
+            
+        end)
     end
 end
  
