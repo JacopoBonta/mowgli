@@ -90,10 +90,13 @@ function scene:show( event )
  
     local sceneGroup = self.view
     local phase = event.phase
+
+    local pgSpeed = 2
+    local cameraSpeed = 2
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
-        physics.setDrawMode( "hybrid" )
+        -- physics.setDrawMode( "hybrid" )
 
         bg:setPos(display.contentCenterX, display.contentCenterY)
         bg2:setPos(display.contentCenterX * 3, display.contentCenterY)
@@ -106,12 +109,12 @@ function scene:show( event )
         ground3:setPos(display.contentCenterX * 5, display.contentHeight - 16)
         ground3:setPhysic('static')
         
-        mainPg:setPos(display.contentCenterX, 160)
+        mainPg:setPos(display.contentCenterX / 2, 160)
         mainPg:setPhysic('dynamic')
 
         leftButton:setPos(32, 192)
         leftButton:registerBeforeTouchHandler(function()
-            mainPg:setDirection('right', 1)
+            mainPg:setDirection('right', pgSpeed)
         end)
         leftButton:registerAfterTouchHandler(function()
             mainPg:stand()
@@ -119,7 +122,7 @@ function scene:show( event )
 
         rightButton:setPos(352, 192)
         rightButton:registerBeforeTouchHandler(function()
-            mainPg:setDirection('left', 1)
+            mainPg:setDirection('left', pgSpeed)
         end)
         rightButton:registerAfterTouchHandler(function()
             mainPg:stand()
@@ -156,24 +159,22 @@ function scene:show( event )
         mainPg:show(sceneGroup)
         camera:addDisplayObject(mainPg.displayObject)
 
-        mainPg.displayObject:setSequence("runLeft")
-        mainPg.displayObject:play()
-
         leftButton:show()
         rightButton:show()
 
+        mainPg.displayObject:setSequence("runLeft")
+        mainPg.displayObject:play()
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
                 mainPg:updatePosition()
             end
 
-
             -- update camera
             if mainPg.displayObject.x >= camera.borderRight - 80 then
-                camera:moveForward(1)
+                camera:moveForward(cameraSpeed)
             elseif mainPg.displayObject.x <= camera.borderLeft + 80 then
-                camera:moveBackward(1)
+                camera:moveBackward(cameraSpeed)
             end
         end)
     end

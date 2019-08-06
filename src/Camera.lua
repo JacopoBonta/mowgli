@@ -3,8 +3,7 @@ function Camera()
     local camera = {
         objects = display.newGroup(),
         borderLeft = 0,
-        borderRight = display.contentWidth,
-        center = display.contentWidth / 2
+        borderRight = display.contentWidth
     }
 
     function camera:addDisplayObject(o)
