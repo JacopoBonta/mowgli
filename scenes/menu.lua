@@ -25,7 +25,7 @@ function scene:create( event )
     bg:addImage("assets/backgrounds/Title.png", 384, 224)
 
     startButton = Button()
-    startButton:setSprite("assets/buttons/start.png", 303, 44)
+    startButton:setText("Tocca per iniziare la partita", 20)
 
 end
  
@@ -51,10 +51,10 @@ function scene:show( event )
         startButton:setPos(display.contentCenterX, display.contentHeight - 32)
 
         bg:show(sceneGroup)
+        startButton:show(sceneGroup)
         
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
-        startButton:show()
     end
 end
  

@@ -13,6 +13,10 @@ function Button()
             width = 0,
             height = 0
         },
+        text = {
+            string = nil,
+            fontSize = 18,
+        },
         view = nil
     }
 
@@ -20,6 +24,11 @@ function Button()
         self.sprite.path = path
         self.sprite.width = width
         self.sprite.height = height
+    end
+
+    function button:setText(string, fontSize)
+        self.text.string = string
+        self.text.fontSize = fontSize
     end
 
     function button:setPos(x, y)
@@ -35,12 +44,18 @@ function Button()
         self.handlers.after = cb
     end
 
-    function button:show()
+    function button:show(view)
 
-        local button = display.newImageRect(self.sprite.path, self.sprite.width, self.sprite.height)
-
-        button.x = self.x
-        button.y = self.y
+        print(self.textString)
+        local button
+        if self.text.string == nil then
+            button = display.newImageRect(self.sprite.path, self.sprite.width, self.sprite.height)
+            button.x = self.x
+            button.y = self.y
+        else
+            button = display.newText(view, self.text.string, self.x, self.y, "assets/fonts/Windlass.ttf", self.text.fontSize)
+            button:setFillColor( 0.76, 0.77, 0.18 )
+        end
 
         button:addEventListener("touch", function(event)
             if event.phase == "began" then
