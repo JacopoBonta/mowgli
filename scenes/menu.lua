@@ -1,4 +1,6 @@
 local composer = require( "composer" )
+local Background = require( "src.Background" )
+local Button = require( "src.Button" )
  
 local scene = composer.newScene()
  
@@ -7,7 +9,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
- 
+ local bg, startButton
  
  
 -- -----------------------------------------------------------------------------------
@@ -19,7 +21,12 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
- 
+    bg = Background()
+    bg:addImage("assets/backgrounds/Title.png", 384, 224)
+
+    startButton = Button()
+    startButton:setSprite("assets/buttons/start.png", 303, 44)
+
 end
  
  
@@ -31,10 +38,23 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
- 
+
+        bg:setPos(display.contentCenterX, display.contentCenterY)
+
+        startButton:registerAfterTouchHandler(function()
+            composer.gotoScene( "scenes.game", {
+                effect = "fade",
+                time = 500
+            })
+        end)
+
+        startButton:setPos(display.contentCenterX, display.contentHeight - 32)
+
+        bg:show(sceneGroup)
+        
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
-        print('menu!')
+        startButton:show()
     end
 end
  
