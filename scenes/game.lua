@@ -80,9 +80,9 @@ function scene:create( event )
 
     camera = Camera()
     leftButton = Button()
-    leftButton:setSprite("assets/buttons/left.png", 32, 32)
+    leftButton:setImage("assets/buttons/left.png", 32, 32)
     rightButton = Button()
-    rightButton:setSprite("assets/buttons/right.png", 32, 32)
+    rightButton:setImage("assets/buttons/right.png", 32, 32)
 end
  
  
@@ -102,16 +102,23 @@ function scene:show( event )
         bg:setPos(display.contentCenterX, display.contentCenterY)
         bg2:setPos(display.contentCenterX * 3, display.contentCenterY)
         bg3:setPos(display.contentCenterX * 5, display.contentCenterY)
+        bg:setCamera(camera.displayObjects)
+        bg2:setCamera(camera.displayObjects)
+        bg3:setCamera(camera.displayObjects)
 
         ground1:setPos(display.contentCenterX, display.contentHeight - 16)
         ground1:setPhysic('static')
+        ground1:setCamera(camera.displayObjects)
         ground2:setPos(display.contentCenterX * 3, display.contentHeight - 16)
         ground2:setPhysic('static')
+        ground2:setCamera(camera.displayObjects)
         ground3:setPos(display.contentCenterX * 5, display.contentHeight - 16)
         ground3:setPhysic('static')
+        ground3:setCamera(camera.displayObjects)
         
         mainPg:setPos(display.contentCenterX / 2, 160)
         mainPg:setPhysic('dynamic')
+        mainPg:setCamera(camera.displayObjects)
 
         leftButton:setPos(32, 192)
         leftButton:registerBeforeTouchHandler(function()
@@ -138,36 +145,20 @@ function scene:show( event )
         physics.start()
         physics.setDrawMode( "hybrid" )
 
-        bg:show(sceneGroup)
-        bg2:show(sceneGroup)
-        bg3:show(sceneGroup)
+        sceneGroup:insert(camera.displayObjects)
 
-        for i, displayObject in ipairs(bg.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
-        for i, displayObject in ipairs(bg2.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
-        for i, displayObject in ipairs(bg3.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
+        bg:show()
+        bg2:show()
+        bg3:show()
 
-        ground1:show(sceneGroup)
-        ground2:show(sceneGroup)
-        ground3:show(sceneGroup)
+        leftButton:show(sceneGroup)
+        rightButton:show(sceneGroup)
 
-        camera:addDisplayObject(ground1.displayObject)
-        camera:addDisplayObject(ground2.displayObject)
-        camera:addDisplayObject(ground3.displayObject)
+        ground1:show()
+        ground2:show()
+        ground3:show()
 
-        mainPg:show(sceneGroup)
-        camera:addDisplayObject(mainPg.displayObject)
-
-        leftButton:show()
-        rightButton:show()
-
-        mainPg.displayObject:setSequence("runLeft")
-        mainPg.displayObject:play()
+        mainPg:show()
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then

@@ -23,17 +23,26 @@ function Background()
         self.x = x
         self.y = y
     end
+
+    function bg:setCamera(camera)
+        self.camera = camera
+    end
     
     -- show stampa il background
-    function bg:show(view)
-        local displayObjects = self.displayObjects
+    function bg:show(group)
         for i, v in ipairs(self.layers) do
-            local layer = display.newImageRect(view, v.path, v.width, v.height)
+            local layer = display.newImageRect(v.path, v.width, v.height)
             layer.x = self.x
             layer.y = self.y
-            table.insert(displayObjects, layer)
+            
+            if group then
+                table.insert(group, layer)
+            end
+
+            if self.camera then
+                self.camera:insert(layer)
+            end
         end
-        self.displayObjects = displayObjects
     end
     
     return bg
