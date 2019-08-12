@@ -9,7 +9,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
- local bg, startButton
+ local bg, titleButton
  
  
 -- -----------------------------------------------------------------------------------
@@ -23,11 +23,8 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
-    bg = Background()
-    bg:addImage("assets/backgrounds/Title.png", 384, 114)
-
-    startButton = Button()
-    startButton:setText("Tocca per iniziare la partita", 20)
+    titleButton = Button()
+    titleButton:setImage("assets/backgrounds/Title.png", 384, 114)
 
 end
  
@@ -42,18 +39,15 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
 
-        bg:setPos(display.contentCenterX, display.contentCenterY)
-
-        startButton:registerAfterTouchHandler(function()
+        titleButton:registerAfterTouchHandler(function()
             composer.gotoScene( "scenes.game", {
                 effect = "fade",
                 time = 500
             })
         end)
-        startButton:setPos(display.contentCenterX, display.contentHeight - 32)
+        titleButton:setPos(display.contentCenterX, display.contentCenterY)
 
-        bg:show(sceneGroup)
-        startButton:show(sceneGroup)
+        titleButton:show(sceneGroup)
         
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
