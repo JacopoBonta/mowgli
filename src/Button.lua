@@ -46,7 +46,6 @@ function Button()
 
     function button:show(view)
 
-        print(self.textString)
         local button
         if self.text.string == nil then
             button = display.newImageRect(self.sprite.path, self.sprite.width, self.sprite.height)
