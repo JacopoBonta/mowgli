@@ -24,7 +24,7 @@ function scene:create( event )
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
     bg = Background()
-    bg:addImage("assets/backgrounds/Title.png", 384, 224)
+    bg:addImage("assets/backgrounds/Title.png", 384, 114)
 
     startButton = Button()
     startButton:setText("Tocca per iniziare la partita", 20)
