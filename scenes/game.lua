@@ -1,3 +1,4 @@
+--jacopo suka 
 local composer = require( "composer" )
 local physics = require( "physics" )
 local Background = require( "src.Background" )
@@ -10,22 +11,22 @@ local scene = composer.newScene()
 
 local bg, ground, mainPg, camera
 local leftButton, rightButton
- 
+
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
- 
- 
- 
- 
+
+
+
+
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
 -- -----------------------------------------------------------------------------------
- 
+
 -- create()
 function scene:create( event )
- 
+
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
@@ -44,7 +45,7 @@ function scene:create( event )
     bg3:addImage('assets/backgrounds/Background1.png', 384, 224)
     bg3:addImage('assets/backgrounds/Background2.png', 384, 224)
     bg3:addImage('assets/backgrounds/Background3.png', 384, 224)
-    
+
     ground1 = Ground('assets/ground.png', 384, 64)
     ground2 = Ground('assets/ground.png', 384, 64)
     ground3 = Ground('assets/ground.png', 384, 64)
@@ -83,17 +84,17 @@ function scene:create( event )
     rightButton = Button()
     rightButton:setSprite("assets/buttons/right.png", 32, 32)
 end
- 
- 
+
+
 -- show()
 function scene:show( event )
- 
+
     local sceneGroup = self.view
     local phase = event.phase
 
     local pgSpeed = 2
     local cameraSpeed = 2
- 
+
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- physics.setDrawMode( "hybrid" )
@@ -108,7 +109,7 @@ function scene:show( event )
         ground2:setPhysic('static')
         ground3:setPos(display.contentCenterX * 5, display.contentHeight - 16)
         ground3:setPhysic('static')
-        
+
         mainPg:setPos(display.contentCenterX / 2, 160)
         mainPg:setPhysic('dynamic')
 
@@ -179,33 +180,33 @@ function scene:show( event )
         end)
     end
 end
- 
- 
+
+
 -- hide()
 function scene:hide( event )
- 
+
     local sceneGroup = self.view
     local phase = event.phase
- 
+
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
- 
+
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
- 
+
     end
 end
- 
- 
+
+
 -- destroy()
 function scene:destroy( event )
- 
+
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
- 
+
 end
- 
- 
+
+
 -- -----------------------------------------------------------------------------------
 -- Scene event function listeners
 -- -----------------------------------------------------------------------------------
@@ -214,5 +215,5 @@ scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 -- -----------------------------------------------------------------------------------
- 
+
 return scene
