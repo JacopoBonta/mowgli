@@ -29,6 +29,7 @@ function scene:create( event )
 
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+    -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
     bg = Background()
     bg2 = Background()
@@ -80,9 +81,9 @@ function scene:create( event )
 
     camera = Camera()
     leftButton = Button()
-    leftButton:setSprite("assets/buttons/left.png", 32, 32)
+    leftButton:setImage("assets/buttons/left.png", 32, 32)
     rightButton = Button()
-    rightButton:setSprite("assets/buttons/right.png", 32, 32)
+    rightButton:setImage("assets/buttons/right.png", 32, 32)
 end
 
 
@@ -97,21 +98,28 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
-        -- physics.setDrawMode( "hybrid" )
+        -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
 
         bg:setPos(display.contentCenterX, display.contentCenterY)
         bg2:setPos(display.contentCenterX * 3, display.contentCenterY)
         bg3:setPos(display.contentCenterX * 5, display.contentCenterY)
+        bg:setCamera(camera.displayObjects)
+        bg2:setCamera(camera.displayObjects)
+        bg3:setCamera(camera.displayObjects)
 
         ground1:setPos(display.contentCenterX, display.contentHeight - 16)
         ground1:setPhysic('static')
+        ground1:setCamera(camera.displayObjects)
         ground2:setPos(display.contentCenterX * 3, display.contentHeight - 16)
         ground2:setPhysic('static')
+        ground2:setCamera(camera.displayObjects)
         ground3:setPos(display.contentCenterX * 5, display.contentHeight - 16)
         ground3:setPhysic('static')
-
+        ground3:setCamera(camera.displayObjects)
+        
         mainPg:setPos(display.contentCenterX / 2, 160)
         mainPg:setPhysic('dynamic')
+        mainPg:setCamera(camera.displayObjects)
 
         leftButton:setPos(32, 192)
         leftButton:registerBeforeTouchHandler(function()
@@ -133,38 +141,25 @@ function scene:show( event )
 
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+        -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
+
         physics.start()
+        physics.setDrawMode( "hybrid" )
 
-        bg:show(sceneGroup)
-        bg2:show(sceneGroup)
-        bg3:show(sceneGroup)
+        sceneGroup:insert(camera.displayObjects)
 
-        for i, displayObject in ipairs(bg.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
-        for i, displayObject in ipairs(bg2.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
-        for i, displayObject in ipairs(bg3.displayObjects) do
-            camera:addDisplayObject(displayObject)
-        end
+        bg:show()
+        bg2:show()
+        bg3:show()
 
-        ground1:show(sceneGroup)
-        ground2:show(sceneGroup)
-        ground3:show(sceneGroup)
+        leftButton:show(sceneGroup)
+        rightButton:show(sceneGroup)
 
-        camera:addDisplayObject(ground1.displayObject)
-        camera:addDisplayObject(ground2.displayObject)
-        camera:addDisplayObject(ground3.displayObject)
+        ground1:show()
+        ground2:show()
+        ground3:show()
 
-        mainPg:show(sceneGroup)
-        camera:addDisplayObject(mainPg.displayObject)
-
-        leftButton:show()
-        rightButton:show()
-
-        mainPg.displayObject:setSequence("runLeft")
-        mainPg.displayObject:play()
+        mainPg:show()
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
@@ -190,7 +185,7 @@ function scene:hide( event )
 
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
-
+        -- Qui stoppiamo fisica, audio ed eventuali timer 
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
 
@@ -203,7 +198,8 @@ function scene:destroy( event )
 
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
-
+    -- Qui facciamo il dispose dell'audio e rimuoviamo i listener per tutti gli oggetti che non sono dentro a sceneGroup (se un displayObject viene inserito all'interno dello sceneGroup corona si occupa di rimuoverlo per noi - listeners compresi) 
+ 
 end
 
 

@@ -54,10 +54,14 @@ function Character()
         self.sprite.sequenceData = sequenceData
     end
 
-    function character:show(view)
+    function character:setCamera(camera)
+        self.camera = camera
+    end
+
+    function character:show()
         local sheet = graphics.newImageSheet(self.sprite.sheetPath, self.sprite.info:getSheet())
         
-        local chSprite = display.newSprite(view, sheet, self.sprite.sequenceData)
+        local chSprite = display.newSprite(sheet, self.sprite.sequenceData)
         chSprite.x = self.x
         chSprite.y = self.y
         chSprite.isFixedRotation = true
@@ -66,8 +70,11 @@ function Character()
             physics.addBody(chSprite, self.physic.type, self.physic.options)
         end
 
-        self.displayObject = chSprite
+        if self.camera then
+            self.camera:insert(chSprite)
+        end
 
+        self.displayObject = chSprite
         self.displayObject:play()
     end
 

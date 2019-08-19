@@ -8,8 +8,7 @@ function Ground(path, width, height)
         physic = {
             type = nil,
             options = {}
-        },
-        displayObject = nil
+        }
     }
 
     function ground:setPhysic(type, density, friction, bounce)
@@ -30,8 +29,12 @@ function Ground(path, width, height)
         self.y = y
     end
 
-    function ground:show(view)
-        local ground = display.newImageRect(view, self.path, self.width, self.height)
+    function ground:setCamera(camera)
+        self.camera = camera
+    end
+
+    function ground:show(group)
+        local ground = display.newImageRect(self.path, self.width, self.height)
         ground.x = self.x
         ground.y = self.y
 
@@ -39,7 +42,13 @@ function Ground(path, width, height)
             physics.addBody(ground, self.physic.type, self.physic.options)
         end
 
-        self.displayObject = ground
+        if self.camera then
+            self.camera:insert(ground)
+        end
+
+        if group then
+            table.insert(group, ground)
+        end
     end
 
     return ground
