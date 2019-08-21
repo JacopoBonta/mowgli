@@ -1,7 +1,7 @@
 -- zizza suka
 local composer = require( "composer" )
 local physics = require( "physics" )
-local Background = require( "src.Background" )
+local LayeredBackground = require( "src.LayeredBackground" )
 local Ground = require( "src.Ground" )
 local Character = require( "src.Character" )
 local Camera = require( "src.Camera" )
@@ -31,25 +31,24 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
-    bg = Background()
-    bg2 = Background()
-    bg3 = Background()
-    bg:addImage('assets/backgrounds/Nuvens.png', 384, 224)
-    bg:addImage('assets/backgrounds/Background1.png', 384, 224)
-    bg:addImage('assets/backgrounds/Background2.png', 384, 224)
-    bg:addImage('assets/backgrounds/Background3.png', 384, 224)
-    bg2:addImage('assets/backgrounds/Nuvens.png', 384, 224)
-    bg2:addImage('assets/backgrounds/Background1.png', 384, 224)
-    bg2:addImage('assets/backgrounds/Background2.png', 384, 224)
-    bg2:addImage('assets/backgrounds/Background3.png', 384, 224)
-    bg3:addImage('assets/backgrounds/Nuvens.png', 384, 224)
-    bg3:addImage('assets/backgrounds/Background1.png', 384, 224)
-    bg3:addImage('assets/backgrounds/Background2.png', 384, 224)
-    bg3:addImage('assets/backgrounds/Background3.png', 384, 224)
+    bg = LayeredBackground:new()
+    bg2 = LayeredBackground:new()
+    bg3 = LayeredBackground:new()
+    bg:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
+    bg:addLayer('assets/backgrounds/Background1.png', 384, 224)
+    bg:addLayer('assets/backgrounds/Background2.png', 384, 224)
+    bg:addLayer('assets/backgrounds/Background3.png', 384, 224)
+    bg2:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
+    bg2:addLayer('assets/backgrounds/Background1.png', 384, 224)
+    bg2:addLayer('assets/backgrounds/Background2.png', 384, 224)
+    bg2:addLayer('assets/backgrounds/Background3.png', 384, 224)
+    bg3:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
+    bg3:addLayer('assets/backgrounds/Background1.png', 384, 224)
+    bg3:addLayer('assets/backgrounds/Background2.png', 384, 224)
+    bg3:addLayer('assets/backgrounds/Background3.png', 384, 224)
 
-    ground1 = Ground('assets/ground.png', 384, 64)
-    ground2 = Ground('assets/ground.png', 384, 64)
-    ground3 = Ground('assets/ground.png', 384, 64)
+    ground = Ground('assets/ground.png', 384, 64)
+    -- ground_x_10 = GroundRepeter(ground, 10)
 
     mainPg = Character()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
@@ -100,22 +99,20 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
 
-        bg:setPos(display.contentCenterX, display.contentCenterY)
-        bg2:setPos(display.contentCenterX * 3, display.contentCenterY)
-        bg3:setPos(display.contentCenterX * 5, display.contentCenterY)
-        bg:setCamera(camera.displayObjects)
-        bg2:setCamera(camera.displayObjects)
-        bg3:setCamera(camera.displayObjects)
+        bg.x = display.contentCenterX
+        bg.y = display.contentCenterY
+        bg2.x = display.contentCenterX * 3
+        bg2.y = display.contentCenterY
+        bg3.x = display.contentCenterX * 5
+        bg3.y = display.contentCenterY
 
-        ground1:setPos(display.contentCenterX, display.contentHeight - 16)
-        ground1:setPhysic('static')
-        ground1:setCamera(camera.displayObjects)
-        ground2:setPos(display.contentCenterX * 3, display.contentHeight - 16)
-        ground2:setPhysic('static')
-        ground2:setCamera(camera.displayObjects)
-        ground3:setPos(display.contentCenterX * 5, display.contentHeight - 16)
-        ground3:setPhysic('static')
-        ground3:setCamera(camera.displayObjects)
+        bg:addToCamera(camera.displayObjects)
+        bg2:addToCamera(camera.displayObjects)
+        bg3:addToCamera(camera.displayObjects)
+
+        ground:setPos(display.contentCenterX, display.contentHeight - 16)
+        ground:setPhysic('static')
+        ground:setCamera(camera.displayObjects)
         
         mainPg:setPos(display.contentCenterX / 2, 160)
         mainPg:setPhysic('dynamic')
@@ -155,9 +152,7 @@ function scene:show( event )
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
 
-        ground1:show()
-        ground2:show()
-        ground3:show()
+        ground:show()
 
         mainPg:show()
 
