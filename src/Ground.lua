@@ -1,57 +1,59 @@
-function Ground(path, width, height)
-    local ground = {
-        path = path,
-        x = 0,
-        y = 0,
-        width = width,
-        height = height,
-        physic = {
-            type = nil,
-            options = {}
-        }
+-- Ground class is used to create ground objects. A ground object is a sprite with a static physic body. It is useful to create platforms and other ground like object in game
+
+local Ground = {
+    x = 0,
+    y = 0,
+    physic = {
+        type = nil,
+        options = {}
     }
+}
+Ground.__index = Ground
 
-    function ground:setPhysic(type, density, friction, bounce)
-        self.physic.type = type 
-        self.physic.options.density = density
-        self.physic.options.friction = friction
-        self.physic.options.bounce = bounce
-        self.physic.options.box = {
-            halfWidth = self.width / 2,
-            halfHeight = self.height / 2,
-            y = 16,
-            x = 0
-        }
+-- new() function is the Ground class constructor
+-- path = string, full path to the sprite png
+-- width = number, the width of the image
+-- height = number, the height of the image
+function Ground:new(path, width, height)
+    local o = {
+        path = path,
+        width = width,
+        height = height
+    }
+    setmetatable(o, self)
+    self._index = self
+    return o
+end
+
+-- addToCamera() method set the camera display group where the Ground object will be added
+function Ground:addToCamera(camera)
+    self.cameraGroup = camera
+end
+
+-- show() method create a new display object and eventually set the physic and camera group
+function Ground:show()
+    local ground = display.newImageRect(self.path, self.width, self.height)
+    ground.x = self.x
+    ground.y = self.y
+    
+    if self.physic.type ~= nil then
+        physics.addBody(ground, 'static', {
+            density = 0,
+            friction = 0,
+            bounce = 0,
+            box = {
+                halfWidth = self.width / 2,
+                halfHeight = self.height / 2,
+                y = 16,
+                x = 0
+            }
+        })
+
     end
-
-    function ground:setPos(x, y)
-        self.x = x
-        self.y = y
+    
+    if self.cameraGroup then
+        self.cameraGroup:insert(ground)
     end
-
-    function ground:setCamera(camera)
-        self.camera = camera
-    end
-
-    function ground:show(group)
-        local ground = display.newImageRect(self.path, self.width, self.height)
-        ground.x = self.x
-        ground.y = self.y
-
-        if self.physic.type ~= nil then
-            physics.addBody(ground, self.physic.type, self.physic.options)
-        end
-
-        if self.camera then
-            self.camera:insert(ground)
-        end
-
-        if group then
-            table.insert(group, ground)
-        end
-    end
-
-    return ground
 end
 
 return Ground

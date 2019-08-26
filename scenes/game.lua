@@ -47,10 +47,10 @@ function scene:create( event )
     bg3:addLayer('assets/backgrounds/Background2.png', 384, 224)
     bg3:addLayer('assets/backgrounds/Background3.png', 384, 224)
 
-    ground = Ground('assets/ground.png', 384, 64)
+    ground = Ground:new('assets/ground.png', 384, 64)
     -- ground_x_10 = GroundRepeter(ground, 10)
 
-    mainPg = Character()
+    mainPg = Character:new()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
         { name = 'idle', frames = {
             'idle-0',
@@ -78,10 +78,10 @@ function scene:create( event )
         }, time = 800}
     })
 
-    camera = Camera()
-    leftButton = Button()
+    camera = Camera:new()
+    leftButton = Button:new()
     leftButton:setImage("assets/buttons/left.png", 32, 32)
-    rightButton = Button()
+    rightButton = Button:new()
     rightButton:setImage("assets/buttons/right.png", 32, 32)
 end
 

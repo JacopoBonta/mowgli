@@ -4,7 +4,7 @@
 local LayeredBackground = {}
 LayeredBackground.__index = LayeredBackground
 
--- new() function is used as the constructor for a LayeredBackground object
+-- new() method is used as the constructor for a LayeredBackground object
 function LayeredBackground:new()
     return setmetatable({ x = 0, y = 0 }, LayeredBackground)
 end
@@ -22,12 +22,12 @@ function LayeredBackground:addLayer(path, width, height)
     self.layers = images
 end
 
--- addToCamera() function add the display objects created for each image to a display object group. Use this if you have a camera and want the background move accordingly.
+-- addToCamera() method add the display objects created for each image to a display object group. Use this if you have a camera and want the background move accordingly.
 function LayeredBackground:addToCamera(camera)
     self.cameraGroup = camera
 end
 
--- show() function creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
+-- show() method creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
 function LayeredBackground:show()
     for i, v in ipairs(self.layers) do
         local layer = display.newImageRect(v.path, v.width, v.height)
