@@ -1,4 +1,5 @@
--- LayeredBackground permette di creare un backgroun formato da più immagini (layers). I layers vengono stampati uno sopra l'altro.
+-- LayeredBackground permette di creare un background formato da più immagini (layers). I layers vengono stampati uno sopra l'altro.
+
 -- Here we use a table as the namespace of our class
 local LayeredBackground = {}
 LayeredBackground.__index = LayeredBackground
@@ -26,7 +27,7 @@ function LayeredBackground:addToCamera(camera)
     self.cameraGroup = camera
 end
 
--- show() function creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to the display group.
+-- show() function creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
 function LayeredBackground:show()
     for i, v in ipairs(self.layers) do
         local layer = display.newImageRect(v.path, v.width, v.height)
