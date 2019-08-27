@@ -1,30 +1,20 @@
 local Button = require( "src.Button" )
 
--- ButtonText is used to create text which a user can press like a button. It inehrits form the Button class
+-- ButtonImage is used to create images which a user can press like a button. It inehrits form the Button class
 
 -- inherit from Button base class
-local ButtonImage = Button:new({
-    path = "",
-    width = 0,
-    height = 0
-})
+local ButtonText = Button:new({ fontSize = 18 })
 
--- setImage() method is used to set the image of the button
-    -- path = full path of the image
-    -- width = width of the image
-    -- height = height of the image
-function ButtonImage:setImage(path, width, height)
-    self.path = path
-    self.width = width
-    self.height = height
+-- setText() method set the string of text the button will display
+function ButtonText:setText(string)
+    self.text = string
 end
 
--- show() method creates an image rect and register before and after handlers to it to make the image a button.
-function ButtonImage:show()
+-- show() method create a text object and register handlers to it to make the text a button
+function ButtonText:show()
     
-    local button = display.newImageRect(self.image.path, self.image.width, self.image.height)
-    button.x = self.x
-    button.y = self.y
+    local button = display.newText(self.text, self.x, self.y, "assets/fonts/Windlass.ttf", self.fontSize)
+    button:setFillColor( 0.76, 0.77, 0.18 )
     
     button:addEventListener("touch", function(event)
         if event.phase == "began" then
@@ -38,3 +28,5 @@ function ButtonImage:show()
     
     self.displayObject = button
 end
+
+return ButtonText

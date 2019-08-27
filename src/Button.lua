@@ -6,10 +6,6 @@ local Button = {
     displayObject = nil,
     x = display.contentWidth / 2,
     y = display.contentHeight / 2,
-    handlers = {
-        before = function() print('before touch') end,
-        after = function() print('after touch') end
-    }
 }
 
 -- new() the constructor. Return a new instance of the Button class
@@ -22,12 +18,12 @@ end
 
 -- registerBeforeTouchHandler() method register a callback fucntion to call when the button is pressed
 function Button:registerBeforeTouchHandler(cb)
-    self.handlers.before = cb
+    self.beforeCb = cb
 end
 
 -- registerBeforeTouchHandler() method register a callback fucntion to call after the button is pressed
 function Button:registerAfterTouchHandler(cb)
-    self.handlers.after = cb
+    self.afterCb = cb
 end
 
 -- show() method must be implemented from the child classes
