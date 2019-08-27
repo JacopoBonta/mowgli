@@ -2,11 +2,13 @@
 
 -- Here we use a table as the namespace of our class
 local LayeredBackground = {}
-LayeredBackground.__index = LayeredBackground
 
 -- new() method is used as the constructor for a LayeredBackground object
-function LayeredBackground:new()
-    return setmetatable({ x = 0, y = 0 }, LayeredBackground)
+function LayeredBackground:new(o)
+    o = o or { x = 0, y = 0 }
+    setmetatable(o, self)
+    self.__index = self
+    return o
 end
 
 -- addLayer() add a new layer to the background. It takes three arguments, a string that is the path to the actual image and two numbers that are the width and the length of the image
