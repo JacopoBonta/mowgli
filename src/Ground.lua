@@ -35,21 +35,18 @@ function Ground:show()
     local ground = display.newImageRect(self.path, self.width, self.height)
     ground.x = self.x
     ground.y = self.y
-    
-    if self.physic.type ~= nil then
-        physics.addBody(ground, 'static', {
-            density = 0,
-            friction = 0,
-            bounce = 0,
-            box = {
-                halfWidth = self.width / 2,
-                halfHeight = self.height / 2,
-                y = 16,
-                x = 0
-            }
-        })
 
-    end
+    physics.addBody(ground, 'static', {
+        density = 0,
+        friction = 0,
+        bounce = 0,
+        box = {
+            halfWidth = self.width / 2,
+            halfHeight = self.height / 2,
+            y = 16,
+            x = 0
+        }
+    })
     
     if self.cameraGroup then
         self.cameraGroup:insert(ground)
