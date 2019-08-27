@@ -23,12 +23,14 @@ end
 
 -- setDirection() mathod is used to set the direction of the Character object
     -- direction = a string that can be 'right' or 'left' to set the sprite direction
-function Character:setDirection(direction)
+function Character:setDirection(direction, speed)
     if speed > 0 then
         if direction == 'right' then
-            self.displayObject.xScale = -1
-        elseif direction == 'left' then
             self.displayObject.xScale = 1
+            self.speed = speed
+        elseif direction == 'left' then
+            self.displayObject.xScale = -1
+            self.speed = speed * -1
         end
         self.displayObject:setSequence('run')
         self.displayObject:play()
