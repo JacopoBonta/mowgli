@@ -5,7 +5,7 @@ local LayeredBackground = require( "src.LayeredBackground" )
 local Ground = require( "src.Ground" )
 local Character = require( "src.Character" )
 local Camera = require( "src.Camera" )
-local Button = require( "src.Button" )
+local ButtonImage = require( "src.ButtonImage" )
 
 local scene = composer.newScene()
 
@@ -32,23 +32,13 @@ function scene:create( event )
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
     bg = LayeredBackground:new()
-    bg2 = LayeredBackground:new()
-    bg3 = LayeredBackground:new()
+    
     bg:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
     bg:addLayer('assets/backgrounds/Background1.png', 384, 224)
     bg:addLayer('assets/backgrounds/Background2.png', 384, 224)
     bg:addLayer('assets/backgrounds/Background3.png', 384, 224)
-    bg2:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
-    bg2:addLayer('assets/backgrounds/Background1.png', 384, 224)
-    bg2:addLayer('assets/backgrounds/Background2.png', 384, 224)
-    bg2:addLayer('assets/backgrounds/Background3.png', 384, 224)
-    bg3:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
-    bg3:addLayer('assets/backgrounds/Background1.png', 384, 224)
-    bg3:addLayer('assets/backgrounds/Background2.png', 384, 224)
-    bg3:addLayer('assets/backgrounds/Background3.png', 384, 224)
 
     ground = Ground:new('assets/ground.png', 384, 64)
-    -- ground_x_10 = GroundRepeter(ground, 10)
 
     mainPg = Character:new()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
@@ -79,9 +69,11 @@ function scene:create( event )
     })
 
     camera = Camera:new()
-    leftButton = Button:new()
+
+    leftButton = ButtonImage:new()
     leftButton:setImage("assets/buttons/left.png", 32, 32)
-    rightButton = Button:new()
+
+    rightButton = ButtonImage:new()
     rightButton:setImage("assets/buttons/right.png", 32, 32)
 end
 
@@ -101,40 +93,35 @@ function scene:show( event )
 
         bg.x = display.contentCenterX
         bg.y = display.contentCenterY
-        bg2.x = display.contentCenterX * 3
-        bg2.y = display.contentCenterY
-        bg3.x = display.contentCenterX * 5
-        bg3.y = display.contentCenterY
 
         bg:addToCamera(camera.displayObjects)
-        bg2:addToCamera(camera.displayObjects)
-        bg3:addToCamera(camera.displayObjects)
 
-        ground:setPos(display.contentCenterX, display.contentHeight - 16)
-        ground:setPhysic('static')
-        ground:setCamera(camera.displayObjects)
+        ground.x = display.contentCenterX
+        ground.y = display.contentHeight - 16
+        ground:addToCamera(camera.displayObjects)
         
-        mainPg:setPos(display.contentCenterX / 2, 160)
+        mainPg.x = display.contentCenterX / 2
+        mainPg.y = 160
         mainPg:setPhysic('dynamic')
         mainPg:setCamera(camera.displayObjects)
 
-        leftButton:setPos(32, 192)
+        leftButton.x = 32
+        leftButton.y = 192
         leftButton:registerBeforeTouchHandler(function()
-            mainPg:setDirection('right', pgSpeed)
+            mainPg:setDirection('left', pgSpeed)
         end)
         leftButton:registerAfterTouchHandler(function()
             mainPg:stand()
         end)
 
-        rightButton:setPos(352, 192)
+        rightButton.x = 352
+        rightButton.y = 192
         rightButton:registerBeforeTouchHandler(function()
-            mainPg:setDirection('left', pgSpeed)
+            mainPg:setDirection('right', pgSpeed)
         end)
         rightButton:registerAfterTouchHandler(function()
             mainPg:stand()
         end)
-
-        camera:setPos(0,0)
 
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -146,8 +133,6 @@ function scene:show( event )
         sceneGroup:insert(camera.displayObjects)
 
         bg:show()
-        bg2:show()
-        bg3:show()
 
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
