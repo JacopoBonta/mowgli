@@ -12,10 +12,6 @@ function Camera:new(o)
     o = o or {}
     setmetatable(o, self)
     self.__index = self
-    
-    self.displayObjects.x = 0
-    self.displayObjects.y = 0
-
     return o
 end
 
