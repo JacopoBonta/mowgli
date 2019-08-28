@@ -56,20 +56,9 @@ end
         -- name: string, the name of the animation
         -- frames: an ordered table of strings where each string correspond to an animation's frame
         -- time: number, the duration in milliseconds of the animation
-function Character:setSprite(infoPath, sheetPath, sequenceData)
+function Character:setSprite(infoPath, sheetPath)
     self.sprite.info = require(infoPath)
     self.sprite.sheetPath = sheetPath
-    
-    -- substitute frame keys with corresponding frame index
-    for i, seq in ipairs(sequenceData) do
-        local frames = {}
-        for i, v in ipairs(seq.frames) do
-            table.insert(frames, i, self.sprite.info:getFrameIndex(v))
-        end
-        seq.frames = frames
-    end
-    
-    self.sprite.sequenceData = sequenceData
 end
 
 -- setCamera() method is used if you want to add the Character object to the camera. When the show() method is called and the camera property was set then the Character object is added to the camera display group
@@ -81,7 +70,7 @@ end
 function Character:show()
     local sheet = graphics.newImageSheet(self.sprite.sheetPath, self.sprite.info:getSheet())
 
-    local chSprite = display.newSprite(sheet, self.sprite.sequenceData)
+    local chSprite = display.newSprite(sheet, self.sprite.info:getSequenceData(800))
     chSprite.x = self.x
     chSprite.y = self.y
     chSprite.isFixedRotation = true

@@ -41,32 +41,7 @@ function scene:create( event )
     ground = Ground:new('assets/ground.png', 384, 64)
 
     mainPg = Character:new()
-    mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png", {
-        { name = 'idle', frames = {
-            'idle-0',
-            'idle-1',
-            'idle-2',
-            'idle-3',
-            'idle-4',
-            'idle-5',
-            'idle-6',
-            'idle-7',
-            'idle-8',
-            'idle-9',
-            'idle-10',
-            'idle-11'
-        }, time = 800},
-        { name = 'run', frames = {
-            'run-0',
-            'run-1',
-            'run-2',
-            'run-3',
-            'run-4',
-            'run-5',
-            'run-6',
-            'run-7'
-        }, time = 800}
-    })
+    mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
 
     camera = Camera:new()
 
