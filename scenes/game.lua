@@ -6,7 +6,7 @@ local Ground = require( "src.Ground" )
 local Character = require( "src.Character" )
 local Camera = require( "src.Camera" )
 local ButtonImage = require( "src.ButtonImage" )
-
+local Queue = require( "src.Queue" )
 local scene = composer.newScene()
 
 local bg, ground, mainPg, camera
@@ -16,8 +16,6 @@ local leftButton, rightButton
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-
-
 
 
 -- -----------------------------------------------------------------------------------
@@ -44,6 +42,10 @@ function scene:create( event )
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
 
     camera = Camera:new()
+    ground:addToCamera(camera.displayObjects)
+    bg:addToCamera(camera.displayObjects)
+    mainPg:addToCamera(camera.displayObjects)
+
 
     leftButton = ButtonImage:new()
     leftButton:setImage("assets/buttons/left.png", 32, 32)
@@ -62,6 +64,7 @@ function scene:show( event )
     local pgSpeed = 2
     local cameraSpeed = 2
 
+
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
@@ -69,16 +72,12 @@ function scene:show( event )
         bg.x = display.contentCenterX
         bg.y = display.contentCenterY
 
-        bg:addToCamera(camera.displayObjects)
-
         ground.x = display.contentCenterX
         ground.y = display.contentHeight - 16
-        ground:addToCamera(camera.displayObjects)
         
         mainPg.x = display.contentCenterX / 2
         mainPg.y = 160
         mainPg:setPhysic('dynamic')
-        mainPg:setCamera(camera.displayObjects)
 
         leftButton.x = 32
         leftButton.y = 192
@@ -108,24 +107,24 @@ function scene:show( event )
         sceneGroup:insert(camera.displayObjects)
 
         bg:show()
-
+        ground:show()
+        mainPg:show()
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
 
-        ground:show()
-
-        mainPg:show()
-
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
+                -- update player position
                 mainPg:updatePosition()
-            end
 
-            -- update camera
-            if mainPg.displayObject.x >= camera.borderRight - 80 then
-                camera:moveForward(cameraSpeed)
-            elseif mainPg.displayObject.x <= camera.borderLeft + 80 then
-                camera:moveBackward(cameraSpeed)
+                -- update camera position if player have almost reach the end
+                if mainPg.displayObject.x >= camera.borderRight - 80 then
+                    camera:moveForward(cameraSpeed)
+                elseif mainPg.displayObject.x <= camera.borderLeft + 80 then
+                    camera:moveBackward(cameraSpeed)
+                end
+            else
+                print('game over')
             end
         end)
     end
