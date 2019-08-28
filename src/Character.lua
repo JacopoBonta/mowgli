@@ -61,8 +61,8 @@ function Character:setSprite(infoPath, sheetPath)
     self.sprite.sheetPath = sheetPath
 end
 
--- setCamera() method is used if you want to add the Character object to the camera. When the show() method is called and the camera property was set then the Character object is added to the camera display group
-function Character:setCamera(camera)
+-- addToCamera() method is used if you want to add the Character object to the camera. When the show() method is called and the camera property was set then the Character object is added to the camera display group
+function Character:addToCamera(camera)
     self.camera = camera
 end
 
