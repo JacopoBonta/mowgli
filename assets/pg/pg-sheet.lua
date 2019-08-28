@@ -355,12 +355,54 @@ SheetInfo.frameIndex =
     ["run-7"] = 30,
 }
 
+SheetInfo.sequence =
+{
+    ["idle"] = {
+        name = "idle",
+        frames = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+    },
+    ["jump"] = {
+        name = "jump",
+        frames = { 13 }
+    },
+    ["landing"] = {
+        name = "landing",
+        frames = { 14 }
+    },
+    ["grab"] = {
+        name = "grab",
+        frames = { 15, 16, 17, 19, 19, 20 }
+    },
+    ["run"] = {
+        name = "run",
+        frames = { 23, 24, 25, 26, 27, 28, 29, 30 }
+    }
+}
+
 function SheetInfo:getSheet()
     return self.sheet;
 end
 
 function SheetInfo:getFrameIndex(name)
     return self.frameIndex[name];
+end
+
+function SheetInfo:getSingleAnimation(name, time)
+    local sequence = self.sequence[name]
+    sequence.time = time
+    return sequence;
+end
+
+function SheetInfo:getSequenceData(time)
+
+    local sequences = {}
+
+    for name, seq in pairs(self.sequence) do
+        seq.time = time
+        table.insert(sequences, seq)
+    end
+
+    return sequences
 end
 
 return SheetInfo
