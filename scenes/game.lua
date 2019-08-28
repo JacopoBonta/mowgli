@@ -9,14 +9,17 @@ local ButtonImage = require( "src.ButtonImage" )
 local Queue = require( "src.Queue" )
 local scene = composer.newScene()
 
-local bg, ground, mainPg, camera
+local bg, mainPg, camera
 local leftButton, rightButton
+
+local currentGround, nextGround
+local groundQueue = Queue:new()
+local bgQueue = Queue:new()
 
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -31,27 +34,32 @@ function scene:create( event )
 
     bg = LayeredBackground:new()
     
-    bg:addLayer('assets/backgrounds/Nuvens.png', 384, 224)
-    bg:addLayer('assets/backgrounds/Background1.png', 384, 224)
-    bg:addLayer('assets/backgrounds/Background2.png', 384, 224)
-    bg:addLayer('assets/backgrounds/Background3.png', 384, 224)
+    bg:addLayer('assets/backgrounds/Nuvens.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/Background1.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/Background2.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/Background3.png', display.contentWidth, display.contentHeight)
 
-    ground = Ground:new('assets/ground.png', 384, 64)
+    firstGround = Ground:new('assets/ground.png', display.contentWidth, 70)
+    secondGround = Ground:new('assets/ground.png', display.contentWidth, 70)
 
     mainPg = Character:new()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
 
     camera = Camera:new()
-    ground:addToCamera(camera.displayObjects)
     bg:addToCamera(camera.displayObjects)
+    firstGround:addToCamera(camera.displayObjects)
+    secondGround:addToCamera(camera.displayObjects)
     mainPg:addToCamera(camera.displayObjects)
-
+    
+    groundQueue:push(firstGround)
+    groundQueue:push(secondGround)
 
     leftButton = ButtonImage:new()
     leftButton:setImage("assets/buttons/left.png", 32, 32)
 
     rightButton = ButtonImage:new()
     rightButton:setImage("assets/buttons/right.png", 32, 32)
+
 end
 
 
@@ -64,6 +72,9 @@ function scene:show( event )
     local pgSpeed = 2
     local cameraSpeed = 2
 
+    currentGround = firstGround
+    nextGround = secondGround
+
 
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
@@ -72,15 +83,17 @@ function scene:show( event )
         bg.x = display.contentCenterX
         bg.y = display.contentCenterY
 
-        ground.x = display.contentCenterX
-        ground.y = display.contentHeight - 16
+        currentGround.x = display.contentCenterX
+        currentGround.y = display.contentHeight - 16
+        nextGround.x = display.contentCenterX * 3
+        nextGround.y = display.contentHeight - 16
         
-        mainPg.x = display.contentCenterX / 2
+        mainPg.x = display.contentCenterX
         mainPg.y = 160
         mainPg:setPhysic('dynamic')
 
-        leftButton.x = 32
-        leftButton.y = 192
+        leftButton.x = 60
+        leftButton.y = display.contentHeight - 40
         leftButton:registerBeforeTouchHandler(function()
             mainPg:setDirection('left', pgSpeed)
         end)
@@ -88,8 +101,8 @@ function scene:show( event )
             mainPg:stand()
         end)
 
-        rightButton.x = 352
-        rightButton.y = 192
+        rightButton.x = display.contentWidth - 60
+        rightButton.y = display.contentHeight - 40
         rightButton:registerBeforeTouchHandler(function()
             mainPg:setDirection('right', pgSpeed)
         end)
@@ -102,12 +115,15 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
 
         physics.start()
-        physics.setDrawMode( "hybrid" )
+        -- physics.setDrawMode( "hybrid" )
 
         sceneGroup:insert(camera.displayObjects)
 
         bg:show()
-        ground:show()
+
+        currentGround:show()
+        nextGround:show()
+        
         mainPg:show()
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
@@ -118,9 +134,9 @@ function scene:show( event )
                 mainPg:updatePosition()
 
                 -- update camera position if player have almost reach the end
-                if mainPg.displayObject.x >= camera.borderRight - 80 then
+                if mainPg.displayObject.x > camera.borderRight then
                     camera:moveForward(cameraSpeed)
-                elseif mainPg.displayObject.x <= camera.borderLeft + 80 then
+                elseif mainPg.displayObject.x < camera.borderLeft then
                     camera:moveBackward(cameraSpeed)
                 end
             else
