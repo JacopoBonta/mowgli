@@ -24,8 +24,13 @@ function Button:registerAfterTouchHandler(cb)
     self.afterCb = cb
 end
 
--- show() method must be implemented from the child classes
+-- show() abstract method must be implemented from the child classes
 function Button:show()
+    error("method not implemented")
+end
+
+-- delete() asbtrace method must be implemented in to child classes
+function Button:delete()
     error("method not implemented")
 end
 
