@@ -11,8 +11,6 @@ local scene = composer.newScene()
 local bg, mainPg, camera
 local leftButton, rightButton
 
-local currentGround, nextGround
-
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
@@ -143,7 +141,7 @@ function scene:show( event )
                     nextGround.y = currentGround.y
                     nextGround.x = currentGround.x + currentGround.width
                     nextGround:addToCamera(camera.displayObjects)
-                    print('deleted off screen ground and create new one')
+                    print('deleted off screen ground and created new one')
                 end
 
                 -- update camera position if player have almost reach the end
