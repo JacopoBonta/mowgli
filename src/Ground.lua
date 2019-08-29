@@ -1,5 +1,4 @@
 -- Ground class is used to create ground objects. A ground object is a sprite with a static physic body. It is useful to create platforms and other ground like object in game
-
 local Ground = {}
 
 -- new() function is the Ground class constructor

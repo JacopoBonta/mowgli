@@ -1,7 +1,6 @@
 local Button = require( "src.Button" )
 
 -- ButtonText is used to create text which a user can press like a button. It inehrits form the Button class
-
 local ButtonImage = Button:new()
 
 -- setImage() method is used to set the image of the button

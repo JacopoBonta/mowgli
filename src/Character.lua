@@ -1,28 +1,28 @@
 -- Character class creates character objects. A Character object has methods to load a sprite and animatios, to move the sprite and play defined animatios. One can use the Character class for creating the main character moved by the user also for creating enemies bot.
 
 -- declare common properties to all Character objects
-local Character = {
-    x = 0,
-    y = 0,
-    physic = {
-        type = nil,
-        options = {}
-    },
-    pv = 1,
-    speed = 0,
-    sprite = { }
-}
+local Character = {}
 
 -- new() is the constructor of the Character class. It creates a new Character object instance
 function Character:new(o)
-    o = o or {}
+    o = o or {
+        x = 0,
+        y = 0,
+        physic = {
+            type = nil,
+            options = {}
+        },
+        pv = 1,
+        speed = 0,
+        sprite = { }
+    }
     setmetatable(o, self)
     self.__index = self
     return o
 end
 
 -- setDirection() mathod is used to set the direction of the Character object
-    -- direction = a string that can be 'right' or 'left' to set the sprite direction
+-- direction = a string that can be 'right' or 'left' to set the sprite direction
 function Character:setDirection(direction, speed)
     if speed > 0 then
         if direction == 'right' then
@@ -38,10 +38,10 @@ function Character:setDirection(direction, speed)
 end
 
 -- setPhysic() method add physic properties to the Character object. If they were set when show() method is called a physic body is added to the sprite.
-    -- type = string, type of the physic body
-    -- density = number, density of the physic body
-    -- friction = number, friction of the physic body
-    -- bounce = number, the bounciness of the physic body
+-- type = string, type of the physic body
+-- density = number, density of the physic body
+-- friction = number, friction of the physic body
+-- bounce = number, the bounciness of the physic body
 function Character:setPhysic(type, density, friction, bounce)
     self.physic.type = type 
     self.physic.options.density = density
@@ -50,12 +50,12 @@ function Character:setPhysic(type, density, friction, bounce)
 end
 
 -- setSprite() method set the sprite and animations sequences.
-    -- infoPath = string, a full path to the lua file describing the sprite sheet (generated using TexturePacker)
-    -- sheetPath = string, full path to the png sheet of the sprite (generated using TexturePacker)
-    -- sequenceData = a table containing tables describing sequences. Each sequence table must have three properties:
-        -- name: string, the name of the animation
-        -- frames: an ordered table of strings where each string correspond to an animation's frame
-        -- time: number, the duration in milliseconds of the animation
+-- infoPath = string, a full path to the lua file describing the sprite sheet (generated using TexturePacker)
+-- sheetPath = string, full path to the png sheet of the sprite (generated using TexturePacker)
+-- sequenceData = a table containing tables describing sequences. Each sequence table must have three properties:
+-- name: string, the name of the animation
+-- frames: an ordered table of strings where each string correspond to an animation's frame
+-- time: number, the duration in milliseconds of the animation
 function Character:setSprite(infoPath, sheetPath)
     self.sprite.info = require(infoPath)
     self.sprite.sheetPath = sheetPath
@@ -69,7 +69,7 @@ end
 -- show() method creates the sprite object and corresponding animations. Then if physic properties was set through the setPhysic() method, add a physic body to the sprite. Also add the sprite to the camera display group if it was previously set.
 function Character:show()
     local sheet = graphics.newImageSheet(self.sprite.sheetPath, self.sprite.info:getSheet())
-
+    
     local chSprite = display.newSprite(sheet, self.sprite.info:getSequenceData(800))
     chSprite.x = self.x
     chSprite.y = self.y
