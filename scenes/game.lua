@@ -6,15 +6,12 @@ local Ground = require( "src.Ground" )
 local Character = require( "src.Character" )
 local Camera = require( "src.Camera" )
 local ButtonImage = require( "src.ButtonImage" )
-local Queue = require( "src.Queue" )
 local scene = composer.newScene()
 
 local bg, mainPg, camera
 local leftButton, rightButton
 
 local currentGround, nextGround
-local groundQueue = Queue:new()
-local bgQueue = Queue:new()
 
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
