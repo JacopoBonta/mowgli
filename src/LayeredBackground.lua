@@ -31,15 +31,26 @@ end
 
 -- show() method creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
 function LayeredBackground:show()
-    for i, v in ipairs(self.layers) do
-        local layer = display.newImageRect(v.path, v.width, v.height)
-        layer.x = self.x
-        layer.y = self.y
+    local rects = self.rects or {}
+    for _, v in pairs(self.layers) do
+        local rect = display.newImageRect(v.path, v.width, v.height)
+        rect.x = self.x
+        rect.y = self.y
+
+        table.insert(rects, rect)
 
         if self.cameraGroup then
-            self.cameraGroup:insert(layer)
+            self.cameraGroup:insert(rect)
         end
     end
+    self.rects = rects
+end
+
+function LayeredBackground:delete()
+    for _, v in pairs(self.rects) do
+        display.removeObjec(v)
+    end
+    self = nil
 end
 
 return LayeredBackground

@@ -55,7 +55,7 @@ end
 
 -- delete() method remove the ground object
 function Ground:delete()
-    self.imgRect:removeSelf()
+    display.removeObject(self.imgRect)
     self = nil
 end
 
