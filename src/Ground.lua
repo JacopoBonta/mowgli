@@ -1,14 +1,6 @@
 -- Ground class is used to create ground objects. A ground object is a sprite with a static physic body. It is useful to create platforms and other ground like object in game
 
-local Ground = {
-    x = 0,
-    y = 0,
-    physic = {
-        type = nil,
-        options = {}
-    }
-}
-Ground.__index = Ground
+local Ground = {}
 
 -- new() function is the Ground class constructor
 -- path = string, full path to the sprite png
@@ -16,12 +8,19 @@ Ground.__index = Ground
 -- height = number, the height of the image
 function Ground:new(path, width, height)
     local o = {
+        x = 0,
+        y = 0,
+        physic = {
+            type = nil,
+            options = {}
+        },
         path = path,
         width = width,
-        height = height
+        height = height,
+        isShow = false
     }
     setmetatable(o, self)
-    self._index = self
+    self.__index = self
     return o
 end
 
@@ -32,11 +31,11 @@ end
 
 -- show() method create a new display object and eventually set the physic and camera group
 function Ground:show()
-    local ground = display.newImageRect(self.path, self.width, self.height)
-    ground.x = self.x
-    ground.y = self.y
+    self.imgRect = display.newImageRect(self.path, self.width, self.height)
+    self.imgRect.x = self.x
+    self.imgRect.y = self.y
 
-    physics.addBody(ground, 'static', {
+    physics.addBody(self.imgRect, 'static', {
         density = 0,
         friction = 0,
         bounce = 0,
@@ -49,8 +48,14 @@ function Ground:show()
     })
     
     if self.cameraGroup then
-        self.cameraGroup:insert(ground)
+        self.cameraGroup:insert(self.imgRect)
     end
+
+    self.isShow = true
+end
+
+function Ground:delete()
+    self.imgRect:removeSelf()
 end
 
 return Ground
