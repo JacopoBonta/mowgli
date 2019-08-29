@@ -1,22 +1,26 @@
+-- ButtonText creates buttons that disply a text string instead of an image rect.
 local Button = require( "src.Button" )
 
--- ButtonImage is used to create images which a user can press like a button. It inehrits form the Button class
+-- inherit from Button base class and set default properties for font size and dummy text
+local ButtonText = Button:new({ text = "dummy text", fontSize = 18 })
 
--- inherit from Button base class
-local ButtonText = Button:new({ fontSize = 18 })
-
--- setText() method set the string of text the button will display
-function ButtonText:setText(string)
-    self.text = string
+-- setFont() method set the font and properties
+    -- path = absolut path of a tff font file
+    -- size = size of the font
+    -- fillColor = a table with 3 numeric values used by setFillColor()
+function ButtonText:setFont(path, size, fillColor)
+    self.path = path
+    self.fontSize = size
+    self.fillColor = fillColor
 end
 
 -- show() method create a text object and register handlers to it to make the text a button
 function ButtonText:show()
     
-    local button = display.newText(self.text, self.x, self.y, "assets/fonts/Windlass.ttf", self.fontSize)
-    button:setFillColor( 0.76, 0.77, 0.18 )
+    self.textRect = display.newText(self.text, self.x, self.y, self.path, self.fontSize)
+    button:setFillColor( self.fillColor[1], self.fillColor[2], self.fillColor[3] )
     
-    button:addEventListener("touch", function(event)
+    self.textRect:addEventListener("touch", function(event)
         if event.phase == "began" then
             display.getCurrentStage():setFocus( event.target )
             self.handlers.before()
@@ -25,8 +29,12 @@ function ButtonText:show()
             display.getCurrentStage():setFocus( nil )
         end
     end)
-    
-    self.displayObject = button
+end
+
+-- delete() must be implemented in to child classes
+function Button:delete()
+    self.textRect:removeEventListener("touch", nil) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
+    display.removeObject(self.textRect)
 end
 
 return ButtonText
