@@ -7,8 +7,8 @@ local Button = {
 }
 
 -- new() method constructor. Create a Button object.
-function Button:new()
-    local o = {} -- the new object
+function Button:new(o)
+    o = o or {} -- the new object - user can pass an already defined table to add other properties to the object itself at creation time
     setmetatable(o, self) -- here we set the Button table as the metatable of our new object 'o'
     self.__index = self -- here we tell lua to look up at the Button table when accessing fields not present in 'o' - setting the Button table as the prototype of 'o'
     return o
