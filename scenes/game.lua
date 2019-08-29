@@ -50,9 +50,7 @@ function scene:create( event )
     firstGround:addToCamera(camera.displayObjects)
     secondGround:addToCamera(camera.displayObjects)
     mainPg:addToCamera(camera.displayObjects)
-    
-    groundQueue:push(firstGround)
-    groundQueue:push(secondGround)
+
 
     leftButton = ButtonImage:new()
     leftButton:setImage("assets/buttons/left.png", 32, 32)
@@ -72,10 +70,6 @@ function scene:show( event )
     local pgSpeed = 2
     local cameraSpeed = 2
 
-    currentGround = firstGround
-    nextGround = secondGround
-
-
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
@@ -83,12 +77,13 @@ function scene:show( event )
         bg.x = display.contentCenterX
         bg.y = display.contentCenterY
 
-        currentGround.x = display.contentCenterX
-        currentGround.y = display.contentHeight - 16
-        nextGround.x = display.contentCenterX * 3
-        nextGround.y = display.contentHeight - 16
+        -- position the current ground and the next ground
+        firstGround.x = display.contentCenterX
+        firstGround.y = display.contentHeight - 16
+        secondGround.x = firstGround.x + firstGround.width
+        secondGround.y = firstGround.y
         
-        mainPg.x = display.contentCenterX
+        mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
         mainPg:setPhysic('dynamic')
 
@@ -120,23 +115,44 @@ function scene:show( event )
         sceneGroup:insert(camera.displayObjects)
 
         bg:show()
-
-        currentGround:show()
-        nextGround:show()
         
         mainPg:show()
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
+
+        firstGround:show()
+
+        local currentGround = firstGround
+        local nextGround = secondGround
+
+        mainPg:setDirection('right', pgSpeed)
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
                 -- update player position
                 mainPg:updatePosition()
 
+                -- print the next ground when the character reach half of the camera viewport
+                if (mainPg.displayObject.x >= camera.borderRight / 2) and nextGround.isShow == false then
+                    print('load next ground')
+                    nextGround:show()
+                end
+
+                -- if the ground disapper from the screen to the left, assign the next ground to the current one and generate a new ground as the next ground
+                if (currentGround.x + currentGround.width / 2) < camera.borderLeft then
+                    currentGround:delete()
+                    currentGround = nextGround
+                    nextGround = Ground:new('assets/ground.png', display.contentWidth, 70)
+                    nextGround.y = currentGround.y
+                    nextGround.x = currentGround.x + currentGround.width
+                    nextGround:addToCamera(camera.displayObjects)
+                    print('deleted off screen ground and create new one')
+                end
+
                 -- update camera position if player have almost reach the end
-                if mainPg.displayObject.x > camera.borderRight then
+                if mainPg.displayObject.x > camera.borderRight - 80 then
                     camera:moveForward(cameraSpeed)
-                elseif mainPg.displayObject.x < camera.borderLeft then
+                elseif mainPg.displayObject.x < camera.borderLeft + 80 then
                     camera:moveBackward(cameraSpeed)
                 end
             else
