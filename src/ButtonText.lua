@@ -32,9 +32,10 @@ function ButtonText:show()
 end
 
 -- delete() must be implemented in to child classes
-function Button:delete()
+function ButtonText:delete()
     self.textRect:removeEventListener("touch", nil) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
     display.removeObject(self.textRect)
+    self = nil
 end
 
 return ButtonText
