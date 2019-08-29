@@ -10,7 +10,7 @@ local Character = {
     },
     pv = 1,
     speed = 0,
-    sprite = { }
+    spriteOptions = { }
 }
 
 -- new() is the constructor of the Character class. It creates a new Character object instance
@@ -27,10 +27,10 @@ end
 function Character:setDirection(direction, speed)
     if speed > 0 then
         if direction == 'right' then
-            self.displayObject.xScale = 1
+            self.sprite.xScale = 1
             self.speed = speed
         elseif direction == 'left' then
-            self.displayObject.xScale = -1
+            self.sprite.xScale = -1
             self.speed = speed * -1
         end
         self.sprite:setSequence('run')
@@ -67,7 +67,7 @@ end
 function Character:show()
     self.sheet = graphics.newImageSheet(self.spriteOptions.sheetPath, self.spriteOptions.info:getSheet())
     
-    self.sprite = display.newSprite(sheet, self.spriteOptions.info:getSequenceData(800))
+    self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(800))
     self.sprite.x = self.x
     self.sprite.y = self.y
     self.sprite.isFixedRotation = true
@@ -97,7 +97,7 @@ end
 
 -- delete() method deletes the sprite and character object
 function Character:delete()
-    display.removeObject(self.sprite)
+    display.remove(self.sprite)
     self = nil
 end
 

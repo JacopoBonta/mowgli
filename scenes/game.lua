@@ -130,7 +130,7 @@ function scene:show( event )
                 mainPg:updatePosition()
 
                 -- print the next ground when the character reach half of the camera viewport
-                if (mainPg.displayObject.x >= camera.borderRight / 2) and nextGround.isShow == false then
+                if (mainPg.sprite.x >= camera.borderRight / 2) and nextGround.isShow == false then
                     print('load next ground')
                     nextGround:show()
                 end
@@ -147,9 +147,9 @@ function scene:show( event )
                 end
 
                 -- update camera position if player have almost reach the end
-                if mainPg.displayObject.x > camera.borderRight - 80 then
+                if mainPg.sprite.x > camera.borderRight - 80 then
                     camera:moveForward(cameraSpeed)
-                elseif mainPg.displayObject.x < camera.borderLeft + 80 then
+                elseif mainPg.sprite.x < camera.borderLeft + 80 then
                     camera:moveBackward(cameraSpeed)
                 end
             else

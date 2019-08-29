@@ -35,7 +35,7 @@ end
 -- delete() must be implemented in to child classes
 function ButtonImage:delete()
     self.imgRect:removeEventListener("touch", nil) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
-    display.removeObject(self.imgRect)
+    display.remove(self.imgRect)
     self = nil
 end
 
