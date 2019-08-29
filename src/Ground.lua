@@ -53,8 +53,10 @@ function Ground:show()
     self.isShow = true
 end
 
+-- delete() method remove the ground object
 function Ground:delete()
     self.imgRect:removeSelf()
+    self = nil
 end
 
 return Ground
