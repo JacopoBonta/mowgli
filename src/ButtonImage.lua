@@ -1,6 +1,7 @@
+-- ButtonImage is a special kind of button that display a touchable image rect.
 local Button = require( "src.Button" )
 
--- ButtonText is used to create text which a user can press like a button. It inehrits form the Button class
+-- To inherit from the base class Button we first create a new Button instance. This will act as the prototype of our ButtonImage objects.
 local ButtonImage = Button:new()
 
 -- setImage() method is used to set the image of the button
@@ -16,11 +17,11 @@ end
 -- show() method creates an image rect and register before and after handlers to it to make the image a button.
 function ButtonImage:show()
     
-    local button = display.newImageRect(self.path, self.width, self.height)
-    button.x = self.x
-    button.y = self.y
+    self.imgRect = display.newImageRect(self.path, self.width, self.height)
+    self.imgRect.x = self.x
+    self.imgRect.y = self.y
     
-    button:addEventListener("touch", function(event)
+    self.imgRect:addEventListener("touch", function(event)
         if event.phase == "began" then
             display.getCurrentStage():setFocus( event.target )
             self.beforeCb()
@@ -29,8 +30,6 @@ function ButtonImage:show()
             display.getCurrentStage():setFocus( nil )
         end
     end)
-    
-    self.displayObject = button
 end
 
 return ButtonImage
