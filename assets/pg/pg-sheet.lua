@@ -1,7 +1,7 @@
 --
 -- created with TexturePacker - https://www.codeandweb.com/texturepacker
 --
--- $TexturePacker:SmartUpdate:e77831c6742fbe35ae1c71588d74bf4c:b6242d2ccaf387cbe108d91f515109df:ac1b5630a6e92804dff1c4f3ce3fde82$
+-- $TexturePacker:SmartUpdate:497ad7f5737187b4192d7a73cb0e595e:0c8e4258a19f231d71ef6beb7db6ef4c:afb3505f45e3c777cec8e9a035c60324$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -13,369 +13,282 @@ local SheetInfo = {}
 SheetInfo.sheet =
 {
     frames = {
-    
+
         {
-            -- idle-0
-            x=23,
-            y=33,
+            -- mowgli_sheet_11
+            x=1,
+            y=74,
             width=21,
-            height=36,
+            height=49,
 
         },
         {
-            -- idle-1
-            x=0,
-            y=35,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-2
-            x=21,
-            y=69,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-3
+            -- mowgli_sheet_12
             x=42,
-            y=100,
+            y=1,
+            width=30,
+            height=30,
+
+        },
+        {
+            -- mowgli_sheet_13
+            x=22,
+            y=223,
             width=21,
-            height=36,
+            height=65,
 
         },
         {
-            -- idle-4
-            x=0,
-            y=71,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-5
-            x=21,
-            y=105,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-6
-            x=42,
-            y=136,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-7
-            x=0,
-            y=107,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-8
-            x=21,
-            y=141,
-            width=21,
-            height=36,
-
-        },
-        {
-            -- idle-9
-            x=21,
-            y=177,
-            width=21,
-            height=34,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 21,
-            sourceHeight = 36
-        },
-        {
-            -- idle-10
-            x=0,
-            y=143,
-            width=21,
-            height=34,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 21,
-            sourceHeight = 36
-        },
-        {
-            -- idle-11
-            x=0,
-            y=177,
-            width=21,
-            height=34,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 21,
-            sourceHeight = 36
-        },
-        {
-            -- jump
-            x=46,
-            y=0,
-            width=17,
-            height=34,
-
-        },
-        {
-            -- landing
-            x=0,
-            y=282,
-            width=20,
-            height=35,
-
-        },
-        {
-            -- ledge-grab-0
-            x=0,
-            y=244,
-            width=20,
-            height=38,
-
-            sourceX = 0,
-            sourceY = 0,
-            sourceWidth = 20,
-            sourceHeight = 40
-        },
-        {
-            -- ledge-grab-1
-            x=42,
-            y=240,
-            width=20,
-            height=40,
-
-        },
-        {
-            -- ledge-grab-2
-            x=20,
-            y=244,
-            width=20,
-            height=38,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 20,
-            sourceHeight = 40
-        },
-        {
-            -- ledge-grab-3
-            x=40,
-            y=280,
-            width=20,
-            height=38,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 20,
-            sourceHeight = 40
-        },
-        {
-            -- ledge-grab-4
-            x=0,
-            y=318,
-            width=20,
-            height=38,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 20,
-            sourceHeight = 40
-        },
-        {
-            -- ledge-grab-5
-            x=20,
-            y=318,
-            width=20,
-            height=38,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 20,
-            sourceHeight = 40
-        },
-        {
-            -- mid-air-0
-            x=20,
-            y=282,
-            width=20,
-            height=35,
-
-        },
-        {
-            -- mid-air-1
-            x=40,
-            y=318,
-            width=20,
-            height=35,
-
-        },
-        {
-            -- run-0
-            x=0,
-            y=0,
-            width=23,
-            height=35,
-
-        },
-        {
-            -- run-1
-            x=42,
-            y=207,
-            width=21,
-            height=33,
-
-            sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 23,
-            sourceHeight = 35
-        },
-        {
-            -- run-2
-            x=44,
-            y=67,
-            width=17,
-            height=33,
-
-            sourceX = 2,
-            sourceY = 2,
-            sourceWidth = 23,
-            sourceHeight = 35
-        },
-        {
-            -- run-3
-            x=0,
-            y=211,
-            width=21,
-            height=33,
-
-            sourceX = 0,
-            sourceY = 0,
-            sourceWidth = 23,
-            sourceHeight = 35
-        },
-        {
-            -- run-4
-            x=42,
-            y=172,
-            width=21,
-            height=35,
-
-            sourceX = 1,
-            sourceY = 0,
-            sourceWidth = 23,
-            sourceHeight = 35
-        },
-        {
-            -- run-5
-            x=44,
-            y=34,
+            -- mowgli_sheet_14
+            x=1,
+            y=222,
             width=19,
-            height=33,
+            height=64,
 
-            sourceX = 1,
-            sourceY = 1,
-            sourceWidth = 23,
-            sourceHeight = 35
         },
         {
-            -- run-6
-            x=21,
-            y=211,
+            -- mowgli_sheet_15
+            x=85,
+            y=175,
+            width=38,
+            height=49,
+
+        },
+        {
+            -- mowgli_sheet_16
+            x=74,
+            y=1,
+            width=45,
+            height=33,
+
+        },
+        {
+            -- mowgli_sheet_19
+            x=1,
+            y=1,
+            width=39,
+            height=27,
+
+        },
+        {
+            -- mowgli_sheet_20
+            x=42,
+            y=1,
+            width=30,
+            height=30,
+
+        },
+        {
+            -- mowgli_sheet_145
+            x=44,
+            y=127,
+            width=34,
+            height=46,
+
+        },
+        {
+            -- mowgli_sheet_146
+            x=1,
+            y=30,
+            width=24,
+            height=42,
+
+        },
+        {
+            -- mowgli_sheet_147
+            x=80,
+            y=81,
+            width=39,
+            height=45,
+
+        },
+        {
+            -- mowgli_sheet_148
+            x=51,
+            y=36,
+            width=56,
+            height=43,
+
+        },
+        {
+            -- mowgli_sheet_149
+            x=36,
+            y=175,
+            width=47,
+            height=46,
+
+        },
+        {
+            -- mowgli_sheet_150
+            x=1,
+            y=174,
+            width=33,
+            height=46,
+
+        },
+        {
+            -- mowgli_sheet_151
+            x=27,
+            y=33,
+            width=22,
+            height=43,
+
+        },
+        {
+            -- mowgli_sheet_152
+            x=1,
+            y=127,
+            width=41,
+            height=45,
+
+        },
+        {
+            -- mowgli_sheet_153
+            x=24,
+            y=81,
+            width=54,
+            height=44,
+
+        },
+        {
+            -- mowgli_sheet_154
+            x=80,
+            y=128,
+            width=46,
+            height=45,
+
+        },
+        {
+            -- mowgli_sheet_331
+            x=37,
+            y=370,
+            width=45,
+            height=72,
+
+        },
+        {
+            -- mowgli_sheet_332
+            x=1,
+            y=290,
+            width=36,
+            height=70,
+
+        },
+        {
+            -- mowgli_sheet_333
+            x=39,
+            y=292,
+            width=26,
+            height=70,
+
+        },
+        {
+            -- mowgli_sheet_334
+            x=67,
+            y=297,
+            width=27,
+            height=71,
+
+        },
+        {
+            -- mowgli_sheet_335
+            x=96,
+            y=297,
             width=21,
-            height=33,
+            height=72,
 
-            sourceX = 0,
-            sourceY = 2,
-            sourceWidth = 23,
-            sourceHeight = 35
         },
         {
-            -- run-7
-            x=23,
-            y=0,
-            width=23,
-            height=33,
+            -- mowgli_sheet_336
+            x=84,
+            y=371,
+            width=30,
+            height=73,
 
-            sourceX = 0,
-            sourceY = 0,
-            sourceWidth = 23,
-            sourceHeight = 35
+        },
+        {
+            -- mowgli_sheet_337
+            x=1,
+            y=362,
+            width=34,
+            height=72,
+
+        },
+        {
+            -- mowgli_sheet_338
+            x=77,
+            y=226,
+            width=36,
+            height=69,
+
+        },
+        {
+            -- mowgli_sheet_339
+            x=45,
+            y=223,
+            width=30,
+            height=67,
+
         },
     },
 
-    sheetContentWidth = 63,
-    sheetContentHeight = 356
+    sheetContentWidth = 127,
+    sheetContentHeight = 445
 }
 
 SheetInfo.frameIndex =
 {
 
-    ["idle-0"] = 1,
-    ["idle-1"] = 2,
-    ["idle-2"] = 3,
-    ["idle-3"] = 4,
-    ["idle-4"] = 5,
-    ["idle-5"] = 6,
-    ["idle-6"] = 7,
-    ["idle-7"] = 8,
-    ["idle-8"] = 9,
-    ["idle-9"] = 10,
-    ["idle-10"] = 11,
-    ["idle-11"] = 12,
-    ["jump"] = 13,
-    ["landing"] = 14,
-    ["ledge-grab-0"] = 15,
-    ["ledge-grab-1"] = 16,
-    ["ledge-grab-2"] = 17,
-    ["ledge-grab-3"] = 18,
-    ["ledge-grab-4"] = 19,
-    ["ledge-grab-5"] = 20,
-    ["mid-air-0"] = 21,
-    ["mid-air-1"] = 22,
-    ["run-0"] = 23,
-    ["run-1"] = 24,
-    ["run-2"] = 25,
-    ["run-3"] = 26,
-    ["run-4"] = 27,
-    ["run-5"] = 28,
-    ["run-6"] = 29,
-    ["run-7"] = 30,
+    ["mowgli_sheet_11"] = 1,
+    ["mowgli_sheet_12"] = 2,
+    ["mowgli_sheet_13"] = 3,
+    ["mowgli_sheet_14"] = 4,
+    ["mowgli_sheet_15"] = 5,
+    ["mowgli_sheet_16"] = 6,
+    ["mowgli_sheet_19"] = 7,
+    ["mowgli_sheet_20"] = 8,
+    ["mowgli_sheet_145"] = 9,
+    ["mowgli_sheet_146"] = 10,
+    ["mowgli_sheet_147"] = 11,
+    ["mowgli_sheet_148"] = 12,
+    ["mowgli_sheet_149"] = 13,
+    ["mowgli_sheet_150"] = 14,
+    ["mowgli_sheet_151"] = 15,
+    ["mowgli_sheet_152"] = 16,
+    ["mowgli_sheet_153"] = 17,
+    ["mowgli_sheet_154"] = 18,
+    ["mowgli_sheet_331"] = 19,
+    ["mowgli_sheet_332"] = 20,
+    ["mowgli_sheet_333"] = 21,
+    ["mowgli_sheet_334"] = 22,
+    ["mowgli_sheet_335"] = 23,
+    ["mowgli_sheet_336"] = 24,
+    ["mowgli_sheet_337"] = 25,
+    ["mowgli_sheet_338"] = 26,
+    ["mowgli_sheet_339"] = 27,
 }
 
 SheetInfo.sequence =
 {
     ["idle"] = {
         name = "idle",
-        frames = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 },
+        frames = { 1 },
     },
     ["jump"] = {
         name = "jump",
-        frames = { 13 }
+        frames = { 1, 2, 3, 4, 5, 6, 7, 8 }
     },
     ["landing"] = {
         name = "landing",
-        frames = { 14 }
+        frames = { 1 }
     },
-    ["grab"] = {
-        name = "grab",
-        frames = { 15, 16, 17, 19, 19, 20 }
+    ["swing"] = {
+        name = "swing",
+        frames = { 19, 20, 21, 22, 23, 24, 25, 26, 27 }
     },
     ["run"] = {
         name = "run",
-        frames = { 23, 24, 25, 26, 27, 28, 29, 30 }
+        frames = { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 }
     }
 }
 

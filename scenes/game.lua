@@ -28,7 +28,7 @@ function scene:create( event )
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
     bg = LayeredBackground:new()
-    
+
     bg:addLayer('assets/backgrounds/Nuvens.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/Background1.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/Background2.png', display.contentWidth, display.contentHeight)
@@ -77,7 +77,7 @@ function scene:show( event )
         firstGround.y = display.contentHeight - 16
         secondGround.x = firstGround.x + firstGround.width
         secondGround.y = firstGround.y
-        
+
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
         mainPg:setPhysic('dynamic')
@@ -110,8 +110,9 @@ function scene:show( event )
         sceneGroup:insert(camera.displayObjects)
 
         bg:show()
-        
+
         mainPg:show()
+        mainPg:stand()
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
 
@@ -166,7 +167,7 @@ function scene:hide( event )
 
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
-        -- Qui stoppiamo fisica, audio ed eventuali timer 
+        -- Qui stoppiamo fisica, audio ed eventuali timer
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
 
@@ -179,8 +180,8 @@ function scene:destroy( event )
 
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
-    -- Qui facciamo il dispose dell'audio e rimuoviamo i listener per tutti gli oggetti che non sono dentro a sceneGroup (se un displayObject viene inserito all'interno dello sceneGroup corona si occupa di rimuoverlo per noi - listeners compresi) 
- 
+    -- Qui facciamo il dispose dell'audio e rimuoviamo i listener per tutti gli oggetti che non sono dentro a sceneGroup (se un displayObject viene inserito all'interno dello sceneGroup corona si occupa di rimuoverlo per noi - listeners compresi)
+
 end
 
 
