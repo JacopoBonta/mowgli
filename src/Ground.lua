@@ -53,16 +53,15 @@ end
 function Ground:update()
     -- print the next ground when the character reach half of the camera viewport
 
-    local delta = self.camera.borderRight - self.lastCameraPos
-    if (delta > self._blockWidth) then
+    if (self.camera.borderRight - self.lastCameraPos > self._blockWidth) then
         local rand = math.ceil(math.random() * 10) % 2
 
         -- non creare mai buchi piu grandi di tre blocchi
-        if self._skippedBlock >= 3 or rand == 0 then
-            self._createBlock(0)
+        if self._skippedBlock >= 2 or rand == 0 then
+            self._createBlock(1)
             self._skippedBlock = 0
         else
-            self._createBlock(1)
+            self._createBlock(0)
             self._skippedBlock = self._skippedBlock + 1
         end
 
