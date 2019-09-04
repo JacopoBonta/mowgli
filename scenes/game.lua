@@ -10,7 +10,7 @@ local ButtonImage = require( "src.ButtonImage" )
 local scene = composer.newScene()
 
 local bg, mainPg, camera, ground
-local leftButton, rightButton
+local leftButton
 
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -28,9 +28,9 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
-    camera = Camera:new()
+    camera = Camera:new(sceneGroup)
 
-    bg = LayeredBackground:new()
+    bg = LayeredBackground:new(sceneGroup)
 
     bg:addLayer('assets/backgrounds/Nuvens.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/Background1.png', display.contentWidth, display.contentHeight)
@@ -41,17 +41,11 @@ function scene:create( event )
     ground:setBlock(GroundBlock, 'assets/ground_64x64.png', 64, 64)
 
 
-    mainPg = Character:new()
+    mainPg = Character:new(camera)
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
-
-    bg:addToCamera(camera.displayObjects)
-    mainPg:addToCamera(camera.displayObjects)
 
     leftButton = ButtonImage:new()
     leftButton:setImage("assets/buttons/left.png", 32, 32)
-
-    rightButton = ButtonImage:new()
-    rightButton:setImage("assets/buttons/right.png", 32, 32)
 end
 
 
@@ -74,7 +68,6 @@ function scene:show( event )
 
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
-        mainPg:setPhysic('dynamic')
 
         leftButton.x = 60
         leftButton.y = display.contentHeight - 40
@@ -85,15 +78,6 @@ function scene:show( event )
             mainPg:stand()
         end)
 
-        rightButton.x = display.contentWidth - 60
-        rightButton.y = display.contentHeight - 40
-        rightButton:registerBeforeTouchHandler(function()
-            mainPg:setDirection('right', pgSpeed)
-        end)
-        rightButton:registerAfterTouchHandler(function()
-            mainPg:stand()
-        end)
-
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
@@ -101,16 +85,13 @@ function scene:show( event )
         physics.start()
         -- physics.setDrawMode( "hybrid" )
 
-        sceneGroup:insert(camera.displayObjects)
-
         bg:show()
-
         ground:init()
-        
         mainPg:show()
+
+        
         mainPg:stand()
         leftButton:show(sceneGroup)
-        rightButton:show(sceneGroup)
 
         mainPg:setDirection('right', 2)
         
@@ -124,10 +105,8 @@ function scene:show( event )
 
 
                 -- update camera position if player have almost reach the end
-                if mainPg.sprite.x > camera.borderRight - 80 then
+                if mainPg.sprite.x > camera.borderRight - 400 then
                     camera:moveForward(cameraSpeed)
-                elseif mainPg.sprite.x < camera.borderLeft + 80 then
-                    camera:moveBackward(cameraSpeed)
                 end
             else
                 print('game over')

@@ -6,8 +6,10 @@ local Camera = {
 }
 
 -- new() is the constructor of our objects
-function Camera:new(o)
-    o = o or {} -- use user provided object or create new one
+function Camera:new(group)
+    local o = {
+        group = group
+    }
     setmetatable(o, self) -- here we are
     self.__index = self   -- setting the prototype
     return o
@@ -16,6 +18,7 @@ end
 -- add() method add a display object to the camera
     -- displayObject = a valid display object like an image rect
 function Camera:add(displayObject)
+    self.group:insert(displayObject)
     self.displayObjects:insert(displayObject)
 end
 

@@ -4,18 +4,16 @@
 local Character = {
     x = 0,
     y = 0,
-    physic = {
-        type = nil,
-        options = {}
-    },
     pv = 1,
     speed = 0,
     spriteOptions = { }
 }
 
 -- new() is the constructor of the Character class. It creates a new Character object instance
-function Character:new(o)
-    o = o or {}
+function Character:new(camera)
+    local o = {
+        camera = camera
+    }
     setmetatable(o, self)
     self.__index = self
     return o
@@ -38,18 +36,6 @@ function Character:setDirection(direction, speed)
     end
 end
 
--- setPhysic() method add physic properties to the Character object. If they were set when show() method is called a physic body is added to the sprite.
-    -- type = string, type of the physic body
-    -- density = number, density of the physic body
-    -- friction = number, friction of the physic body
-    -- bounce = number, the bounciness of the physic body
-function Character:setPhysic(type, density, friction, bounce)
-    self.physic.type = type 
-    self.physic.options.density = density
-    self.physic.options.friction = friction
-    self.physic.options.bounce = bounce
-end
-
 -- setSprite() method set the sprite and animations sequences.
     -- infoPath = string, a full path to the lua file describing the sprite sheet (generated using TexturePacker)
     -- sheetPath = string, full path to the png sheet of the sprite (generated using TexturePacker)
@@ -70,14 +56,14 @@ function Character:show()
     self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(800))
     self.sprite.x = self.x
     self.sprite.y = self.y
+
+    physics.addBody(self.sprite, 'dynamic', {
+        bounce = 0
+    })
     self.sprite.isFixedRotation = true
     
-    if self.physic.type ~= nil then
-        physics.addBody(self.sprite, self.physic.type, self.physic.options)
-    end
-    
     if self.camera then
-        self.camera:insert(self.sprite)
+        self.camera:add(self.sprite)
     end
     
     self.sprite:play()
