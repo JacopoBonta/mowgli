@@ -36,6 +36,10 @@ function Character:setDirection(direction, speed)
     end
 end
 
+function Character:jump(velocity)
+    print('jump by', velocity)
+    self.sprite:setLinearVelocity(0, velocity)
+end
 -- setSprite() method set the sprite and animations sequences.
     -- infoPath = string, a full path to the lua file describing the sprite sheet (generated using TexturePacker)
     -- sheetPath = string, full path to the png sheet of the sprite (generated using TexturePacker)

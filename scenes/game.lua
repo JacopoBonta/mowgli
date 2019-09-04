@@ -9,9 +9,6 @@ local Camera = require( "src.Camera" )
 local ButtonImage = require( "src.ButtonImage" )
 local scene = composer.newScene()
 
-local bg, mainPg, camera, ground
-local leftButton
-
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
@@ -40,12 +37,11 @@ function scene:create( event )
     ground = Ground:new(camera)
     ground:setBlock(GroundBlock, 'assets/ground_64x64.png', 64, 64)
 
-
     mainPg = Character:new(camera)
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
 
-    leftButton = ButtonImage:new()
-    leftButton:setImage("assets/buttons/left.png", 32, 32)
+    jumpButton = ButtonImage:new()
+    jumpButton:setImage("assets/buttons/up.png", 32, 32)
 end
 
 
@@ -55,8 +51,8 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
 
-    local pgSpeed = 2
-    local cameraSpeed = 2
+    local pgSpeed = 3
+    local cameraSpeed = 3
 
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
@@ -69,13 +65,13 @@ function scene:show( event )
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
 
-        leftButton.x = 60
-        leftButton.y = display.contentHeight - 40
-        leftButton:registerBeforeTouchHandler(function()
-            mainPg:setDirection('left', pgSpeed)
+        jumpButton.x = 60
+        jumpButton.y = display.contentHeight - 40
+        jumpButton:registerBeforeTouchHandler(function()
+            mainPg:jump(-130)
         end)
-        leftButton:registerAfterTouchHandler(function()
-            mainPg:stand()
+        jumpButton:registerAfterTouchHandler(function()
+            -- mainPg:stand()
         end)
 
     elseif ( phase == "did" ) then
@@ -83,7 +79,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
 
         physics.start()
-        -- physics.setDrawMode( "hybrid" )
+        physics.setDrawMode( "hybrid" )
 
         bg:init()
         ground:init()
@@ -91,9 +87,9 @@ function scene:show( event )
 
         
         mainPg:stand()
-        leftButton:init(sceneGroup)
+        jumpButton:init(sceneGroup)
 
-        mainPg:setDirection('right', 2)
+        mainPg:setDirection('right', pgSpeed)
         
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then

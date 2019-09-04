@@ -26,15 +26,12 @@ function Ground:setBlock(Block, path, width, height)
     self._skippedBlock = 0
     self._createBlock = function (skip)
         if skip == 1 then
-            print('creating block')
             local block = Block:new(path, width, height)
             table.insert(self.blocks, block)
             block.x = self.offsetX
             block.y = display.contentHeight - 16
             block:init()
             self.camera:add(block.sprite)
-        else
-            print('skipped block')
         end
         self.offsetX = self.offsetX + self._blockWidth
         return block
