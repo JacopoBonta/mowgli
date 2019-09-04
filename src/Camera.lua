@@ -13,10 +13,10 @@ function Camera:new(o)
     return o
 end
 
--- insert() method add a display object to the camera
-    -- o = a valid display object like an image rect
-function Camera:insert(o)
-    self.displayObjects:insert(o)
+-- add() method add a display object to the camera
+    -- displayObject = a valid display object like an image rect
+function Camera:add(displayObject)
+    self.displayObjects:insert(displayObject)
 end
 
 -- moveForward() method move the camera to the right moving all the objects to the left
@@ -48,10 +48,10 @@ function Camera:moveDown(speed)
 end
 
 -- remove() method remove a display object from the camera.
-    -- o = the reference to the display object
-function Camera:remove(o)
-    self.displayObjects:remove(o)
-    o = nil
+    -- displayObject = the reference to the display object
+function Camera:remove(displayObject)
+    self.displayObjects:remove(displayObject)
+    displayObject = nil
 end
 
 -- delete() method remove all the display objects added to the camera and the camera itself

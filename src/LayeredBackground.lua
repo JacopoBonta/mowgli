@@ -48,7 +48,7 @@ end
 
 function LayeredBackground:delete()
     for _, v in pairs(self.rects) do
-        display.removeObjec(v)
+        display.remove(v)
     end
     self = nil
 end
