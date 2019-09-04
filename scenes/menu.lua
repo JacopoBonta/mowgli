@@ -47,7 +47,7 @@ function scene:show( event )
         end)
         titleButton:setPos(display.contentCenterX, display.contentCenterY)
 
-        titleButton:show(sceneGroup)
+        titleButton:init(sceneGroup)
         
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen

@@ -50,7 +50,7 @@ function Character:addToCamera(camera)
 end
 
 -- show() method creates the sprite object and corresponding animations. Then if physic properties was set through the setPhysic() method, add a physic body to the sprite. Also add the sprite to the camera display group if it was previously set.
-function Character:show()
+function Character:init()
     self.sheet = graphics.newImageSheet(self.spriteOptions.sheetPath, self.spriteOptions.info:getSheet())
     
     self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(800))

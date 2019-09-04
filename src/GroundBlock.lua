@@ -21,7 +21,7 @@ function GroundBlock:new(path, width, height)
 end
 
 -- show() method set the sprite of the ground block and physic to that sprite
-function GroundBlock:show()
+function GroundBlock:init()
     -- create a new sprite from imgRect
     self.sprite = display.newImageRect(self.path, self.width, self.height)
 

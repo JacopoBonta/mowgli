@@ -85,13 +85,13 @@ function scene:show( event )
         physics.start()
         -- physics.setDrawMode( "hybrid" )
 
-        bg:show()
+        bg:init()
         ground:init()
-        mainPg:show()
+        mainPg:init()
 
         
         mainPg:stand()
-        leftButton:show(sceneGroup)
+        leftButton:init(sceneGroup)
 
         mainPg:setDirection('right', 2)
         

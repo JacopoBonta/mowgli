@@ -15,7 +15,7 @@ function ButtonImage:setImage(path, width, height)
 end
 
 -- show() method creates an image rect and register before and after handlers to it to make the image a button.
-function ButtonImage:show()
+function ButtonImage:init()
     
     self.imgRect = display.newImageRect(self.path, self.width, self.height)
     self.imgRect.x = self.x

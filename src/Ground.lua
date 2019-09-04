@@ -31,7 +31,7 @@ function Ground:setBlock(Block, path, width, height)
             table.insert(self.blocks, block)
             block.x = self.offsetX
             block.y = display.contentHeight - 16
-            block:show()
+            block:init()
             self.camera:add(block.sprite)
         else
             print('skipped block')

@@ -15,7 +15,7 @@ function ButtonText:setFont(path, size, fillColor)
 end
 
 -- show() method create a text object and register handlers to it to make the text a button
-function ButtonText:show()
+function ButtonText:init()
     
     self.textRect = display.newText(self.text, self.x, self.y, self.path, self.fontSize)
     button:setFillColor( self.fillColor[1], self.fillColor[2], self.fillColor[3] )

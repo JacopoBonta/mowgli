@@ -25,7 +25,7 @@ function Button:registerAfterTouchHandler(cb)
 end
 
 -- show() abstract method must be implemented from the child classes
-function Button:show()
+function Button:init()
     error("method not implemented")
 end
 

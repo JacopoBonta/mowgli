@@ -29,7 +29,7 @@ function LayeredBackground:addLayer(path, width, height)
 end
 
 -- show() method creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
-function LayeredBackground:show()
+function LayeredBackground:init()
     local rects = self.rects or {}
     for _, v in pairs(self.layers) do
         local rect = display.newImageRect(v.path, v.width, v.height)
