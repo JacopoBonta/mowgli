@@ -31,20 +31,19 @@ function scene:create( event )
     camera = Camera:new()
 
     bg = LayeredBackground:new()
-    
+
     bg:addLayer('assets/backgrounds/Nuvens.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/Background1.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/Background2.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/Background3.png', display.contentWidth, display.contentHeight)
 
-    ground = Ground:new(display.contentWidth, camera)
+    ground = Ground:new(camera)
     ground:setBlock(GroundBlock, 'assets/ground_64x64.png', 64, 64)
 
 
     mainPg = Character:new()
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
 
-    
     bg:addToCamera(camera.displayObjects)
     mainPg:addToCamera(camera.displayObjects)
 
@@ -53,7 +52,6 @@ function scene:create( event )
 
     rightButton = ButtonImage:new()
     rightButton:setImage("assets/buttons/right.png", 32, 32)
-
 end
 
 
@@ -107,33 +105,22 @@ function scene:show( event )
 
         bg:show()
 
-        ground:show()
+        ground:init()
         
         mainPg:show()
         leftButton:show(sceneGroup)
         rightButton:show(sceneGroup)
 
+        mainPg:setDirection('right', 2)
+        
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
                 -- update player position
                 mainPg:updatePosition()
 
-                -- print the next ground when the character reach half of the camera viewport
-                -- if (mainPg.sprite.x >= camera.borderRight / 2) and nextGround.isShow == false then
-                --     print('load next ground')
-                --     nextGround:show()
-                -- end
 
-                -- if the ground disapper from the screen to the left, assign the next ground to the current one and generate a new ground as the next ground
-                -- if (currentGround.x + currentGround.width / 2) < camera.borderLeft then
-                --     currentGround:delete()
-                --     currentGround = nextGround
-                --     nextGround = Ground:new('assets/ground.png', display.contentWidth, 70)
-                --     nextGround.y = currentGround.y
-                --     nextGround.x = currentGround.x + currentGround.width
-                --     nextGround:addToCamera(camera.displayObjects)
-                --     print('deleted off screen ground and created new one')
-                -- end
+                ground:update()
+
 
                 -- update camera position if player have almost reach the end
                 if mainPg.sprite.x > camera.borderRight - 80 then
@@ -171,7 +158,6 @@ function scene:destroy( event )
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
     -- Qui facciamo il dispose dell'audio e rimuoviamo i listener per tutti gli oggetti che non sono dentro a sceneGroup (se un displayObject viene inserito all'interno dello sceneGroup corona si occupa di rimuoverlo per noi - listeners compresi) 
- 
 end
 
 
