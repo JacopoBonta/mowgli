@@ -120,7 +120,7 @@ function scene:show( event )
         local currentGround = firstGround
         local nextGround = secondGround
 
-        mainPg:setDirection('right', pgSpeed)
+        -- mainPg:setDirection('right', pgSpeed)
 
         Runtime:addEventListener('enterFrame', function()
             if mainPg.pv > 0 then
