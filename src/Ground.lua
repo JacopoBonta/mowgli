@@ -1,61 +1,50 @@
--- Ground class is used to create ground objects. A ground object is a sprite with a static physic body. It is useful to create platforms and other ground like object in game
+-- Ground generates a ground based on ground blocks
 local Ground = {}
 
--- new() function is the Ground class constructor
--- path = string, full path to the sprite png
--- width = number, the width of the image
--- height = number, the height of the image
-function Ground:new(path, width, height)
+-- new() method is the Ground class constructor
+    -- width = number, the width of the ground
+function Ground:new(width, camera)
     local o = {
-        x = 0,
-        y = 0,
-        physic = {
-            type = nil,
-            options = {}
-        },
-        path = path,
+        blocks = {},
+        camera = camera,
         width = width,
-        height = height,
-        isShow = false
     }
     setmetatable(o, self)
     self.__index = self
     return o
 end
 
--- addToCamera() method set the camera display group where the Ground object will be added
-function Ground:addToCamera(camera)
-    self.cameraGroup = camera
+-- setBlock() method is used to set the block type used for the ground
+    -- Block = class table, usually the GroundBlock class.
+    -- path = string, image sprite used for the block
+    -- width = number, width of the block
+    -- height = number, height of the block
+-- nb: set block define a new "private" function that creates new blocks given the block type
+function Ground:setBlock(Block, path, width, height)
+    self._createBlock = function ()
+        return Block:new(path, width, height)
+    end
 end
 
 -- show() method create a new display object and eventually set the physic and camera group
 function Ground:show()
-    self.imgRect = display.newImageRect(self.path, self.width, self.height)
-    self.imgRect.x = self.x
-    self.imgRect.y = self.y
-
-    physics.addBody(self.imgRect, 'static', {
-        density = 0,
-        friction = 0,
-        bounce = 0,
-        box = {
-            halfWidth = self.width / 2,
-            halfHeight = self.height / 2,
-            y = 16,
-            x = 0
-        }
-    })
-    
-    if self.cameraGroup then
-        self.cameraGroup:insert(self.imgRect)
+    local offsetX = 0
+    while offsetX < self.width do
+        local block = self._createBlock()
+        table.insert(self.blocks, block)
+        block.x = offsetX
+        block.y = display.contentHeight - 16
+        block:show()
+        self.camera:insert(block.sprite)
+        offsetX = offsetX + block.width
     end
-
-    self.isShow = true
 end
 
--- delete() method remove the ground object
+-- delete() method remove the grounds' blocks and the ground itself
 function Ground:delete()
-    display.remove(self.imgRect)
+    for _, block in pairs(self.blocks) do
+        block:delete()
+    end
     self = nil
 end
 
