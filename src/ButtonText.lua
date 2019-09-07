@@ -25,23 +25,23 @@ function ButtonText:init()
         before = self.beforeCb
     }
     
-    self.textRect:addEventListener("touch", self.onTouch)
+    self.textRect:addEventListener("touch", self)
 end
 
--- onTouch() method is the touch event handler
-function ButtonText.onTouch(event)
+-- touch() method is the touch event handler
+function ButtonText.touch(event)
     if event.phase == "began" then
         display.getCurrentStage():setFocus( event.target )
-        event.target.handlers.before()
+        self:beforeCb()
     elseif event.phase == "ended" then
-        event.target.handlers.after()
+        self:afterCb()
         display.getCurrentStage():setFocus( nil )
     end
 end
 
 -- delete() must be implemented in to child classes
 function ButtonText:delete()
-    self.textRect:removeEventListener("touch", self.onTouch) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
+    self.textRect:removeEventListener("touch", self.touch)
     display.remove(self.textRect)
     self = nil
 end

@@ -87,7 +87,7 @@ function scene:show( event )
         
         mainPg:run("right")
         
-        Runtime:addEventListener("enterFrame", self.enterFrame)
+        Runtime:addEventListener("enterFrame", self)
     end
 end
 
@@ -104,8 +104,7 @@ function scene:enterFrame()
         print('game over')
         
         composer.gotoScene( "scenes.end", {
-            effect = "fade",
-            time = 500
+            effect = "fade"
         })
     end
 end
@@ -121,7 +120,7 @@ function scene:hide( event )
         -- Code here runs when the scene is on screen (but is about to go off screen)
         -- Qui stoppiamo fisica, audio ed eventuali timer
         print('hide')
-        Runtime:removeEventListener("enterFrame", self.enterFrame)
+        Runtime:removeEventListener("enterFrame", self)
         
         physics.stop()
         

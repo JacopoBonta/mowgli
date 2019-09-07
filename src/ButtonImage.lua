@@ -20,29 +20,24 @@ function ButtonImage:init()
     self.imgRect = display.newImageRect(self.path, self.width, self.height)
     self.imgRect.x = self.x
     self.imgRect.y = self.y
-
-    self.imgRect.handlers = {
-        after = self.afterCb,
-        before = self.beforeCb
-    }
     
-    self.imgRect:addEventListener("touch", self.onTouch)
+    self.imgRect:addEventListener("touch", self)
 end
 
--- onTouch method is the touch event handler
-function ButtonImage.onTouch(event)
+-- touch() method is the touch event handler
+function ButtonImage:touch(event)
     if event.phase == "began" then
         display.getCurrentStage():setFocus( event.target )
-        event.target.handlers.before()
+        self:beforeCb()
     elseif event.phase == "ended" then
-        event.target.handlers.after()
+        self:afterCb()
         display.getCurrentStage():setFocus( nil )
     end
 end
 
 -- delete() must be implemented in to child classes
 function ButtonImage:delete()
-    self.imgRect:removeEventListener("touch", self.onTouch) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
+    self.imgRect:removeEventListener("touch", self.touch) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
     display.remove(self.imgRect)
     self = nil
 end
