@@ -94,8 +94,8 @@ end
 -- enterFrame() method is called once per frame
 function scene:enterFrame()
     if mainPg.pv > 0 then
-        mainPg:update()
         ground:update()
+        mainPg:update()
 
         if mainPg.sprite.x > camera.borderRight - 400 then
             camera:moveForward()
