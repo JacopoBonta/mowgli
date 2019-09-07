@@ -43,6 +43,13 @@ function GroundBlock:init()
         }
     })
 
+    local collisionObj = {
+        name = 'ground'
+    }
+
+    self._collision = collisionObj
+    self.sprite._collision = collisionObj
+
     self.isShow = true
 end
 

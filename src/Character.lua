@@ -4,6 +4,7 @@
 local Character = {
     x = 0,
     y = 0,
+    isGround = false,
     pv = 1,
     _speed = 0,
     speed = 4,
@@ -11,9 +12,10 @@ local Character = {
 }
 
 -- new() is the constructor of the Character class. It creates a new Character object instance
-function Character:new(camera)
+function Character:new(name, camera)
     local o = {
-        camera = camera
+        camera = camera,
+        name = name
     }
     setmetatable(o, self)
     self.__index = self
@@ -37,7 +39,10 @@ function Character:setDirection(direction)
 end
 
 function Character:jump(velocity)
-    self.sprite:setLinearVelocity(0, velocity)
+
+    if self.isGround == true then
+        self.sprite:setLinearVelocity(0, velocity)
+    end
 end
 -- setSprite() method set the sprite and animations sequences.
     -- infoPath = string, a full path to the lua file describing the sprite sheet (generated using TexturePacker)
@@ -45,11 +50,6 @@ end
 function Character:setSprite(infoPath, sheetPath)
     self.spriteOptions.info = require(infoPath)
     self.spriteOptions.sheetPath = sheetPath
-end
-
--- addToCamera() method is used if you want to add the Character object to the camera. When the show() method is called and the camera property was set then the Character object is added to the camera display group
-function Character:addToCamera(camera)
-    self.camera = camera
 end
 
 -- show() method creates the sprite object and corresponding animations. Then if physic properties was set through the setPhysic() method, add a physic body to the sprite. Also add the sprite to the camera display group if it was previously set.
@@ -64,6 +64,13 @@ function Character:init()
         bounce = 0
     })
     self.sprite.isFixedRotation = true
+
+    local collisionObj = {
+        name = self.name
+    }
+    self._collision = collisionObj
+    self.sprite._collision = collisionObj
+    self.sprite:addEventListener("collision", self)
     
     if self.camera then
         self.camera:add(self.sprite)
@@ -72,6 +79,25 @@ function Character:init()
     self:setDirection('right')
     self:stand()
     self.sprite:play()
+end
+
+function Character:collision(event)
+    if ( event.phase == "began" ) then
+
+        if event.other._collision.name == "ground"  then
+            self.isGround = true
+        end
+ 
+    elseif ( event.phase == "ended" ) then
+
+        print(self.sprite.y , self.y)
+        
+        if event.other._collision.name == "ground" and self.sprite.y > self.y then
+            self.isGround = false
+            print('nope')
+        end
+
+    end
 end
 
 -- run() method set direction and speed

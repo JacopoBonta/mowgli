@@ -37,7 +37,7 @@ function scene:create( event )
     ground = Ground:new(camera)
     ground:setBlock(GroundBlock, 'assets/ground_64x64.png', 64, 64)
     
-    mainPg = Character:new(camera)
+    mainPg = Character:new( "mowgli", camera)
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
     
     jumpButton = ButtonImage:new()
