@@ -5,7 +5,8 @@ local Character = {
     x = 0,
     y = 0,
     pv = 1,
-    speed = 0,
+    _speed = 0,
+    speed = 4,
     spriteOptions = { }
 }
 
@@ -19,25 +20,23 @@ function Character:new(camera)
     return o
 end
 
--- setDirection() mathod is used to set the direction and the speed of the Character object
+-- setDirection() method scale the sprite to match character's direction. It also invert the speed
     -- direction = a string that can be 'right' or 'left' to set the sprite direction
-    -- speed = number, the number of pixel the sprite have to move towards the direction
-function Character:setDirection(direction, speed)
-    if speed > 0 then
-        if direction == 'right' then
-            self.sprite.xScale = 1
-            self.speed = speed
-        elseif direction == 'left' then
-            self.sprite.xScale = -1
-            self.speed = speed * -1
-        end
-        self.sprite:setSequence('run')
-        self.sprite:play()
+function Character:setDirection(direction)
+
+    local s = math.abs(self._speed)
+    
+    if direction == 'right' then
+        self.sprite.xScale = 1
+        self._speed = s
+    elseif direction == 'left' then
+        self.sprite.xScale = -1
+        self._speed = s * -1
     end
+
 end
 
 function Character:jump(velocity)
-    print('jump by', velocity)
     self.sprite:setLinearVelocity(0, velocity)
 end
 -- setSprite() method set the sprite and animations sequences.
@@ -70,19 +69,34 @@ function Character:init()
         self.camera:add(self.sprite)
     end
     
+    self:setDirection('right')
+    self:stand()
+    self.sprite:play()
+end
+
+-- run() method set direction and speed
+function Character:run(direction)
+    self:setDirection(direction)
+    self._speed = self.speed
+    self.sprite:setSequence('run')
     self.sprite:play()
 end
 
 -- stand() method stops the Character object setting is speed to 0 and play the 'idle' animation
 function Character:stand()
-    self.speed = 0
+    self._speed = 0
     self.sprite:setSequence('idle')
     self.sprite:play()
 end
 
--- updatePosition() method is called once per frame and update the character position by its speed
-function Character:updatePosition()
-    self.sprite.x = self.sprite.x + self.speed
+-- update() method is called once per frame and update the character position by its speed
+function Character:update()
+
+    self.sprite.x = self.sprite.x + self._speed
+
+    if self.sprite.y > display.contentHeight then
+        self.pv = 0
+    end
 end
 
 -- delete() method deletes the sprite and character object

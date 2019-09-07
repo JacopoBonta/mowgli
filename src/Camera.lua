@@ -1,5 +1,6 @@
 -- Camera class defines camera objects. A camera object is used to simulate a camera in corona. You add display objects that have to stay on the camera viewport and when you move the camera with the methods like moveForward() or moveUp(), all the objects moves accordingly.
 local Camera = {
+    speed = 0,
     displayObjects = display.newGroup(), -- the group holding all the objects together
     borderLeft = 0, -- the border to the left of the camera viewport
     borderRight = display.contentWidth -- the border to the right of the camera viewport
@@ -23,31 +24,27 @@ function Camera:add(displayObject)
 end
 
 -- moveForward() method move the camera to the right moving all the objects to the left
-    -- speed = number, the number of pixels the camera will move
-function Camera:moveForward(speed)
-    self.displayObjects.x = self.displayObjects.x - speed
-    self.borderLeft = self.borderLeft + speed
-    self.borderRight = self.borderRight + speed
+function Camera:moveForward()
+    self.displayObjects.x = self.displayObjects.x - self.speed
+    self.borderLeft = self.borderLeft + self.speed
+    self.borderRight = self.borderRight + self.speed
 end
 
 -- moveBackward() method move the camera to the left moving all the objects to the right
-    -- speed = number, the number of pixels the camera will move
-function Camera:moveBackward(speed)
-    self.displayObjects.x = self.displayObjects.x + speed
-    self.borderLeft = self.borderLeft - speed
-    self.borderRight = self.borderRight - speed
+function Camera:moveBackward()
+    self.displayObjects.x = self.displayObjects.x + self.speed
+    self.borderLeft = self.borderLeft - self.speed
+    self.borderRight = self.borderRight - self.speed
 end
 
 -- moveUp() method move the camera up moving all the objects down
-    -- speed = number, the number of pixels the camera will move
-function Camera:moveUp(speed)
-    self.displayObjects.y = self.displayObjects.y + speed
+function Camera:moveUp()
+    self.displayObjects.y = self.displayObjects.y + self.speed
 end
 
 -- moveDown() method move the camera down moving all the objects up
-    -- speed = number, the number of pixels the camera will move
-function Camera:moveDown(speed)
-    self.displayObjects.y = self.displayObjects.y - speed
+function Camera:moveDown()
+    self.displayObjects.y = self.displayObjects.y - self.speed
 end
 
 -- remove() method remove a display object from the camera.

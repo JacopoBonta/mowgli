@@ -19,21 +19,29 @@ function ButtonText:init()
     
     self.textRect = display.newText(self.text, self.x, self.y, self.path, self.fontSize)
     button:setFillColor( self.fillColor[1], self.fillColor[2], self.fillColor[3] )
+
+    self.textRect.handlers = {
+        after = self.afterCb,
+        before = self.beforeCb
+    }
     
-    self.textRect:addEventListener("touch", function(event)
-        if event.phase == "began" then
-            display.getCurrentStage():setFocus( event.target )
-            self.handlers.before()
-        elseif event.phase == "ended" then
-            self.handlers.after()
-            display.getCurrentStage():setFocus( nil )
-        end
-    end)
+    self.textRect:addEventListener("touch", self.onTouch)
+end
+
+-- onTouch() method is the touch event handler
+function ButtonText.onTouch(event)
+    if event.phase == "began" then
+        display.getCurrentStage():setFocus( event.target )
+        event.target.handlers.before()
+    elseif event.phase == "ended" then
+        event.target.handlers.after()
+        display.getCurrentStage():setFocus( nil )
+    end
 end
 
 -- delete() must be implemented in to child classes
 function ButtonText:delete()
-    self.textRect:removeEventListener("touch", nil) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
+    self.textRect:removeEventListener("touch", self.onTouch) -- TODO check, it may produce bug (https://docs.coronalabs.com/api/type/EventDispatcher/removeEventListener.html#gotchas)
     display.remove(self.textRect)
     self = nil
 end
