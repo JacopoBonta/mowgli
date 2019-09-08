@@ -82,8 +82,15 @@ end
 function Character:collision(event)
     if ( event.phase == "began" ) then
 
+        print(event.other._collision.name)
+        
         if event.other._collision.name == "ground"  then
             self.isGround = true
+        end
+
+        if event.other._collision.name == "tiger" then
+            print('die')
+            self.pv = 0
         end
  
     elseif ( event.phase == "ended" ) then

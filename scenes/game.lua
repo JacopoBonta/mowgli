@@ -29,7 +29,7 @@ function scene:create( event )
     
     bg = LayeredBackground:new(sceneGroup)
     
-    bg:addLayer('assets/backgrounds/vapor_jungle.jpg', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/jungle_8bit.jpg', display.contentWidth, display.contentHeight)
     -- bg:addLayer('assets/backgrounds/Background1.png', display.contentWidth, display.contentHeight)
     -- bg:addLayer('assets/backgrounds/Background2.png', display.contentWidth, display.contentHeight)
     -- bg:addLayer('assets/backgrounds/Background3.png', display.contentWidth, display.contentHeight)
@@ -69,7 +69,7 @@ function scene:show( event )
 
         tiger.x = display.contentCenterX - 200
         tiger.y = 120
-        tiger.speed = 3.05
+        tiger.speed = 3.5
 
         rightBtn.x = 60
         rightBtn.y = display.contentHeight - 40
@@ -94,7 +94,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
         
         physics.start()
-        -- physics.setDrawMode( "hybrid" )
+        physics.setDrawMode( "hybrid" )
         
         bg:init()
         ground:init()
