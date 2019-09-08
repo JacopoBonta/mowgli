@@ -49,7 +49,7 @@ end
 
 function Ground:update()
 
-    if (self.camera.borderRight - self.lastCameraPos > self._blockWidth) then
+    if (self.camera.borderRight - self.lastCameraPos > self._blockWidth / 2) then
         local rand = math.ceil(math.random() * 10) % 2
 
         if self._skippedBlock >= 2 or rand == 0 then
@@ -70,6 +70,7 @@ function Ground:update()
             block:delete()
         end
     end
+
 end
 
 -- delete() method remove the grounds' blocks and the ground itself
