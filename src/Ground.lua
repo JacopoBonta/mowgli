@@ -23,7 +23,7 @@ end
 -- nb: set block define a new "private" function that creates new blocks given the block type
 function Ground:setBlock(Block, path, width, height)
     self._blockWidth = width
-    self._skippedBlock = 0
+    self._skippedBlock = 1
     self._createBlock = function (skip)
         if skip == 1 then
             local block = Block:new(path, width, height)
