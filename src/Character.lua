@@ -1,21 +1,19 @@
 -- Character class creates character objects. A Character object has methods to load a sprite and animatios, to move the sprite and play defined animatios. One can use the Character class for creating the main character moved by the user also for creating enemies bot.
 
--- declare common properties to all Character objects
-local Character = {
-    x = 0,
-    y = 0,
-    isGround = false,
-    pv = 1,
-    _speed = 0,
-    speed = 4,
-    spriteOptions = { }
-}
+local Character = {}
 
 -- new() is the constructor of the Character class. It creates a new Character object instance
 function Character:new(name, camera)
     local o = {
         camera = camera,
-        name = name
+        name = name,
+        x = 0,
+        y = 0,
+        isGround = false,
+        pv = 1,
+        _speed = 0,
+        speed = 4,
+        spriteOptions = { }
     }
     setmetatable(o, self)
     self.__index = self

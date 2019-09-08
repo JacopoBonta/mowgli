@@ -39,6 +39,9 @@ function scene:create( event )
     
     mainPg = Character:new( "mowgli", camera)
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
+
+    tiger = Character:new( "tiger ", camera)
+    tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png")
     
     rightBtn = Button:new("assets/buttons/right.png", 32, 32)
     jumpButton = Button:new("assets/buttons/up.png", 32, 32)
@@ -63,6 +66,10 @@ function scene:show( event )
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
         mainPg.speed = 3
+
+        tiger.x = display.contentCenterX - 200
+        tiger.y = 120
+        tiger.speed = 3.05
 
         rightBtn.x = 60
         rightBtn.y = display.contentHeight - 40
@@ -91,12 +98,16 @@ function scene:show( event )
         
         bg:init()
         ground:init()
+        
+        tiger:init()
         mainPg:init()
 
         -- rightBtn:init()
         jumpButton:init()
         
+        tiger:run("right")
         mainPg:run("right")
+
         
         Runtime:addEventListener("enterFrame", self)
     end
@@ -107,6 +118,7 @@ function scene:enterFrame()
     if mainPg.pv > 0 then
         ground:update()
         mainPg:update()
+        tiger:update()
         
         if mainPg.sprite.x > camera.borderRight - 400 then
             camera:moveForward()
