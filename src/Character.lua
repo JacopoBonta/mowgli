@@ -92,7 +92,7 @@ function Character:collision(event)
         
         if event.other._collision.name == "ground" then
             self.isGround = false
-            print('nope')
+            -- print('nope')
         end
 
     end

@@ -1,17 +1,21 @@
--- Button is a base class for creating buttons object. It is not intended to use as it is. Instead, use the ButtonText or ButtonImage child classes.
+-- Button is an UI element that display an image that a user can touch.
 
--- Button here is the prototype for our buttons. We provide some intial values for the button position. Every button objects will have an own copy of these properties along with the methods defined.
+
 local Button = {
     x = display.contentWidth / 2,
     y = display.contentHeight / 2,
 }
 
 -- new() method constructor. Create a Button object.
-function Button:new(o)
-    o = o or {} -- the new object - user can pass an already defined table to add other properties to the object itself at creation time
+function Button:new(path, width, height)
+    local o = {
+        path = path,
+        width = width,
+        height = height
+    }
     setmetatable(o, self) -- here we set the Button table as the metatable of our new object 'o'
     self.__index = self -- here we tell lua to look up at the Button table when accessing fields not present in 'o' - setting the Button table as the prototype of 'o'
-    return o
+    return o -- we return 'o' as a new Button object
 end
 
 -- registerBeforeTouchHandler() method register a callback fucntion that will be called when the button is pressed
@@ -24,14 +28,31 @@ function Button:registerAfterTouchHandler(cb)
     self.afterCb = cb
 end
 
--- show() abstract method must be implemented from the child classes
+-- init() abstract method must be implemented from the child classes
 function Button:init()
-    error("method not implemented")
+    self.imgRect = display.newImageRect(self.path, self.width, self.height)
+    self.imgRect.x = self.x
+    self.imgRect.y = self.y
+    
+    self.imgRect:addEventListener("touch", self)
+end
+
+-- touch() method is the touch event handler
+function Button:touch(event)
+    if event.phase == "began" then
+        display.getCurrentStage():setFocus( event.target )
+        self:beforeCb()
+    elseif event.phase == "ended" then
+        self:afterCb()
+        display.getCurrentStage():setFocus( nil )
+    end
 end
 
 -- delete() asbtrace method must be implemented in to child classes
 function Button:delete()
-    error("method not implemented")
+    self.imgRect:removeEventListener("touch", self.touch)
+    display.remove(self.imgRect)
+    self = nil
 end
 
 return Button

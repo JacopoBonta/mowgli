@@ -6,7 +6,7 @@ local Ground = require( "src.Ground" )
 local GroundBlock = require( "src.GroundBlock" )
 local Character = require( "src.Character" )
 local Camera = require( "src.Camera" )
-local ButtonImage = require( "src.ButtonImage" )
+local Button = require( "src.Button" )
 local scene = composer.newScene()
 
 -- -----------------------------------------------------------------------------------
@@ -40,8 +40,8 @@ function scene:create( event )
     mainPg = Character:new( "mowgli", camera)
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
     
-    jumpButton = ButtonImage:new()
-    jumpButton:setImage("assets/buttons/up.png", 32, 32)
+    rightBtn = Button:new("assets/buttons/right.png", 32, 32)
+    jumpButton = Button:new("assets/buttons/up.png", 32, 32)
 end
 
 -- show()
@@ -63,12 +63,21 @@ function scene:show( event )
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
         mainPg.speed = 3
-        
-        jumpButton.x = 60
+
+        rightBtn.x = 60
+        rightBtn.y = display.contentHeight - 40
+
+        rightBtn:registerBeforeTouchHandler(function()
+            mainPg:run('right')
+        end)
+        rightBtn:registerAfterTouchHandler(function()
+            mainPg:stand()
+        end)
+
+        jumpButton.x = display.contentWidth - 60
         jumpButton.y = display.contentHeight - 40
         jumpButton:registerBeforeTouchHandler(function()
-            -- mainPg:jump(-130)
-            mainPg:run('right')
+            mainPg:jump(-130)
         end)
         jumpButton:registerAfterTouchHandler(function()
             mainPg:stand()
@@ -84,7 +93,9 @@ function scene:show( event )
         bg:init()
         ground:init()
         mainPg:init()
-        jumpButton:init(sceneGroup)
+
+        rightBtn:init()
+        jumpButton:init()
         
         -- mainPg:run("right")
         
