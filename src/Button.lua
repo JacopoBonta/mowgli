@@ -40,7 +40,7 @@ end
 -- touch() method is the touch event handler
 function Button:touch(event)
     if event.phase == "began" then
-        display.getCurrentStage():setFocus( event.target )
+        display.getCurrentStage():setFocus( self )
         self:beforeCb()
     elseif event.phase == "ended" then
         self:afterCb()
@@ -50,7 +50,7 @@ end
 
 -- delete() asbtrace method must be implemented in to child classes
 function Button:delete()
-    self.imgRect:removeEventListener("touch", self.touch)
+    self.imgRect:removeEventListener("touch", self)
     display.remove(self.imgRect)
     self = nil
 end

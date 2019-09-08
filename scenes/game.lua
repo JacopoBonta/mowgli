@@ -77,10 +77,9 @@ function scene:show( event )
         jumpButton.x = display.contentWidth - 60
         jumpButton.y = display.contentHeight - 40
         jumpButton:registerBeforeTouchHandler(function()
-            mainPg:jump(-130)
         end)
         jumpButton:registerAfterTouchHandler(function()
-            mainPg:stand()
+            mainPg:jump(-130)
         end)
         
     elseif ( phase == "did" ) then
