@@ -91,10 +91,10 @@ function scene:show( event )
         
         bg:init()
         ground:init()
-        -- mainPg:init()
+        mainPg:init()
 
-        -- rightBtn:init()
-        -- jumpButton:init()
+        rightBtn:init()
+        jumpButton:init()
         
         -- mainPg:run("right")
         
@@ -106,11 +106,11 @@ end
 function scene:enterFrame()
     if mainPg.pv > 0 then
         ground:update()
-        -- mainPg:update()
+        mainPg:update()
         
-        camera:moveForward()
-        -- if mainPg.sprite.x > camera.borderRight - 400 then
-        -- end
+        if mainPg.sprite.x > camera.borderRight - 400 then
+            camera:moveForward()
+        end
     else
         print('game over')
         
