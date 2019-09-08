@@ -1,4 +1,6 @@
 local composer = require( "composer" )
+
+math.randomseed(os.time())
  
 -- Code to initialize your app
 
