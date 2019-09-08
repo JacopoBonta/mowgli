@@ -38,7 +38,7 @@ function Ground:setBlock(Block, path, width, height)
     end
 end
 
--- init() method initialize the ground with a fixed number of blocks depending on its initial width
+-- init() method initialize the ground with a fixed number of blocks
 function Ground:init()
     self.offsetX = 0
     while self.offsetX < self.camera.borderRight * 2 do
@@ -48,12 +48,10 @@ function Ground:init()
 end
 
 function Ground:update()
-    -- print the next ground when the character reach half of the camera viewport
 
     if (self.camera.borderRight - self.lastCameraPos > self._blockWidth) then
         local rand = math.ceil(math.random() * 10) % 2
 
-        -- non creare mai buchi piu grandi di tre blocchi
         if self._skippedBlock >= 2 or rand == 0 then
             self._createBlock(1)
             self._skippedBlock = 0
@@ -64,8 +62,6 @@ function Ground:update()
 
         self.lastCameraPos = self.camera.borderRight
     end
-    
-    -- -- if the ground disapper from the screen to the left, assign the next ground to the current one and generate a new ground as the next ground
 
     for i, block in ipairs(self.blocks) do
         if block.sprite.x < self.camera.borderLeft - block.width then

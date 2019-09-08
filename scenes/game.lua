@@ -67,10 +67,11 @@ function scene:show( event )
         jumpButton.x = 60
         jumpButton.y = display.contentHeight - 40
         jumpButton:registerBeforeTouchHandler(function()
-            mainPg:jump(-130)
+            -- mainPg:jump(-130)
+            mainPg:run('right')
         end)
         jumpButton:registerAfterTouchHandler(function()
-            -- mainPg:stand()
+            mainPg:stand()
         end)
         
     elseif ( phase == "did" ) then
@@ -85,7 +86,7 @@ function scene:show( event )
         mainPg:init()
         jumpButton:init(sceneGroup)
         
-        mainPg:run("right")
+        -- mainPg:run("right")
         
         Runtime:addEventListener("enterFrame", self)
     end

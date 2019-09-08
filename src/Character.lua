@@ -89,10 +89,8 @@ function Character:collision(event)
         end
  
     elseif ( event.phase == "ended" ) then
-
-        print(self.sprite.y , self.y)
         
-        if event.other._collision.name == "ground" and self.sprite.y > self.y then
+        if event.other._collision.name == "ground" then
             self.isGround = false
             print('nope')
         end
