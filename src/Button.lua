@@ -40,7 +40,7 @@ end
 -- touch() method is the touch event handler
 function Button:touch(event)
     if event.phase == "began" then
-        display.getCurrentStage():setFocus( event.id )
+        display.getCurrentStage():setFocus( self.path ) -- TODO usare solo self (ma su emulatore non funziona)
         self:beforeCb()
     elseif event.phase == "ended" then
         self:afterCb()
