@@ -94,7 +94,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
         
         physics.start()
-        physics.setDrawMode( "hybrid" )
+        -- physics.setDrawMode( "hybrid" )
         
         bg:init()
         ground:init()
@@ -151,6 +151,7 @@ function scene:hide( event )
         rightBtn:delete()
         
         mainPg:delete()
+        tiger:delete()
         ground:delete()
         bg:delete()
         
