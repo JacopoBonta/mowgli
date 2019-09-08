@@ -136,6 +136,7 @@ function scene:hide( event )
         physics.stop()
         
         jumpButton:delete()
+        rightBtn:delete()
         
         mainPg:delete()
         ground:delete()
