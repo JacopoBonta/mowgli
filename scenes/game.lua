@@ -93,10 +93,10 @@ function scene:show( event )
         ground:init()
         mainPg:init()
 
-        rightBtn:init()
+        -- rightBtn:init()
         jumpButton:init()
         
-        -- mainPg:run("right")
+        mainPg:run("right")
         
         Runtime:addEventListener("enterFrame", self)
     end
