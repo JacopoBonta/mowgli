@@ -58,8 +58,8 @@ function scene:show( event )
         bg.y = display.contentCenterY
         
         
-        mainPg.x = display.contentCenterX - 20
-        mainPg.y = display.contentWidth - 350
+        mainPg.x = 200
+        mainPg.y = display.contentWidth - 450
         mainPg.speed = 3.2
         mainPg.onCollision = function(self, event)
             if event.other._collision.name == "ground"  then
@@ -78,8 +78,8 @@ function scene:show( event )
             end
         end
 
-        tiger.x = display.contentCenterX - 200
-        tiger.y = display.contentWidth - 350
+        tiger.x = 10
+        tiger.y = display.contentWidth - 450
         tiger.speed = 3.2
         tiger.onCollision = function(self, event)
             if event.other._collision.name == "ground"  then
@@ -106,7 +106,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
         
         physics.start()
-        physics.setDrawMode( "hybrid" )
+        -- physics.setDrawMode( "hybrid" )
         
         bg:init()
         ground:init()
@@ -115,9 +115,6 @@ function scene:show( event )
         mainPg:init()
 
         jumpButton:init()
-        
-        tiger:run("right")
-        -- mainPg:run("right")
 
         Runtime:addEventListener("enterFrame", self)
     end
