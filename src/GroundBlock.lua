@@ -12,8 +12,8 @@ local GroundBlock = {
 function GroundBlock:new(path, width, height)
     local o = {
         path = path,
-        width = width,
-        height = height
+        t_width = width,
+        t_height = height
     }
     setmetatable(o, self)
     self.__index = self
@@ -21,13 +21,14 @@ function GroundBlock:new(path, width, height)
 end
 
 -- init() method set the sprite of the ground block and physic to that sprite
-function GroundBlock:init()
+function GroundBlock:init(width)
 
-        -- create a new sprite from imgRect
-    self.sprite = display.newRect(self.x, self.y, self.width, self.height)
+    -- create a new sprite from imgRect
+    self.width = width
+    self.sprite = display.newRect(self.x, self.y, self.width, self.t_height)
     display.setDefault("textureWrapX", "repeat")
     self.sprite.fill = { type = "image", filename = self.path }
-    self.sprite.fill.scaleX = 64 / self.width
+    self.sprite.fill.scaleX = self.t_width / self.width
     display.setDefault("textureWrapX", "clampToEdge")
 
     -- add physic because ground have physic
@@ -38,7 +39,7 @@ function GroundBlock:init()
         bounce = 0,
         box = {
             halfWidth = self.width / 2,
-            halfHeight = self.height / 2,
+            halfHeight = self.t_height / 2,
             y = 16,
             x = 0
         }

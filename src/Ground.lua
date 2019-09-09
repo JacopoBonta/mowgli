@@ -21,17 +21,17 @@ end
 -- Block = class table, usually the GroundBlock class.
 -- path = string, image sprite used for the block
 -- height = number, height of the block
-function Ground:setBlock(Block, path, height)
+function Ground:setBlock(Block, path, width, height)
     -- _createBlock function creates new blocks given the block type and width
         -- width = number, width of the block
-    self._createBlock = function (width)
+    self._createBlock = function (w)
         local block = Block:new(path, width, height)
         table.insert(self.blocks, block)
         block.x = self.offsetX
         block.y = display.contentHeight - 16
-        block:init()
+        block:init(w)
         self.camera:add(block.sprite)
-        self.offsetX = self.offsetX + width / 2
+        self.offsetX = self.offsetX + block.width / 2
         return block
     end
 end

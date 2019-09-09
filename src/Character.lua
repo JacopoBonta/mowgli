@@ -58,7 +58,6 @@ end
 function Character:init()
     self.sheet = graphics.newImageSheet(self.spriteOptions.sheetPath, self.spriteOptions.info:getSheet())
     
-    print('time', self.name, self.spriteOptions.time)
     self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(self.spriteOptions.time))
     self.sprite.x = self.x
     self.sprite.y = self.y
