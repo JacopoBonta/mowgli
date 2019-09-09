@@ -35,7 +35,7 @@ function scene:create( event )
     ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)
     
     mainPg = Character:new( "mowgli", camera)
-    mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
+    mainPg:setSprite("assets.pg.pg-sprites", "assets/pg/pg-sprites.png")
 
     tiger = Character:new( "tiger ", camera)
     tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png")
