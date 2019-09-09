@@ -6,14 +6,16 @@ local Character = {}
 function Character:new(name, camera)
     local o = {
         camera = camera,
-        name = name,
-        x = 0,
-        y = 0,
         isGround = false,
+        name = name,
+        onCollision = function() end,
+        onExitCollision = function() end,
         pv = 1,
         _speed = 0,
         speed = 4,
-        spriteOptions = { }
+        spriteOptions = { },
+        x = 0,
+        y = 0
     }
     setmetatable(o, self)
     self.__index = self
@@ -81,25 +83,9 @@ end
 
 function Character:collision(event)
     if ( event.phase == "began" ) then
-
-        -- print(event.other._collision.name)
-        
-        if event.other._collision.name == "ground"  then
-            self.isGround = true
-        end
-
-        if event.other._collision.name == "tiger" then
-            print('die')
-            self.pv = 0
-        end
- 
+        self.onCollision(self, event)
     elseif ( event.phase == "ended" ) then
-        
-        if event.other._collision.name == "ground" then
-            self.isGround = false
-            -- print('nope')
-        end
-
+        self.onExitCollision(self, event)
     end
 end
 

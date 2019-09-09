@@ -1,4 +1,3 @@
--- zizza suka
 local composer = require( "composer" )
 local physics = require( "physics" )
 local LayeredBackground = require( "src.LayeredBackground" )
@@ -54,7 +53,7 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
         
-        camera.speed = 3
+        camera.speed = 3.2
         
         bg.x = display.contentCenterX
         bg.y = display.contentCenterY
@@ -63,10 +62,35 @@ function scene:show( event )
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
         mainPg.speed = 3.2
+        mainPg.onCollision = function(self, event)
+            if event.other._collision.name == "ground"  then
+                self.isGround = true
+            end
+    
+            if event.other._collision.name == "tiger" then
+                self.pv = 0
+            end
+        end
+
+        mainPg.onExitCollision = function(self, event)
+            if event.other._collision.name == "ground" then
+                self.isGround = false
+            end
+        end
 
         tiger.x = display.contentCenterX - 200
         tiger.y = 120
         tiger.speed = 3.2
+        tiger.onCollision = function(self, event)
+            if event.other._collision.name == "ground"  then
+                self.isGround = true
+            end
+        end
+        tiger.onExitCollision = function(self, event)
+            if event.other._collision.name == "ground" then
+                self.isGround = false
+            end
+        end
 
         rightBtn.x = 60
         rightBtn.y = display.contentHeight - 40
@@ -105,7 +129,6 @@ function scene:show( event )
         tiger:run("right")
         mainPg:run("right")
 
-        
         Runtime:addEventListener("enterFrame", self)
     end
 end
@@ -116,6 +139,19 @@ function scene:enterFrame()
         ground:update()
         mainPg:update()
         tiger:update()
+
+        -- ray cast
+        local hits = physics.rayCast( tiger.sprite.x + tiger.sprite.width / 2 + 2, tiger.sprite.y, tiger.sprite.x + tiger.sprite.width / 2 + 40, tiger.sprite.y + tiger.sprite.height, "closest" )
+
+
+        if (hits == nil and tiger.isGround == true) then
+            tiger:jump(-200)
+        end
+
+
+        -- print(hits)
+
+        
         
         if mainPg.sprite.x > camera.borderRight - 400 then
             camera:moveForward()
