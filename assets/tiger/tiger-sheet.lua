@@ -58,7 +58,7 @@ SheetInfo.sequence = {
     },
     ["jump"] = {
         name = "jump",
-        frames = { 1, 2, 3, 3, 3, 1 }
+        frames = { 3 }
     }
 }
 

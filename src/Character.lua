@@ -42,21 +42,24 @@ function Character:jump(velocity)
 
     if self.isGround == true then
         self.sprite:setLinearVelocity(0, velocity)
+        self.sprite:setSequence("jump")
     end
 end
 -- setSprite() method set the sprite and animations sequences.
     -- infoPath = string, a full path to the lua file describing the sprite sheet (generated using TexturePacker)
     -- sheetPath = string, full path to the png sheet of the sprite (generated using TexturePacker)
-function Character:setSprite(infoPath, sheetPath)
+function Character:setSprite(infoPath, sheetPath, time)
     self.spriteOptions.info = require(infoPath)
     self.spriteOptions.sheetPath = sheetPath
+    self.spriteOptions.time = time
 end
 
 -- show() method creates the sprite object and corresponding animations. Then if physic properties was set through the setPhysic() method, add a physic body to the sprite. Also add the sprite to the camera display group if it was previously set.
 function Character:init()
     self.sheet = graphics.newImageSheet(self.spriteOptions.sheetPath, self.spriteOptions.info:getSheet())
     
-    self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(800))
+    print('time', self.name, self.spriteOptions.time)
+    self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(self.spriteOptions.time))
     self.sprite.x = self.x
     self.sprite.y = self.y
 
@@ -78,7 +81,6 @@ function Character:init()
     
     self:setDirection('right')
     self:stand()
-    self.sprite:play()
 end
 
 function Character:collision(event)
@@ -94,18 +96,20 @@ function Character:run(direction)
     self:setDirection(direction)
     self._speed = self.speed
     self.sprite:setSequence('run')
-    self.sprite:play()
 end
 
 -- stand() method stops the Character object setting is speed to 0 and play the 'idle' animation
 function Character:stand()
     self._speed = 0
     self.sprite:setSequence('idle')
-    self.sprite:play()
 end
 
 -- update() method is called once per frame and update the character position by its speed
 function Character:update()
+
+    if (self.sprite.isPlaying == false) then
+        self.sprite:play()
+    end
 
     self.sprite.x = self.sprite.x + self._speed
 

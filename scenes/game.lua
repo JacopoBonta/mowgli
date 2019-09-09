@@ -34,13 +34,12 @@ function scene:create( event )
     ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)
     
     mainPg = Character:new( "mowgli", camera)
-    mainPg:setSprite("assets.pg.pg-sprites", "assets/pg/pg-sprites.png")
+    mainPg:setSprite("assets.pg.pg-sprites", "assets/pg/pg-sprites.png", 800)
 
     tiger = Character:new( "tiger ", camera)
-    tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png")
+    tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png", 400)
     
-    rightBtn = Button:new("assets/buttons/right.png", 32, 32)
-    jumpButton = Button:new("assets/buttons/up.png", 32, 32)
+    jumpButton = Button:new("assets/buttons/up.png", 64, 64)
 end
 
 -- show()
@@ -60,11 +59,12 @@ function scene:show( event )
         
         
         mainPg.x = display.contentCenterX - 20
-        mainPg.y = 160
+        mainPg.y = display.contentWidth - 350
         mainPg.speed = 3.2
         mainPg.onCollision = function(self, event)
             if event.other._collision.name == "ground"  then
                 self.isGround = true
+                self:run("right")
             end
     
             if event.other._collision.name == "tiger" then
@@ -79,11 +79,12 @@ function scene:show( event )
         end
 
         tiger.x = display.contentCenterX - 200
-        tiger.y = 120
+        tiger.y = display.contentWidth - 350
         tiger.speed = 3.2
         tiger.onCollision = function(self, event)
             if event.other._collision.name == "ground"  then
                 self.isGround = true
+                self:run("right")
             end
         end
         tiger.onExitCollision = function(self, event)
@@ -92,22 +93,12 @@ function scene:show( event )
             end
         end
 
-        rightBtn.x = 60
-        rightBtn.y = display.contentHeight - 40
-
-        rightBtn:registerBeforeTouchHandler(function()
-            mainPg:run('right')
-        end)
-        rightBtn:registerAfterTouchHandler(function()
-            mainPg:stand()
-        end)
-
         jumpButton.x = display.contentWidth - 60
         jumpButton.y = display.contentHeight - 40
         jumpButton:registerBeforeTouchHandler(function()
+            mainPg:jump(-150)
         end)
         jumpButton:registerAfterTouchHandler(function()
-            mainPg:jump(-130)
         end)
         
     elseif ( phase == "did" ) then
@@ -115,7 +106,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
         
         physics.start()
-        physics.setDrawMode( "hybrid" )
+        -- physics.setDrawMode( "hybrid" )
         
         bg:init()
         ground:init()
@@ -123,11 +114,10 @@ function scene:show( event )
         tiger:init()
         mainPg:init()
 
-        -- rightBtn:init()
         jumpButton:init()
         
         tiger:run("right")
-        mainPg:run("right")
+        -- mainPg:run("right")
 
         Runtime:addEventListener("enterFrame", self)
     end
@@ -181,7 +171,6 @@ function scene:hide( event )
         physics.stop()
         
         jumpButton:delete()
-        rightBtn:delete()
         
         mainPg:delete()
         tiger:delete()
