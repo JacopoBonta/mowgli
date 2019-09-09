@@ -9,6 +9,8 @@ function Ground:new(camera)
     local o = {
         blocks = {},
         camera = camera,
+        lastCameraPos = camera.borderRight,
+        offsetX = display.contentCenterX
     }
     setmetatable(o, self)
     self.__index = self
@@ -18,49 +20,38 @@ end
 -- setBlock() method is used to set the block type used for the ground
 -- Block = class table, usually the GroundBlock class.
 -- path = string, image sprite used for the block
--- width = number, width of the block
 -- height = number, height of the block
--- nb: set block define a new "private" function that creates new blocks given the block type
-function Ground:setBlock(Block, path, width, height)
-    self._blockWidth = width
-    self._skippedBlock = 1
-    self._createBlock = function (skip)
-        if skip == 1 then
-            local block = Block:new(path, width, height)
-            table.insert(self.blocks, block)
-            block.x = self.offsetX
-            block.y = display.contentHeight - 16
-            block:init()
-            self.camera:add(block.sprite)
-        end
-        self.offsetX = self.offsetX + self._blockWidth
+function Ground:setBlock(Block, path, height)
+    -- _createBlock function creates new blocks given the block type and width
+        -- width = number, width of the block
+    self._createBlock = function (width)
+        local block = Block:new(path, width, height)
+        table.insert(self.blocks, block)
+        block.x = self.offsetX
+        block.y = display.contentHeight - 16
+        block:init()
+        self.camera:add(block.sprite)
+        self.offsetX = self.offsetX + width / 2
         return block
     end
 end
 
 -- init() method initialize the ground with a fixed number of blocks
 function Ground:init()
-    self.offsetX = 0
-    while self.offsetX < self.camera.borderRight * 2 do
-        self._createBlock(1)
-    end
-    self.lastCameraPos = self.camera.borderRight
+    self._lastBlock = self._createBlock(self.camera.borderRight * 3)
 end
 
 function Ground:update()
 
-    if (self.camera.borderRight - self.lastCameraPos > self._blockWidth / 2) then
-        local rand = math.random(1, 10)
+    if (self._lastBlock.x - self.camera.x < self._lastBlock.width) then
 
-        if self._skippedBlock >= 2 or rand > 1 then
-            self._createBlock(1)
-            self._skippedBlock = 0
-        else
-            self._createBlock(0)
-            self._skippedBlock = self._skippedBlock + 1
-        end
+        local blockWidth = math.random(1200, 6000)
+        local holeWidth = math.random(60, 200)
 
-        self.lastCameraPos = self.camera.borderRight
+        self.offsetX = self.offsetX + blockWidth / 2 + holeWidth
+        
+        self._lastBlock = self._createBlock(blockWidth)
+
     end
 
     for i, block in ipairs(self.blocks) do

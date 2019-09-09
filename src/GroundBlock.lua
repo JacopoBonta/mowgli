@@ -22,12 +22,13 @@ end
 
 -- init() method set the sprite of the ground block and physic to that sprite
 function GroundBlock:init()
-    -- create a new sprite from imgRect
-    self.sprite = display.newImageRect(self.path, self.width, self.height)
 
-    -- set sprite position
-    self.sprite.x = self.x
-    self.sprite.y = self.y
+        -- create a new sprite from imgRect
+    self.sprite = display.newRect(self.x, self.y, self.width, self.height)
+    display.setDefault("textureWrapX", "repeat")
+    self.sprite.fill = { type = "image", filename = self.path }
+    self.sprite.fill.scaleX = 64 / self.width
+    display.setDefault("textureWrapX", "clampToEdge")
 
     -- add physic because ground have physic
     -- the box options' property is used because we know that the block sprite has an empty space at the top

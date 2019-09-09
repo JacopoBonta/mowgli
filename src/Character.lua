@@ -82,7 +82,7 @@ end
 function Character:collision(event)
     if ( event.phase == "began" ) then
 
-        print(event.other._collision.name)
+        -- print(event.other._collision.name)
         
         if event.other._collision.name == "ground"  then
             self.isGround = true

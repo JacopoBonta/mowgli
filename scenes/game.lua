@@ -32,7 +32,7 @@ function scene:create( event )
     bg:addLayer('assets/backgrounds/vapor_jungle.jpg', display.contentWidth, display.contentHeight)
     
     ground = Ground:new(camera)
-    ground:setBlock(GroundBlock, 'assets/ground_64x64.png', 64, 64)
+    ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)
     
     mainPg = Character:new( "mowgli", camera)
     mainPg:setSprite("assets.pg.pg-sheet", "assets/pg/pg-sheet.png")
@@ -62,11 +62,11 @@ function scene:show( event )
         
         mainPg.x = display.contentCenterX - 20
         mainPg.y = 160
-        mainPg.speed = 3
+        mainPg.speed = 3.2
 
         tiger.x = display.contentCenterX - 200
         tiger.y = 120
-        tiger.speed = 3.5
+        tiger.speed = 3.2
 
         rightBtn.x = 60
         rightBtn.y = display.contentHeight - 40
@@ -91,7 +91,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
         
         physics.start()
-        physics.setDrawMode( "hybrid" )
+        -- physics.setDrawMode( "hybrid" )
         
         bg:init()
         ground:init()
