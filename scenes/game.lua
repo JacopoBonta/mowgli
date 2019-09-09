@@ -91,7 +91,7 @@ function scene:show( event )
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
         
         physics.start()
-        -- physics.setDrawMode( "hybrid" )
+        physics.setDrawMode( "hybrid" )
         
         bg:init()
         ground:init()
