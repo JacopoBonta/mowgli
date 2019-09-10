@@ -40,7 +40,7 @@ function GroundBlock:init(width)
         box = {
             halfWidth = self.width / 2,
             halfHeight = self.t_height / 2,
-            y = 16,
+            y = 26,
             x = 0
         }
     })
