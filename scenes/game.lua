@@ -44,6 +44,8 @@ function scene:create( event )
     tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png", 400)
     
     jumpButton = Button:new("assets/buttons/up.png", 64, 64)
+    
+    bgMusic = audio.loadSound( "assets/audio/bg1.mp3" )
 end
 
 -- show()
@@ -104,6 +106,9 @@ function scene:show( event )
         end)
         jumpButton:registerAfterTouchHandler(function()
         end)
+
+
+        audio.play( bgMusic, { loops = -1 } )
         
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -119,6 +124,18 @@ function scene:show( event )
         mainPg:init()
 
         jumpButton:init()
+
+        time = 57
+        timeText = display.newText( sceneGroup, time, display.contentCenterX, 20, native.systemFont, 24 )
+        timerID = timer.performWithDelay(1000, function()
+            time = time + 1
+            if (time > 60) then
+                _time = tostring(math.floor(time / 60)) .. ":" .. tostring(math.ceil(time % 60))
+            else
+                _time = time
+            end
+            timeText.text = _time
+        end, -1)
 
         Runtime:addEventListener("enterFrame", self)
     end
@@ -139,16 +156,14 @@ function scene:enterFrame()
             tiger:jump(-200)
         end
 
-
-        -- print(hits)
-
-        
         
         if mainPg.sprite.x > camera.borderRight - 400 then
             camera:moveForward()
         end
     else
         print('game over')
+
+        audio.stop()
         
         composer.gotoScene( "scenes.end", {
             effect = "fade"
@@ -179,6 +194,10 @@ function scene:hide( event )
         bg:delete()
         
         camera:delete()
+
+        timer.cancel(timerID)
+
+        audio.dispose( bgMusic )
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
         

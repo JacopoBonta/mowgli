@@ -54,11 +54,14 @@ function scene:show( event )
         end)
 
         titleButton:registerAfterTouchHandler(function()
+            audio.play( roar )
             composer.gotoScene( "scenes.game", {
                 effect = "fade",
                 time = 500
             })
         end)
+
+        roar = audio.loadSound( "assets/audio/roar.wav" )
 
         
     elseif ( phase == "did" ) then
@@ -83,6 +86,7 @@ function scene:hide( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
+        audio.dispose( roar )
     end
 end
  
