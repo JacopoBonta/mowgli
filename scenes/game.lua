@@ -126,7 +126,7 @@ function scene:show( event )
         jumpButton:init()
 
         time = 0
-        timeText = display.newText( sceneGroup, time, display.contentCenterX, 20, native.systemFont, 24 )
+        timeText = display.newText( sceneGroup, time, display.contentCenterX, 25, "assets/fonts/Windlass.ttf", 18 )
         timerID = timer.performWithDelay(1000, function()
             time = time + 1
             if (time > 60) then
@@ -166,7 +166,10 @@ function scene:enterFrame()
         audio.stop()
         
         composer.gotoScene( "scenes.end", {
-            effect = "fade"
+            effect = "fade",
+            params = {
+                totalTime = timeText.text
+            }
         })
     end
 end
