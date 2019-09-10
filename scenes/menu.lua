@@ -1,5 +1,5 @@
 local composer = require( "composer" )
-local Background = require( "src.Background" )
+local Background = require( "src.LayeredBackground" )
 local Button = require( "src.Button" )
  
 local scene = composer.newScene()
@@ -9,8 +9,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
- local bg, titleButton
- 
+local bg, titleButton
  
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -23,8 +22,14 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
-    titleButton = Button()
-    titleButton:setImage("assets/backgrounds/Title.png", 384, 114)
+    bg = Background:new(sceneGroup)
+    bg:addLayer('assets/backgrounds/plx-1.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-2.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-3.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-4.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-5.png', display.contentWidth, display.contentHeight)
+    
+    titleButton = Button:new("assets/backgrounds/title.png", 300, 200)
 
 end
  
@@ -39,20 +44,28 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
 
+        bg.x = display.contentCenterX
+        bg.y = display.contentCenterY
+        
+        titleButton.x = display.contentCenterX
+        titleButton.y = titleButton.height / 2
+
+        titleButton:registerBeforeTouchHandler(function()
+        end)
+
         titleButton:registerAfterTouchHandler(function()
             composer.gotoScene( "scenes.game", {
                 effect = "fade",
                 time = 500
             })
         end)
-        titleButton:setPos(display.contentCenterX, display.contentCenterY)
 
-        titleButton:init(sceneGroup)
         
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
         -- Qui mostriamo gli oggetti e facciamo partire audio ed eventuali timer
-
+        bg:init()
+        titleButton:init()
     end
 end
  
@@ -66,6 +79,7 @@ function scene:hide( event )
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
         -- Qui stoppiamo fisica, audio ed eventuali timer
+        titleButton:delete()
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen

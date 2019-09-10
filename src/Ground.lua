@@ -45,8 +45,8 @@ function Ground:update()
 
     if (self._lastBlock.x - self.camera.x < self._lastBlock.width) then
 
-        local blockWidth = math.random(1200, 6000)
-        local holeWidth = math.random(60, 200)
+        local blockWidth = math.random(1200, 3800)
+        local holeWidth = math.random(100, 200)
 
         self.offsetX = self.offsetX + blockWidth / 2 + holeWidth
         

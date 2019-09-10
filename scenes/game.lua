@@ -28,7 +28,11 @@ function scene:create( event )
     
     bg = LayeredBackground:new(sceneGroup)
     
-    bg:addLayer('assets/backgrounds/vapor_jungle.jpg', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-1.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-2.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-3.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-4.png', display.contentWidth, display.contentHeight)
+    bg:addLayer('assets/backgrounds/plx-5.png', display.contentWidth, display.contentHeight)
     
     ground = Ground:new(camera)
     ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)

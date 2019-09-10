@@ -10,7 +10,7 @@ display.setStatusBar( display.HiddenStatusBar )
 -- enable multitouch
 system.activate( "multitouch" )
  
-composer.gotoScene( "scenes.game", {
+composer.gotoScene( "scenes.menu", {
     effect = "crossFade",
     time = 500
 })
