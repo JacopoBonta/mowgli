@@ -125,7 +125,7 @@ function scene:show( event )
 
         jumpButton:init()
 
-        time = 57
+        time = 0
         timeText = display.newText( sceneGroup, time, display.contentCenterX, 20, native.systemFont, 24 )
         timerID = timer.performWithDelay(1000, function()
             time = time + 1
