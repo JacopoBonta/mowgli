@@ -35,9 +35,9 @@ function Background:init()
         local rect = display.newImageRect(v.path, v.width, v.height)
         rect.x = self.x
         rect.y = self.y
-
+        
         table.insert(rects, rect)
-
+        
         if self.group then
             self.group:insert(rect)
         end
@@ -46,10 +46,10 @@ function Background:init()
 end
 
 function Background:delete()
-    print('rect', self.rects)
     for _, v in pairs(self.rects) do
         display.remove(v)
     end
+    self = nil
 end
 
 return Background

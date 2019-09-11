@@ -38,6 +38,7 @@ end
 
 -- init() method initialize the ground with a fixed number of blocks
 function Ground:init()
+    self.offsetX = display.contentCenterX
     self._lastBlock = self._createBlock(self.camera.borderRight * 3)
 end
 
@@ -55,8 +56,8 @@ function Ground:update()
     end
 
     for i, block in ipairs(self.blocks) do
-        if block.sprite.x < self.camera.borderLeft - block.width then
-            table.remove(self.blocks, i)
+        if block.sprite.x + block.width / 2 < self.camera.borderLeft then
+        table.remove(self.blocks, i)
             self.camera:remove(block.sprite)
             block:delete()
         end
@@ -70,6 +71,7 @@ function Ground:delete()
         self.camera:remove(block.sprite)
         block:delete()
     end
+    self.blocks = {}
     self = nil
 end
 

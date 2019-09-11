@@ -3,19 +3,24 @@ local Camera = { }
 
 -- new() is the constructor of our objects
 function Camera:new(group)
-    local ds = display.newGroup() -- the group holding all the objects together
     local o = {
         borderLeft = 0, -- the border to the left of the camera viewport
         borderRight = display.contentWidth, -- the border to the right of the camera viewport
-        displayObjects = ds,
         group = group,
         speed = 0,
-        x = ds.x,
-        y = ds.y
+        x = 0,
+        y = 0
     }
     setmetatable(o, self) -- here we are
     self.__index = self   -- setting the prototype
     return o
+end
+
+-- init() initialize the displayGroup
+function Camera:init()
+    self.displayObjects = display.newGroup()
+    self.borderLeft = 0
+    self.borderRight = display.contentWidth
 end
 
 -- add() method add a display object to the camera
@@ -60,7 +65,7 @@ end
     -- displayObject = the reference to the display object
 function Camera:remove(displayObject)
     self.displayObjects:remove(displayObject)
-    displayObject = nil
+    -- displayObject = nil
 end
 
 -- delete() method remove all the display objects added to the camera and the camera itself

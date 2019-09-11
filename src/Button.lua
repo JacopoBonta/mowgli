@@ -48,7 +48,7 @@ function Button:touch(event)
     end
 end
 
--- delete() asbtrace method must be implemented in to child classes
+-- delete()
 function Button:delete()
     display.remove(self.imgRect)
     self = nil
