@@ -9,9 +9,11 @@ local Button = {
 -- new() method constructor. Create a Button object.
 function Button:new(path, width, height)
     local o = {
+        afterCb = function() end,
+        beforeCb = function() end,
+        height = height,
         path = path,
-        width = width,
-        height = height
+        width = width
     }
     setmetatable(o, self) -- here we set the Button table as the metatable of our new object 'o'
     self.__index = self -- here we tell lua to look up at the Button table when accessing fields not present in 'o' - setting the Button table as the prototype of 'o'

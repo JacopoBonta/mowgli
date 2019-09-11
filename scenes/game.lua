@@ -60,7 +60,7 @@ function scene:enterFrame()
         local hits = physics.rayCast( tiger.sprite.x + tiger.sprite.width / 2 + 2, tiger.sprite.y, tiger.sprite.x + tiger.sprite.width / 2 + 40, tiger.sprite.y + tiger.sprite.height, "closest" )
 
         if (hits == nil and tiger.isGround == true) then
-            tiger:jump(-200)
+            tiger:jump(200)
         end
 
         if mowgli.sprite.x > camera.borderRight - 400 then
@@ -97,20 +97,17 @@ function scene:show( event )
         jumpButton.x = display.contentWidth - 60
         jumpButton.y = display.contentHeight - 40
         jumpButton:registerBeforeTouchHandler(function()
-            mowgli:jump(-150)
-        end)
-        jumpButton:registerAfterTouchHandler(function()
+            mowgli:jump(150)
         end)
 
         ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)
 
         mowgli.x = display.contentCenterX
         mowgli.y = display.contentHeight - 16
-        mowgli.speed = 3.2
         mowgli.onCollision = function(self, event)
             if event.other._collision.name == "ground"  then
                 self.isGround = true
-                self:run("right")
+                self:run("right", 3.2)
             end
     
             if event.other._collision.name == "tiger" then
@@ -126,11 +123,10 @@ function scene:show( event )
 
         tiger.x = display.contentCenterX / 2
         tiger.y = display.contentHeight - 16
-        tiger.speed = 3.2
         tiger.onCollision = function(self, event)
             if event.other._collision.name == "ground"  then
                 self.isGround = true
-                self:run("right")
+                self:run("right", 3.2)
             end
         end
         tiger.onExitCollision = function(self, event)
@@ -154,7 +150,9 @@ function scene:show( event )
         jumpButton:init()
         ground:init()
         mowgli:init()
+        camera:add(mowgli.sprite)
         tiger:init()
+        camera:add(tiger.sprite)
 
         timeText = display.newText( time, display.contentCenterX, 25, "assets/fonts/Windlass.ttf", 18 )
         
