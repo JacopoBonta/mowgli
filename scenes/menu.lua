@@ -1,5 +1,5 @@
 local composer = require( "composer" )
-local Background = require( "src.LayeredBackground" )
+local Background = require( "src.Background" )
 local Button = require( "src.Button" )
  
 local scene = composer.newScene()
@@ -23,6 +23,7 @@ function scene:create( event )
     -- Qui creiamo gli oggetti che ci serviranno all'interno della scena
 
     bg = Background:new(sceneGroup)
+    
     bg:addLayer('assets/backgrounds/plx-1.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/plx-2.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/plx-3.png', display.contentWidth, display.contentHeight)
@@ -83,10 +84,11 @@ function scene:hide( event )
         -- Code here runs when the scene is on screen (but is about to go off screen)
         -- Qui stoppiamo fisica, audio ed eventuali timer
         titleButton:delete()
- 
+        
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
-        audio.dispose( roar )
+        bg:delete()
+
     end
 end
  
@@ -97,6 +99,7 @@ function scene:destroy( event )
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
     -- Qui facciamo il dispose dell'audio e rimuoviamo i listener per tutti gli oggetti che non sono dentro a sceneGroup (se un displayObject viene inserito all'interno dello sceneGroup corona si occupa di rimuoverlo per noi - listeners compresi) 
+    audio.dispose( roar )
 end
  
  

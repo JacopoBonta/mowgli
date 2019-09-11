@@ -21,6 +21,9 @@ end
 -- add() method add a display object to the camera
     -- displayObject = a valid display object like an image rect
 function Camera:add(displayObject)
+    if self.displayObjects == nil then
+        self.displayObjects = display.newGroup()
+    end
     self.group:insert(displayObject)
     self.displayObjects:insert(displayObject)
 end

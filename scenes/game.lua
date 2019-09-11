@@ -1,6 +1,6 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
-local LayeredBackground = require( "src.LayeredBackground" )
+local Background = require( "src.Background" )
 local Ground = require( "src.Ground" )
 local GroundBlock = require( "src.GroundBlock" )
 local Character = require( "src.Character" )
@@ -26,7 +26,7 @@ function scene:create( event )
     
     camera = Camera:new(sceneGroup)
     
-    bg = LayeredBackground:new(sceneGroup)
+    bg = Background:new(sceneGroup)
     
     bg:addLayer('assets/backgrounds/plx-1.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/plx-2.png', display.contentWidth, display.contentHeight)
@@ -35,7 +35,6 @@ function scene:create( event )
     bg:addLayer('assets/backgrounds/plx-5.png', display.contentWidth, display.contentHeight)
     
     ground = Ground:new(camera)
-    ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)
     
     mainPg = Character:new( "mowgli", camera)
     mainPg:setSprite("assets.pg.pg-sprites", "assets/pg/pg-sprites.png", 800)
@@ -58,6 +57,8 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
         -- Qui settiamo la posizione degli oggetti perchè se la scena viene ricaricata ripartirebbe da qui e non da create()
         
+        camera.x = 0
+        camera.y = 0
         camera.speed = 3.2
         
         bg.x = display.contentCenterX
@@ -118,6 +119,8 @@ function scene:show( event )
         -- physics.setDrawMode( "hybrid" )
         
         bg:init()
+        
+        ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)
         ground:init()
         
         tiger:init()
@@ -126,7 +129,7 @@ function scene:show( event )
         jumpButton:init()
 
         time = 0
-        timeText = display.newText( sceneGroup, time, display.contentCenterX, 25, "assets/fonts/Windlass.ttf", 18 )
+        timeText = display.newText( time, display.contentCenterX, 25, "assets/fonts/Windlass.ttf", 18 )
         timerID = timer.performWithDelay(1000, function()
             time = time + 1
             if (time > 60) then
@@ -186,24 +189,21 @@ function scene:hide( event )
         -- Qui stoppiamo fisica, audio ed eventuali timer
         print('hide')
         Runtime:removeEventListener("enterFrame", self)
+
+        timer.cancel(timerID)
+        timeText:removeSelf()
+        timeText = nil
         
         physics.stop()
-        
+
         jumpButton:delete()
-        
+
         mainPg:delete()
         tiger:delete()
         ground:delete()
-        bg:delete()
-        
-        camera:delete()
-
-        timer.cancel(timerID)
-
-        audio.dispose( bgMusic )
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
-        
+        bg:delete()
     end
 end
 
@@ -214,6 +214,10 @@ function scene:destroy( event )
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
     -- Qui facciamo il dispose dell'audio e rimuoviamo i listener per tutti gli oggetti che non sono dentro a sceneGroup (se un displayObject viene inserito all'interno dello sceneGroup corona si occupa di rimuoverlo per noi - listeners compresi) 
+        
+    camera:delete()
+    audio.dispose( bgMusic )
+
 end
 
 

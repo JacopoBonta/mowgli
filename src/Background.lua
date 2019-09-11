@@ -1,10 +1,10 @@
--- LayeredBackground permette di creare un background formato da più immagini (layers). I layers vengono stampati uno sopra l'altro.
+-- Background permette di creare un background formato da più immagini (layers). I layers vengono stampati uno sopra l'altro.
 
 -- Here we use a table as the namespace of our class
-local LayeredBackground = {}
+local Background = {}
 
--- new() method is used as the constructor for a LayeredBackground object
-function LayeredBackground:new(group)
+-- new() method is used as the constructor for a Background object
+function Background:new(group)
     local o = {
         group = group,
         x = 0,
@@ -16,7 +16,7 @@ function LayeredBackground:new(group)
 end
 
 -- addLayer() add a new layer to the background. It takes three arguments, a string that is the path to the actual image and two numbers that are the width and the length of the image
-function LayeredBackground:addLayer(path, width, height)
+function Background:addLayer(path, width, height)
     local images = self.layers or {}
     local z = self.zIndex or 1
     table.insert(images, z, {
@@ -29,7 +29,7 @@ function LayeredBackground:addLayer(path, width, height)
 end
 
 -- show() method creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
-function LayeredBackground:init()
+function Background:init()
     local rects = self.rects or {}
     for _, v in pairs(self.layers) do
         local rect = display.newImageRect(v.path, v.width, v.height)
@@ -45,11 +45,11 @@ function LayeredBackground:init()
     self.rects = rects
 end
 
-function LayeredBackground:delete()
+function Background:delete()
+    print('rect', self.rects)
     for _, v in pairs(self.rects) do
         display.remove(v)
     end
-    self = nil
 end
 
-return LayeredBackground
+return Background
