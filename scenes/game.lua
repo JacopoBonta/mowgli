@@ -46,7 +46,7 @@ function scene:create( event )
     tiger = Character:new( "tiger ", camera)
     tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png", 400)
 
-    bgMusic = audio.loadSound( "assets/audio/bg1.mp3" )
+    bgMusic = audio.loadSound( "assets/audio/bg.mp3" )
 end
 
 -- enterFrame() method is called once per frame
