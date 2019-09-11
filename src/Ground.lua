@@ -67,6 +67,7 @@ end
 -- delete() method remove the grounds' blocks and the ground itself
 function Ground:delete()
     for _, block in pairs(self.blocks) do
+        self.camera:remove(block.sprite)
         block:delete()
     end
     self = nil
