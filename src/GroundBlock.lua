@@ -58,7 +58,6 @@ end
 -- delete() method is used to delete the ground block
 function GroundBlock:delete()
     display:remove(self.sprite)
-    print('deleted')
     self = nil
 end
 
