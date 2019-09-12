@@ -4,7 +4,7 @@ local Character = {}
 -- new() is the constructor of the Character class. It creates a new Character object instance
 function Character:new(name)
     local o = {
-        isGround = false,
+        canJump = false,
         isRound = false,
         name = name,
         onCollision = function() end,
@@ -44,14 +44,8 @@ function Character:init()
     self.sprite = display.newSprite(self.sheet, self.spriteOptions.info:getSequenceData(self.spriteOptions.time))
 
     -- add physic body
-    local phyOpts = { bounce = 0 }
-    if self.isRound == true then
-        phyOpts.radius = self.sprite.width / 2
-    end
-    physics.addBody(self.sprite, 'dynamic', phyOpts)
-    if self.isRound == false then
-        self.sprite.isFixedRotation = true
-    end
+    physics.addBody(self.sprite, 'dynamic', { bounce = 0, friction = 0 })
+    self.sprite.isFixedRotation = true
 
     -- add collision properties and handlers
     local collisionObj = {
@@ -62,7 +56,7 @@ function Character:init()
     self.sprite:addEventListener("collision", self)
     
     -- reset character's parameters that can be changed
-    self.isGround = false
+    self.canJump = false
     self.pv = 1
     self.sprite.x = self.x
     self.sprite.y = self.y
@@ -72,7 +66,8 @@ end
 -- velocity = positive number, the amount of force to apply
 function Character:jump(velocity)
     velocity = velocity * -1
-    if self.isGround == true then
+    if self.canJump == true then
+        self.canJump = false
         self.sprite:setLinearVelocity(0, velocity)
         self.sprite:setSequence("jump")
     end

@@ -7,14 +7,14 @@ local Ground = require( "src.Ground" )
 local GroundBlock = require( "src.GroundBlock" )
 local physics = require( "physics" )
 local scene = composer.newScene()
+local WoodObstacle = require( "src.WoodObstacle" )
 
- 
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
 
-local bg, camera, ground, mowgli, tiger, time, timeText, timerID, bgMusic
+local bg, camera, ground, mowgli, tiger, time, timeText, timerID, bgMusic, obstacles
 
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -43,7 +43,7 @@ function scene:create( event )
     mowgli = Character:new( "mowgli", camera)
     mowgli:setSprite("assets.pg.pg-sprites", "assets/pg/pg-sprites.png", 800)
 
-    tiger = Character:new( "tiger ", camera)
+    tiger = Character:new( "tiger", camera)
     tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png", 400)
 
     bgMusic = audio.loadSound( "assets/audio/bg.mp3" )
@@ -54,12 +54,32 @@ function scene:enterFrame()
 
     if mowgli.pv > 0 then
         ground:update()
+
+        -- line = nil
+
+        for i, obstacle in ipairs(obstacles) do
+            if obstacle.sprite.y > display.contentWidth then
+                obstacle:delete()
+                table.remove(obstacles, i)
+            end
+        
+            if obstacle.sprite.x + obstacle.width / 2 < camera.borderLeft then
+                obstacle:delete()
+                table.remove(obstacles, i)
+            end
+        end
+        
         mowgli:update()
         tiger:update()
-        -- ray cast to make tiger jump
-        local hits = physics.rayCast( tiger.sprite.x + tiger.sprite.width / 2 + 2, tiger.sprite.y, tiger.sprite.x + tiger.sprite.width / 2 + 40, tiger.sprite.y + tiger.sprite.height, "closest" )
 
-        if (hits == nil and tiger.isGround == true) then
+
+        -- ray cast to make tiger jump
+        x1 = tiger.sprite.x
+        y1 = tiger.sprite.y
+        local groundDetector = physics.rayCast( x1, y1, x1 + 80, y1 + 25 , "closest" )
+        local woodDetector = physics.rayCast( x1, y1, x1 + 150, y1, "closest")
+
+        if groundDetector == nil or (woodDetector ~= nil and woodDetector[1].object._collision.name == "wood") then
             tiger:jump(200)
         end
 
@@ -68,11 +88,12 @@ function scene:enterFrame()
         end
     else
         audio.stop()
-
+        timer.cancel(timerID)
+        timer.cancel(woodObstacleTimerId)
         composer.gotoScene( "scenes.end", {
             effect = "fade",
             params = {
-                totalTime = timeText.text
+                totalTime = time
             }
         })
     end
@@ -105,8 +126,8 @@ function scene:show( event )
         mowgli.x = display.contentCenterX
         mowgli.y = display.contentHeight - 16
         mowgli.onCollision = function(self, event)
-            if event.other._collision.name == "ground"  then
-                self.isGround = true
+            if event.other._collision.name == "ground" or event.other._collision.name == "wood"  then
+                self.canJump = true
                 self:run("right", 3.2)
             end
     
@@ -115,23 +136,12 @@ function scene:show( event )
             end
         end
 
-        mowgli.onExitCollision = function(self, event)
-            if event.other._collision.name == "ground" then
-                self.isGround = false
-            end
-        end
-
         tiger.x = display.contentCenterX / 2
         tiger.y = display.contentHeight - 16
         tiger.onCollision = function(self, event)
-            if event.other._collision.name == "ground"  then
-                self.isGround = true
+            if event.other._collision.name == "ground" or event.other._collision.name == "wood"  then
+                self.canJump = true
                 self:run("right", 3.2)
-            end
-        end
-        tiger.onExitCollision = function(self, event)
-            if event.other._collision.name == "ground" then
-                self.isGround = false
             end
         end
 
@@ -157,7 +167,7 @@ function scene:show( event )
         timeText = display.newText( time, display.contentCenterX, 25, "assets/fonts/Windlass.ttf", 18 )
         
 
-        -- uipdate time and text each second
+        -- update time and text each second
         timerID = timer.performWithDelay(1000, function()
             time = time + 1
 
@@ -169,6 +179,17 @@ function scene:show( event )
             end
 
             timeText.text = _time
+        end, -1)
+
+        obstacles = {}
+        woodObstacleTimerId = timer.performWithDelay(7000, function()
+            local wood = WoodObstacle:new("assets/obstacles/wood.png", 35, 35)
+            wood.x = camera.borderRight + 20
+            wood.y = display.contentHeight - 20
+            wood:init()
+            wood:roll("left", 2)
+            camera:add(wood.sprite)
+            table.insert(obstacles, wood)
         end, -1)
         
         Runtime:addEventListener("enterFrame", self)
@@ -184,22 +205,21 @@ function scene:hide( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is on screen (but is about to go off screen)
-
-        
         Runtime:removeEventListener("enterFrame", self)
+
+        mowgli:delete()
+        tiger:delete()
+        ground:delete()
+
         
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
         
-        bg:delete()
         jumpButton:delete()
         camera:delete()
-        ground:delete()
-        mowgli:delete()
-        tiger:delete()
-        timer.cancel(timerID)
         timeText:removeSelf()
         timeText = nil
+        bg:delete()
     end
 end
  
