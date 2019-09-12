@@ -66,7 +66,6 @@ function scene:show( event )
         exitBtn:registerBeforeTouchHandler(function()
         end)
         exitBtn:registerAfterTouchHandler(function()
-            audio.play( roar )
             composer.gotoScene( "scenes.menu", {
                 effect = "fade",
                 time = 500
@@ -77,7 +76,7 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
 
-        endText = display.newText( "Sei sopravvisuto " .. event.params.totalTime .. "!!", display.contentCenterX, 25, "assets/fonts/Windlass.ttf", 18 )
+        endText = display.newText( "Sei sopravvisuto " .. event.params.totalTime .. " secondi !!", display.contentCenterX, 35, "assets/fonts/Windlass.ttf", 22 )
 
         bg:init()
         restartBtn:init()

@@ -87,7 +87,6 @@ function scene:enterFrame()
             camera:moveForward()
         end
     else
-        audio.stop()
         timer.cancel(timerID)
         timer.cancel(woodObstacleTimerId)
         composer.gotoScene( "scenes.end", {
@@ -132,6 +131,11 @@ function scene:show( event )
             end
     
             if event.other._collision.name == "tiger" then
+                audio.play( roar, { onComplete=function(event)
+                    if event.completed then
+                        audio.stop()
+                    end
+                end} )
                 self.pv = 0
             end
         end
