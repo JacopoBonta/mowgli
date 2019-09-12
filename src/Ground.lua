@@ -42,10 +42,12 @@ function Ground:init()
     self._lastBlock = self._createBlock(self.camera.borderRight * 3)
 end
 
+-- update() is called once per frame. It creates new ground blocks and delete the off screen ones.
 function Ground:update()
-
+    
+    -- generate a new ground 
     if (self._lastBlock.x - self.camera.x < self._lastBlock.width) then
-
+        
         local blockWidth = math.random(1200, 3800)
         local holeWidth = math.random(100, 200)
 
