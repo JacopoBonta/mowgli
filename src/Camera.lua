@@ -1,39 +1,36 @@
--- Camera class defines camera objects. A camera object is used to simulate a camera in corona. You add display objects that have to stay on the camera viewport and when you move the camera with the methods like moveForward() or moveUp(), all the objects moves accordingly.
+-- Camera simula una telecamera all'interno della scena di gioco. Tutti gli oggetti inseriti si spostano nella direzione opposta a quella richiesta per simulare un effetto di movimento.
 local Camera = { }
 
--- new() is the constructor of our objects
+-- new() crea un nuovo oggetto camera
 function Camera:new(group)
     local o = {
-        borderLeft = 0, -- the border to the left of the camera viewport
-        borderRight = display.contentWidth, -- the border to the right of the camera viewport
+        borderLeft = 0,
+        borderRight = display.contentWidth,
         group = group,
         speed = 0,
         x = 0,
         y = 0
     }
-    setmetatable(o, self) -- here we are
-    self.__index = self   -- setting the prototype
+    setmetatable(o, self)
+    self.__index = self
     return o
 end
 
--- init() initialize the displayGroup
+-- init() inizializza la camera. crea un nuovo display group che conterrà gli oggetti e definisce i bordi.
 function Camera:init()
     self.displayObjects = display.newGroup()
     self.borderLeft = 0
     self.borderRight = display.contentWidth
 end
 
--- add() method add a display object to the camera
-    -- displayObject = a valid display object like an image rect
+-- add() aggiunge un oggetto alla camera
+-- displayObject = oggetto di tipo display object da tracciare
 function Camera:add(displayObject)
-    if self.displayObjects == nil then
-        self.displayObjects = display.newGroup()
-    end
     self.group:insert(displayObject)
     self.displayObjects:insert(displayObject)
 end
 
--- moveForward() method move the camera to the right moving all the objects to the left
+-- moveForward() move la telecamera a destra
 function Camera:moveForward()
     self.displayObjects.x = self.displayObjects.x - self.speed
     self.x = self.displayObjects.x * -1
@@ -41,7 +38,7 @@ function Camera:moveForward()
     self.borderRight = self.borderRight + self.speed
 end
 
--- moveBackward() method move the camera to the left moving all the objects to the right
+-- moveBackward() muove la telecamera indietro
 function Camera:moveBackward()
     self.displayObjects.x = self.displayObjects.x + self.speed
     self.x = self.displayObjects.x * -1
@@ -49,26 +46,25 @@ function Camera:moveBackward()
     self.borderRight = self.borderRight - self.speed
 end
 
--- moveUp() method move the camera up moving all the objects down
+-- moveUp() muove la telecamera in alto
 function Camera:moveUp()
     self.displayObjects.y = self.displayObjects.y + self.speed
     self.y = self.displayObjects.y * -1
 end
 
--- moveDown() method move the camera down moving all the objects up
+-- moveDown() muove la telecamera in basso
 function Camera:moveDown()
     self.displayObjects.y = self.displayObjects.y - self.speed
     self.y = self.displayObjects.y * -1
 end
 
--- remove() method remove a display object from the camera.
+-- remove() smette di tracciare un singolo elemento
     -- displayObject = the reference to the display object
 function Camera:remove(displayObject)
     self.displayObjects:remove(displayObject)
-    -- displayObject = nil
 end
 
--- delete() method remove all the display objects added to the camera and the camera itself
+-- delete() cancella la camera e tutti gli oggetti tracciati
 function Camera:delete()
     display.remove(self.displayObjects)
     self = nil

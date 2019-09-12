@@ -1,7 +1,10 @@
--- WoodObstacle is a wood that can roll and slow down the character
+-- WoodObstacle crea un oggetto circoloare in grado di spostarsi in base ad una forza applicata al centro
 local WoodObstacle = {}
 
--- new() create a new wood obstacle object
+-- new() crea un nuovo oggetto WoodObstacle
+-- path = string, percorso immagine
+-- width = number, larghezza immagine
+-- height = number, altezza immagine
 function WoodObstacle:new(path, width, height)
     local o = {
         height = height,
@@ -15,25 +18,22 @@ function WoodObstacle:new(path, width, height)
     return o
 end
 
--- delete() remove the WoodObstacle sprite
+-- delete() cancella il WoodObstacle
 function WoodObstacle:delete()
     self.sprite:removeSelf()
     self = nil
 end
 
--- init() create the sprite and add the physic body.
+-- init() inizializzaza l'oggetto creando l'immagine e settando la fisica
 -- this method must be called inside the scene's show
 function WoodObstacle:init()
 
     self.sprite = display.newImageRect(self.path, self.width, self.height)
-    self.sprite.rotation = 20
     physics.addBody(self.sprite, { density = 0.5, bounce = 0, friction = 0, radius = self.width / 2 })
-    self.sprite.isFixedRotation = false
 
     local collisionObj = {
         name = "wood"
     }
-
     self._collision = collisionObj
     self.sprite._collision = collisionObj
 
@@ -41,7 +41,9 @@ function WoodObstacle:init()
     self.sprite.y = self.y
 end
 
--- roll() tell the wood in wich direction and with how much force it has to roll
+-- roll() fa rotolare l'oggetto nella direzione indicata applicato una data forza
+-- direction = string, direzione dell'oggetto, può essere "right" o "left"
+-- force = number, la forza da applicare all'oggetto
 function WoodObstacle:roll(direction, force)
 
     if direction == "right" then

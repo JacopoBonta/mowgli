@@ -1,36 +1,32 @@
--- Button is an UI element that display an image that a user can touch.
+-- Button è un'immagine che l'utente può toccare
+local Button = {}
 
-
-local Button = {
-    x = display.contentWidth / 2,
-    y = display.contentHeight / 2,
-}
-
--- new() method constructor. Create a Button object.
+-- new() crea un nuovo oggetto di tipo Button
+-- path = string, il percorso dell'immagine
+-- widht = numero, larghezza bottone
+-- height = numero, altezza bottone
 function Button:new(path, width, height)
     local o = {
         afterCb = function() end,
         beforeCb = function() end,
         height = height,
         path = path,
-        width = width
+        width = width,
+        x = display.contentWidth / 2,
+        y = display.contentHeight / 2,
     }
-    setmetatable(o, self) -- here we set the Button table as the metatable of our new object 'o'
-    self.__index = self -- here we tell lua to look up at the Button table when accessing fields not present in 'o' - setting the Button table as the prototype of 'o'
-    return o -- we return 'o' as a new Button object
+    setmetatable(o, self)
+    self.__index = self
+    return o
 end
 
--- registerBeforeTouchHandler() method register a callback fucntion that will be called when the button is pressed
-function Button:registerBeforeTouchHandler(cb)
-    self.beforeCb = cb
+-- delete() cancella il pulsante
+function Button:delete()
+    display.remove(self.imgRect)
+    self = nil
 end
 
--- registerBeforeTouchHandler() method register a callback fucntion that will be called when the button is released
-function Button:registerAfterTouchHandler(cb)
-    self.afterCb = cb
-end
-
--- init() abstract method must be implemented from the child classes
+-- init() inizializza il Button. Crea un image rect e ci registra l'handler
 function Button:init()
     self.imgRect = display.newImageRect(self.path, self.width, self.height)
     self.imgRect.x = self.x
@@ -39,21 +35,15 @@ function Button:init()
     self.imgRect:addEventListener("touch", self)
 end
 
--- touch() method is the touch event handler
+-- touch() è l'event handler per il touch
 function Button:touch(event)
     if event.phase == "began" then
-        display.getCurrentStage():setFocus( self.path ) -- TODO usare solo self (ma su emulatore non funziona)
+        display.getCurrentStage():setFocus( self.path )
         self:beforeCb()
     elseif event.phase == "ended" then
         self:afterCb()
         display.getCurrentStage():setFocus( nil )
     end
-end
-
--- delete()
-function Button:delete()
-    display.remove(self.imgRect)
-    self = nil
 end
 
 return Button

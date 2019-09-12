@@ -42,23 +42,23 @@ function scene:show( event )
         restartBtn.x = display.contentCenterX - restartBtn.width
         restartBtn.y = display.contentCenterY
 
-        restartBtn:registerAfterTouchHandler(function()
+        restartBtn.afterCb = function()
             audio.play( roar )
             composer.gotoScene( "scenes.game", {
                 effect = "fade",
                 time = 500
             })
-        end)
+        end
 
         exitBtn.x = display.contentCenterX + exitBtn.width
         exitBtn.y = display.contentCenterY
 
-        exitBtn:registerAfterTouchHandler(function()
+        exitBtn.afterCb = function()
             composer.gotoScene( "scenes.menu", {
                 effect = "fade",
                 time = 500
             })
-        end)
+        end
 
  
     elseif ( phase == "did" ) then

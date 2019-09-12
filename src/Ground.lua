@@ -1,10 +1,9 @@
--- Ground generates a ground based on ground blocks
+-- Ground permette di creare un terreno che viene generato man mano che la telecamera si sposta in avanti.
 local Ground = {}
 
--- new() method is the Ground class constructor
--- width = number, the width of the ground
+-- new() crea un nuovo oggetto Ground
+-- camera = un oggetto camera, usato come riferimento per creare e posizionare i blocchi
 function Ground:new(camera)
-    -- here we set the seed for randomness - TODO replace 1 with os.time()
     math.randomseed(1)
     local o = {
         blocks = {},
@@ -17,46 +16,52 @@ function Ground:new(camera)
     return o
 end
 
--- setBlock() method is used to set the block type used for the ground
--- Block = class table, usually the GroundBlock class.
--- path = string, image sprite used for the block
--- height = number, height of the block
+-- setBlock() setta il tipo di blocco che sarà utilizzato per generare il terreno. Viene creata un funzione _createBlock() che crea un nuovo blocco della dimensione specificata.
+-- Block = classe Blocco, la classe che verrà utilizzata per creare nuovi blocchi.
+-- path = string, immagine utilizzata per il blocco
+-- height = number, altezza base del blocco
+-- width = number, larghezza base del blocco
 function Ground:setBlock(Block, path, width, height)
-    -- _createBlock function creates new blocks given the block type and width
-        -- width = number, width of the block
-    self._createBlock = function (w)
+    -- _createBlock crea una nuovo blocco
+    self._createBlock = function ()
         local block = Block:new(path, width, height)
         table.insert(self.blocks, block)
-        block.x = self.offsetX
-        block.y = display.contentHeight - 16
-        block:init(w)
-        self.camera:add(block.sprite)
-        self.offsetX = self.offsetX + block.width / 2
         return block
     end
 end
 
--- init() method initialize the ground with a fixed number of blocks
+-- init() inizializza il terreno creando un blocco grande tre volte lo schermo
 function Ground:init()
     self.offsetX = display.contentCenterX
-    self._lastBlock = self._createBlock(self.camera.borderRight * 3)
+    local block = self._createBlock()
+    block.x = self.offsetX
+    block.y = display.contentHeight - 16
+    block:init(self.camera.borderRight * 3)
+    self.camera:add(block.sprite)
+    self._lastBlock = block
 end
 
--- update() is called once per frame. It creates new ground blocks and delete the off screen ones.
+-- update() viene chiamato ad ogni frame. Crea nuovi blocchi e cancella quelli fuori schermo.
 function Ground:update()
     
-    -- generate a new ground 
+    -- crea nuovo blocco
     if (self._lastBlock.x - self.camera.x < self._lastBlock.width) then
         
         local blockWidth = math.random(1200, 3800)
         local holeWidth = math.random(100, 200)
-
         self.offsetX = self.offsetX + blockWidth / 2 + holeWidth
         
-        self._lastBlock = self._createBlock(blockWidth)
+        local block = self._createBlock()
+        block.x = self.offsetX
+        block.y = display.contentHeight - 16
+        block:init(blockWidth)
+        self.camera:add(block.sprite)
+        self.offsetX = self.offsetX + block.width / 2
 
+        self._lastBlock = block
     end
 
+    -- cancella i blocchi fuori dallo schermo
     for i, block in ipairs(self.blocks) do
         if block.sprite.x + block.width / 2 < self.camera.borderLeft then
         table.remove(self.blocks, i)
@@ -67,7 +72,7 @@ function Ground:update()
 
 end
 
--- delete() method remove the grounds' blocks and the ground itself
+-- delete() cancella i blocchi ed il terreno
 function Ground:delete()
     for _, block in pairs(self.blocks) do
         self.camera:remove(block.sprite)

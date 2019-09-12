@@ -30,10 +30,8 @@ function scene:create( event )
     camera = Camera:new(sceneGroup)
     ground = Ground:new(camera)
     jumpButton = Button:new("assets/buttons/up.png", 64, 64)
-    mowgli = Character:new( "mowgli")
-    mowgli:setSprite("assets.pg.pg-sprites", "assets/pg/pg-sprites.png", 800)
-    tiger = Character:new( "tiger")
-    tiger:setSprite("assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png", 400)
+    mowgli = Character:new( "mowgli", "assets.pg.pg-sprites", "assets/pg/pg-sprites.png", 800)
+    tiger = Character:new( "tiger", "assets.tiger.tiger-sheet", "assets/tiger/tiger-sheet.png", 400)
     bgMusic = audio.loadSound( "assets/audio/bg.mp3" )
 end
 
@@ -104,9 +102,9 @@ function scene:show( event )
 
         jumpButton.x = display.contentWidth - 60
         jumpButton.y = display.contentHeight - 40
-        jumpButton:registerBeforeTouchHandler(function()
+        jumpButton.beforeCb = function()
             mowgli:jump(150)
-        end)
+        end
 
         -- qui definiamo che tipo di blocco utilizzare per il terreno
         ground:setBlock(GroundBlock, 'assets/ground/ground_64x64.png', 64, 64)

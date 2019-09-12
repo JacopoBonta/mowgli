@@ -47,13 +47,13 @@ function scene:show( event )
         titleButton.y = titleButton.height / 2
 
         -- registriamo la funzione che sarà eseguita al tocco del pulsante
-        titleButton:registerAfterTouchHandler(function()
+        titleButton.afterCb =function()
             audio.play( roar )
             composer.gotoScene( "scenes.game", {
                 effect = "fade",
                 time = 500
             })
-        end)
+        end
 
         -- carichiamo il suono
         roar = audio.loadSound( "assets/audio/roar.wav" )

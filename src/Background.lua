@@ -1,9 +1,8 @@
 -- Background permette di creare un background formato da più immagini (layers). I layers vengono stampati uno sopra l'altro.
-
--- Here we use a table as the namespace of our class
 local Background = {}
 
--- new() method is used as the constructor for a Background object
+-- new() crea un nuovo oggetto Background
+-- group = un grouppo al quale aggiungere gli sprite creati
 function Background:new(group)
     local o = {
         group = group,
@@ -15,7 +14,10 @@ function Background:new(group)
     return o
 end
 
--- addLayer() add a new layer to the background. It takes three arguments, a string that is the path to the actual image and two numbers that are the width and the length of the image
+-- addLayer() aggiunge un immagine al background. Da chiamare prima dell'init().
+-- path = stringa, percorso dell'immagine
+-- width = numero, larghezza immagine
+-- height = numero, altezza immagine
 function Background:addLayer(path, width, height)
     local images = self.layers or {}
     local z = self.zIndex or 1
@@ -28,7 +30,15 @@ function Background:addLayer(path, width, height)
     self.layers = images
 end
 
--- show() method creates an image rect for each image and position them accordingly. Eventually if a camera was set, add the rects to that display group.
+-- delete() rimuove il background
+function Background:delete()
+    for _, v in pairs(self.rects) do
+        display.remove(v)
+    end
+    self = nil
+end
+
+-- init() inizializza il background caricando tutte le immagini aggiunte una sopra l'altra. I rect creati per ogni immagine sono memorizzati all'interno della tablla rects.
 function Background:init()
     local rects = self.rects or {}
     for _, v in pairs(self.layers) do
@@ -43,13 +53,6 @@ function Background:init()
         end
     end
     self.rects = rects
-end
-
-function Background:delete()
-    for _, v in pairs(self.rects) do
-        display.remove(v)
-    end
-    self = nil
 end
 
 return Background
