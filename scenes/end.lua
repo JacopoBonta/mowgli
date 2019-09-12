@@ -1,26 +1,17 @@
-local composer = require( "composer" )
 local Background = require( "src.Background" )
 local Button = require( "src.Button" )
- 
+local composer = require( "composer" )
 local scene = composer.newScene()
- 
--- -----------------------------------------------------------------------------------
--- Code outside of the scene event functions below will only be executed ONCE unless
--- the scene is removed entirely (not recycled) via "composer.removeScene()"
--- -----------------------------------------------------------------------------------
- 
- 
- local bg
- 
--- -----------------------------------------------------------------------------------
--- Scene event functions
--- -----------------------------------------------------------------------------------
- 
--- create()
+
+-- Scena finale. Mostra punteggio e pulsanti riavvia / esci
+
+local bg
+
+-- create() viene chiamata solo la prima volta che la scena compare. Crea sfondo e pulsanti
 function scene:create( event )
  
     local sceneGroup = self.view
-    -- Code here runs when the scene is first created but has not yet appeared on screen
+
     bg = Background:new(sceneGroup)
     bg:addLayer('assets/backgrounds/plx-1.png', display.contentWidth, display.contentHeight)
     bg:addLayer('assets/backgrounds/plx-2.png', display.contentWidth, display.contentHeight)
@@ -30,10 +21,8 @@ function scene:create( event )
 
     restartBtn = Button:new("assets/buttons/restart.png", 112, 39)
     exitBtn = Button:new("assets/buttons/exit.png", 112, 39)
-    
 end
- 
- 
+
 -- show()
 function scene:show( event )
  
@@ -41,18 +30,17 @@ function scene:show( event )
     local phase = event.phase
  
     if ( phase == "will" ) then
-        -- Code here runs when the scene is still off screen (but is about to come on screen)
 
+        -- Qui fermiamo l'audio della scena precedente. Questo perchè se lo stoppassimo prima perderemmo il roar della tigre che azzanna mowgli
         audio.stop()
+
+        -- resettiamo posizioni ed handler
 
         bg.x = display.contentCenterX
         bg.y = display.contentCenterY
 
         restartBtn.x = display.contentCenterX - restartBtn.width
         restartBtn.y = display.contentCenterY
-
-        restartBtn:registerBeforeTouchHandler(function()
-        end)
 
         restartBtn:registerAfterTouchHandler(function()
             audio.play( roar )
@@ -65,8 +53,6 @@ function scene:show( event )
         exitBtn.x = display.contentCenterX + exitBtn.width
         exitBtn.y = display.contentCenterY
 
-        exitBtn:registerBeforeTouchHandler(function()
-        end)
         exitBtn:registerAfterTouchHandler(function()
             composer.gotoScene( "scenes.menu", {
                 effect = "fade",
@@ -78,12 +64,13 @@ function scene:show( event )
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
 
+        -- inizializziamo gli oggetti
+        bg:init()
+
         endText = display.newText( "Sei sopravvisuto " .. event.params.totalTime .. " secondi !!", display.contentCenterX, 35, "assets/fonts/Windlass.ttf", 22 )
 
-        bg:init()
         restartBtn:init()
         exitBtn:init()
-
     end
 end
  
@@ -95,25 +82,23 @@ function scene:hide( event )
     local phase = event.phase
  
     if ( phase == "will" ) then
-        -- Code here runs when the scene is on screen (but is about to go off screen
+
+        -- eliminamo oggetti
         exitBtn:delete()
         restartBtn:delete()
         endText:removeSelf()
         endText = nil
-    elseif ( phase == "did" ) then
-        -- Code here runs immediately after the scene goes entirely off screen
         bg:delete()
-        
+
+    elseif ( phase == "did" ) then
+
     end
 end
  
  
 -- destroy()
 function scene:destroy( event )
- 
     local sceneGroup = self.view
-    -- Code here runs prior to the removal of scene's view
- 
 end
  
  
